@@ -10,7 +10,7 @@ from bonsai_libs.api_client.core.base import BaseClient, merge_headers
 from bonsai_libs.api_client.core.auth import BearerTokenAuth
 from bonsai_libs.api_client.core.exceptions import ClientError, UnauthorizedError
 
-from .models import CreateSampleResponse, UploadAnalysisResultInput, PipelineRunInput, SampleInfoInput, OpHeaders, UploadAnalysisResultResponse, UploadResultMeta
+from .models import CreateGroupInput, CreateSampleResponse, CreateUserInput, GroupResponse, UploadAnalysisResultInput, PipelineRunInput, SampleInfoInput, OpHeaders, UploadAnalysisResultResponse, UploadResultMeta, UserResponse
 
 class BonsaiApiClient(BaseClient):
     """High-level interface to the Bonsai API."""
@@ -53,8 +53,32 @@ class BonsaiApiClient(BaseClient):
         
         LOG.error("Unexpected token response: %s", resp)
         return False
-        
+
+    # ----------------------------
+    # Users
+    # ----------------------------
+
+    def create_user(self, user: CreateUserInput, *, headers: OpHeaders = None) -> UserResponse:
+        resp = self.request_json(
+            "POST", "users/",
+            json=user.model_dump(mode="json"),
+            headers=headers,
+            expected_status=(HTTPStatus.CREATED,),
+        )
+        return UserResponse.model_validate(resp.data)
     
+    # ----------------------------
+    # Groups
+    # ----------------------------
+
+    def create_group(self, group: CreateGroupInput, *, headers: OpHeaders = None) -> GroupResponse:
+        """Create a group in Bonsai."""
+
+        payload = group.model_dump(mode="json")
+        resp = self.request_json("POST", "groups/", json=payload, headers=headers, expected_status=(HTTPStatus.CREATED,))
+
+        return GroupResponse.model_validate(resp.data)
+
     # ----------------------------
     # Samples
     # ----------------------------
@@ -193,3 +217,4 @@ class BonsaiApiClient(BaseClient):
                 envelopes=body.get("envelopes", {}),
                 meta=meta
             )
+    
