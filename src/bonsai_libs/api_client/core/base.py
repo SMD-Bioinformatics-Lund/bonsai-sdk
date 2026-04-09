@@ -168,7 +168,71 @@ class BaseClient(ABC):
         """DELETE request to entrypoint."""
         LOG.debug("Request: DELETE %s; params: %s", path, kwargs)
         return self._request("DELETE", path, **kwargs)
+    
+    # ----------------------------
+    # Data specific helper methods
+    # ----------------------------
 
+    def request_json(
+            self, method: RequestMethods,
+            path: str, *, json: dict[str, Any] | list[Any] | None = None,
+            expected_status: Iterable[int] = (HTTPStatus.OK,),
+            headers: dict[str, str] | None = None, **kwargs: Any
+    ) -> ApiResponse:
+        """Helper function for making HTTP requests with JSON data."""
+        final_headers = merge_headers(headers, {"Content-Type": "application/json"})
+        return self._request(
+            method,
+            path,
+            json=json,
+            headers=final_headers,
+            expected_status=expected_status,
+            **kwargs,
+        )
+
+    def request_form(
+        self,
+        method: RequestMethods,
+        path: str,
+        *,
+        data: dict[str, Any] | None = None,
+        expected_status: Iterable[int] = (HTTPStatus.OK,),
+        headers: dict[str, str] | None = None,
+        **kwargs: Any,
+    ) -> ApiResponse:
+        """Helper for form data."""
+        final_headers = merge_headers(headers, {"Content-Type": "application/x-www-form-urlencoded"})
+        return self._request(
+            method,
+            path,
+            data=data,
+            headers=final_headers,
+            expected_status=expected_status,
+            **kwargs,
+        )
+
+    def request_multipart(
+        self,
+        path: str,
+        *,
+        data: dict[str, Any] | None = None,
+        files: dict[str, Any] | None = None,
+        expected_status: Iterable[int] = (HTTPStatus.OK,),
+        headers: dict[str, str] | None = None,
+        **kwargs: Any,
+    ) -> ApiResponse:
+        """Helper for Multi-part data."""
+        # Dont set Content-Type for multipart.
+        final_headers = merge_headers(headers)
+        return self._request(
+            "POST",
+            path,
+            data=data,
+            files=files,
+            headers=final_headers,
+            expected_status=expected_status,
+            **kwargs,
+        )
 
 def merge_headers(*dicts: dict[str, str] | None) -> dict[str, str]:
     """Merge multiple header dictionaries, with later dicts taking precedence."""
