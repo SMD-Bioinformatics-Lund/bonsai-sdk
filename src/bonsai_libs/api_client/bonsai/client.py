@@ -80,6 +80,10 @@ class BonsaiApiClient(BaseClient):
         )
         return UserResponse.model_validate(resp.data)
 
+    def get_user(self, username: str) -> UserResponse:
+        """Query the API for a user with username."""
+        ...
+
     # ----------------------------
     # Groups
     # ----------------------------
@@ -93,6 +97,10 @@ class BonsaiApiClient(BaseClient):
         )
 
         return GroupResponse.model_validate(resp.data)
+
+    def get_group(self, group_id: str) -> GroupResponse:
+        """Query the API for a group using group id."""
+        ...
 
     # ----------------------------
     # Samples
