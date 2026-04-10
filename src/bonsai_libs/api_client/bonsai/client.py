@@ -80,9 +80,15 @@ class BonsaiApiClient(BaseClient):
         )
         return UserResponse.model_validate(resp.data)
 
-    def get_user(self, username: str) -> UserResponse:
+    def get_user(self, username: str, *, headers: OpHeaders = None) -> UserResponse:
         """Query the API for a user with username."""
-        ...
+        resp = self.request_json(
+            "GET",
+            f"users/{username}",
+            headers=headers,
+            expected_status=(HTTPStatus.OK,),
+        )
+        return UserResponse.model_validate(resp.data)
 
     # ----------------------------
     # Groups
@@ -98,9 +104,15 @@ class BonsaiApiClient(BaseClient):
 
         return GroupResponse.model_validate(resp.data)
 
-    def get_group(self, group_id: str) -> GroupResponse:
+    def get_group(self, group_id: str, *, headers: OpHeaders = None) -> GroupResponse:
         """Query the API for a group using group id."""
-        ...
+        resp = self.request_json(
+            "GET",
+            f"groups/{group_id}",
+            headers=headers,
+            expected_status=(HTTPStatus.OK,),
+        )
+        return GroupResponse.model_validate(resp.data)
 
     # ----------------------------
     # Samples
