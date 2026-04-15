@@ -141,7 +141,7 @@ class BonsaiApiClient(BaseClient):
             )
             raise
 
-        return CreateSampleResponse.model_validate(resp)
+        return CreateSampleResponse.model_validate(resp.data)
 
     def add_samples_to_group(
         self, group_id: str, *, sample_ids: list[str], headers: OpHeaders = None
@@ -266,7 +266,7 @@ class BonsaiApiClient(BaseClient):
             return UploadAnalysisResultResponse(
                 sample_id=result.sample_id,
                 pipeline_run_id=result.pipeline_run_id,
-                analysis_id=body.data.get("analysis_id"),
+                analysis_id=body.get("analysis_id"),
                 software=result.software,
                 software_version=result.software_version,
                 envelopes=body.get("envelopes", {}),
