@@ -196,10 +196,10 @@ class BonsaiApiClient(BaseClient):
     ) -> str:
         """Upload sourmash signature to sample"""
         try:
-            resp = self.request_form(
+            resp = self.request_json(
                 "POST",
                 f"samples/{sample_id}/ska_index",
-                data={"index": index_path},
+                json={"index": index_path},
                 headers=headers,
             )
         except UnauthorizedError:
