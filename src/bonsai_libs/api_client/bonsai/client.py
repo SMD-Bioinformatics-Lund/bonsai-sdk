@@ -192,14 +192,14 @@ class BonsaiApiClient(BaseClient):
         return resp.data
 
     def upload_ska_index(
-        self, sample_id: str, *, index_path: str, headers: OpHeaders = None
+        self, sample_id: str, *, index_path: str, force: bool = False, headers: OpHeaders = None
     ) -> str:
         """Upload sourmash signature to sample"""
         try:
             resp = self.request_json(
                 "POST",
                 f"samples/{sample_id}/ska_index",
-                json={"index": index_path},
+                json={"index": index_path, "force": force},
                 headers=headers,
             )
         except UnauthorizedError:
