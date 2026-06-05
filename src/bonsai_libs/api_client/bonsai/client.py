@@ -283,8 +283,7 @@ class BonsaiApiClient(BaseClient):
             resp = self.request_json(
                 "GET",
                 f"samples/{sample_id}/igv-config",
-                analysis_id=analysis_id,
-                variant_id=variant_id,
+                json={'analysis_id': analysis_id, 'variant_id': variant_id},
                 headers=headers,
             )
         except UnauthorizedError as exc:
