@@ -1,6 +1,6 @@
 """API interface to the Bonsai API."""
 
-from typing import BinaryIO
+from typing import Any, BinaryIO
 import logging
 import mimetypes
 from http import HTTPStatus
@@ -8,7 +8,7 @@ from http import HTTPStatus
 LOG = logging.getLogger(__name__)
 
 from bonsai_libs.api_client.core.auth import BearerTokenAuth
-from bonsai_libs.api_client.core.base import BaseClient, merge_headers
+from bonsai_libs.api_client.core.base import BaseClient
 from bonsai_libs.api_client.core.exceptions import ClientError, UnauthorizedError
 
 from .models import (
@@ -273,3 +273,21 @@ class BonsaiApiClient(BaseClient):
                 envelopes=body.get("envelopes", {}),
                 meta=meta,
             )
+    
+    def get_igv_config(self, sample_id: str, *, analysis_id: str | None = None, variant_id: str | None = None, headers: OpHeaders = None) -> dict[str, Any]:
+        """Get a IGV configuration for a sample.
+        
+        Optional center the view on a variant by providing a analysis_id and variant_id
+        """
+        try:
+            resp = self.request_json(
+                "GET",
+                f"samples/{sample_id}/igv-config",
+                analysis_id=analysis_id,
+                variant_id=variant_id,
+                headers=headers,
+            )
+        except UnauthorizedError as exc:
+            LOG.error("Failed authenticating user", exc_info=exc)
+            raise
+        return resp.data
