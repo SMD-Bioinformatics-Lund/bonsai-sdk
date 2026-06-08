@@ -15,6 +15,7 @@ from .models import (
     CreateGroupInput,
     CreateSampleResponse,
     CreateUserInput,
+    GenomicResourceInput,
     GroupResponse,
     OpHeaders,
     PipelineRunInput,
@@ -90,6 +91,50 @@ class BonsaiApiClient(BaseClient):
             expected_status=(HTTPStatus.OK,),
         )
         return UserResponse.model_validate(resp.data)
+
+    def get_current_user(self, *, headers: OpHeaders = None) -> UserResponse:
+        """Query the API for the current user."""
+        resp = self.request_json(
+            "GET",
+            "users/me",
+            headers=headers,
+            expected_status=(HTTPStatus.OK,),
+        )
+        return UserResponse.model_validate(resp.data)
+
+    def get_users(self, *, headers: OpHeaders = None) -> list[UserResponse]:
+        """Query the API for all users."""
+        resp = self.request_json(
+            "GET",
+            "users/",
+            headers=headers,
+            expected_status=(HTTPStatus.OK,),
+        )
+        data = resp.data or []
+        return [UserResponse.model_validate(user) for user in data]
+
+    def update_user(
+        self, username: str, user_data: dict[str, Any], *, headers: OpHeaders = None
+    ) -> UserResponse:
+        """Update user information."""
+        resp = self.request_json(
+            "PUT",
+            f"users/{username}",
+            json=user_data,
+            headers=headers,
+            expected_status=(HTTPStatus.OK,),
+        )
+        return UserResponse.model_validate(resp.data)
+
+    def delete_user(self, username: str, *, headers: OpHeaders = None) -> dict[str, Any]:
+        """Delete a user."""
+        resp = self.request_json(
+            "DELETE",
+            f"users/{username}",
+            headers=headers,
+            expected_status=(HTTPStatus.OK, HTTPStatus.NO_CONTENT),
+        )
+        return resp.data or {}
 
     # ----------------------------
     # Groups
@@ -167,6 +212,55 @@ class BonsaiApiClient(BaseClient):
             )
             raise
 
+        return resp.data
+    
+    def add_reference_genome_to_sample(
+        self, 
+        sample_id: str, *, reference_genome_id: str, headers: OpHeaders = None,
+    ) -> dict[str, Any]:
+        """Associate a reference genome with a sample.
+        
+        Returns information of the reference genome."""
+        try:
+            resp = self.request_json(
+                "PUT",
+                f"samples/{sample_id}/reference-genome",
+                headers=headers,
+                json={"reference_genome_id": reference_genome_id},
+            )
+        except UnauthorizedError:
+            LOG.error("Unauthorised when adding a reference genome for sample=%s", sample_id)
+            raise
+        except ClientError:
+            LOG.error(
+                "Something went wrong when associating reference genome id=%s to sample=%s",
+                reference_genome_id,
+                sample_id,
+            )
+            raise
+        return resp.data
+    
+    def add_annotation_track_to_sample(
+        self, sample_id: str, *, track: GenomicResourceInput, headers: OpHeaders = None,
+    ) -> dict[str, Any]:
+        """Add genomic resource to sample."""
+        payload = track.model_dump(exclude_none=True)
+        try:
+            resp = self.request_json(
+                "POST",
+                f"samples/{sample_id}/resources",
+                headers=headers,
+                json=payload,
+            )
+        except UnauthorizedError:
+            LOG.error("Unauthorised when adding a reference genome for sample=%s", sample_id)
+            raise
+        except ClientError:
+            LOG.error(
+                "Something went wrong when adding a genomic resource to sample; id=%s",
+                sample_id,
+            )
+            raise
         return resp.data
     
     def upload_sourmash_signature(
