@@ -97,4 +97,3 @@ def raise_for_status(status: int, body: str | None = None) -> None:
 
     exc_cls = _STATUS_TO_ERROR.get(status, ClientError)
     raise exc_cls(message, status=status, body=body)
-    

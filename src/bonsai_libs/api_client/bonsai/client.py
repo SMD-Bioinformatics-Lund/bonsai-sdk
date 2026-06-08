@@ -227,9 +227,17 @@ class BonsaiApiClient(BaseClient):
                 f"samples/{sample_id}/reference-genome",
                 headers=headers,
                 json={"reference_genome_id": reference_genome_id},
+                expected_status=(HTTPStatus.OK, )
             )
         except UnauthorizedError:
             LOG.error("Unauthorised when adding a reference genome for sample=%s", sample_id)
+            raise
+        except NotModifiedError:
+            LOG.warning(
+                "Sample %s already associated with genome id=%s",
+                sample_id,
+                reference_genome_id,
+            )
             raise
         except ClientError:
             LOG.error(
