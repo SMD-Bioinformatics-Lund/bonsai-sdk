@@ -92,8 +92,9 @@ def raise_for_status(status: int, body: str | None = None) -> None:
     """Raise a precise error based on the HTTP status code."""
     message = body or f"HTTP {status}"
 
+    if 300 <= status < 500:
+        exc_cls = _STATUS_TO_ERROR.get(status, ClientError)
+        raise exc_cls(message, status=status, body=body)
+
     if 500 <= status:
         raise ServerError(message, status=status, body=body)
-
-    exc_cls = _STATUS_TO_ERROR.get(status, ClientError)
-    raise exc_cls(message, status=status, body=body)
