@@ -228,6 +228,7 @@ class UserResponse(UserBase):
 class AnnotationTrack(Model):
     """Annoatation track info."""
 
+    name: str
     format: str | None = None
     type: str
     path: str
