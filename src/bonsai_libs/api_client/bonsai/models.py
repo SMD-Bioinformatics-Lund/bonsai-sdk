@@ -241,3 +241,16 @@ class GenomicResourceInput(Model):
     reference_genome_id: str
     pipeline_run_id: str
     resource_data: list[AnnotationTrack] = Field(default_factory=list, min_length=1)
+
+
+class CreateReferenceGenomeInput(Model):
+    """Input to create-reference-genome"""
+
+    name: str = Field(..., description="Human-readable name")
+    accession: str = Field(..., description="RefSeq accession")
+    organism: str = Field(..., description="Scientific name")
+
+    fasta_resource: str = Field(..., description="Path or URL to FASTA file")
+    fasta_index_resource: str = Field(..., description="Path or URL to FASTA index.")
+
+    reference_tracks: list[AnnotationTrack] = Field(default_factory=list, description="Optional list of reference tracks")

@@ -13,6 +13,7 @@ from bonsai_libs.api_client.core.exceptions import ClientError, UnauthorizedErro
 
 from .models import (
     CreateGroupInput,
+    CreateReferenceGenomeInput,
     CreateSampleResponse,
     CreateUserInput,
     GenomicResourceInput,
@@ -386,6 +387,27 @@ class BonsaiApiClient(BaseClient):
                 "GET",
                 f"samples/{sample_id}/igv-config",
                 json={'analysis_id': analysis_id, 'variant_id': variant_id},
+                headers=headers,
+            )
+        except UnauthorizedError as exc:
+            LOG.error("Failed authenticating user", exc_info=exc)
+            raise
+        return resp.data
+
+    # ----------------------------
+    # References
+    # ----------------------------
+
+    def create_reference_genome(self, reference_genome: CreateReferenceGenomeInput,*, headers: OpHeaders = None) -> dict[str, Any]:
+        """Get a IGV configuration for a sample.
+        
+        Optional center the view on a variant by providing a analysis_id and variant_id
+        """
+        try:
+            resp = self.request_json(
+                "POST",
+                f"reference-genomes",
+                json=reference_genome.model_dump(mode="json"),
                 headers=headers,
             )
         except UnauthorizedError as exc:
