@@ -1,6 +1,6 @@
 """API interface to the Bonsai API."""
 
-from typing import BinaryIO
+from typing import Any, BinaryIO
 import logging
 import mimetypes
 from http import HTTPStatus
@@ -8,13 +8,14 @@ from http import HTTPStatus
 LOG = logging.getLogger(__name__)
 
 from bonsai_libs.api_client.core.auth import BearerTokenAuth
-from bonsai_libs.api_client.core.base import BaseClient, merge_headers
-from bonsai_libs.api_client.core.exceptions import ClientError, UnauthorizedError
+from bonsai_libs.api_client.core.base import BaseClient
+from bonsai_libs.api_client.core.exceptions import ClientError, UnauthorizedError, NotModifiedError
 
 from .models import (
     CreateGroupInput,
     CreateSampleResponse,
     CreateUserInput,
+    GenomicResourceInput,
     GroupResponse,
     OpHeaders,
     PipelineRunInput,
@@ -90,6 +91,50 @@ class BonsaiApiClient(BaseClient):
             expected_status=(HTTPStatus.OK,),
         )
         return UserResponse.model_validate(resp.data)
+
+    def get_current_user(self, *, headers: OpHeaders = None) -> UserResponse:
+        """Query the API for the current user."""
+        resp = self.request_json(
+            "GET",
+            "users/me",
+            headers=headers,
+            expected_status=(HTTPStatus.OK,),
+        )
+        return UserResponse.model_validate(resp.data)
+
+    def get_users(self, *, headers: OpHeaders = None) -> list[UserResponse]:
+        """Query the API for all users."""
+        resp = self.request_json(
+            "GET",
+            "users/",
+            headers=headers,
+            expected_status=(HTTPStatus.OK,),
+        )
+        data = resp.data or []
+        return [UserResponse.model_validate(user) for user in data]
+
+    def update_user(
+        self, username: str, user_data: dict[str, Any], *, headers: OpHeaders = None
+    ) -> UserResponse:
+        """Update user information."""
+        resp = self.request_json(
+            "PUT",
+            f"users/{username}",
+            json=user_data,
+            headers=headers,
+            expected_status=(HTTPStatus.OK,),
+        )
+        return UserResponse.model_validate(resp.data)
+
+    def delete_user(self, username: str, *, headers: OpHeaders = None) -> dict[str, Any]:
+        """Delete a user."""
+        resp = self.request_json(
+            "DELETE",
+            f"users/{username}",
+            headers=headers,
+            expected_status=(HTTPStatus.OK, HTTPStatus.NO_CONTENT),
+        )
+        return resp.data or {}
 
     # ----------------------------
     # Groups
@@ -167,6 +212,63 @@ class BonsaiApiClient(BaseClient):
             )
             raise
 
+        return resp.data
+    
+    def add_reference_genome_to_sample(
+        self, 
+        sample_id: str, *, reference_genome_id: str, headers: OpHeaders = None,
+    ) -> dict[str, Any]:
+        """Associate a reference genome with a sample.
+        
+        Returns information of the reference genome."""
+        try:
+            resp = self.request_json(
+                "PUT",
+                f"samples/{sample_id}/reference-genome",
+                headers=headers,
+                json={"reference_genome_id": reference_genome_id},
+                expected_status=(HTTPStatus.OK, )
+            )
+        except UnauthorizedError:
+            LOG.error("Unauthorised when adding a reference genome for sample=%s", sample_id)
+            raise
+        except NotModifiedError:
+            LOG.warning(
+                "Sample %s already associated with genome id=%s",
+                sample_id,
+                reference_genome_id,
+            )
+            raise
+        except ClientError:
+            LOG.error(
+                "Something went wrong when associating reference genome id=%s to sample=%s",
+                reference_genome_id,
+                sample_id,
+            )
+            raise
+        return resp.data
+    
+    def add_annotation_track_to_sample(
+        self, sample_id: str, *, track: GenomicResourceInput, headers: OpHeaders = None,
+    ) -> dict[str, Any]:
+        """Add genomic resource to sample."""
+        payload = track.model_dump(exclude_none=True)
+        try:
+            resp = self.request_json(
+                "POST",
+                f"samples/{sample_id}/resources",
+                headers=headers,
+                json=payload,
+            )
+        except UnauthorizedError:
+            LOG.error("Unauthorised when adding a reference genome for sample=%s", sample_id)
+            raise
+        except ClientError:
+            LOG.error(
+                "Something went wrong when adding a genomic resource to sample; id=%s",
+                sample_id,
+            )
+            raise
         return resp.data
     
     def upload_sourmash_signature(
@@ -273,3 +375,20 @@ class BonsaiApiClient(BaseClient):
                 envelopes=body.get("envelopes", {}),
                 meta=meta,
             )
+    
+    def get_igv_config(self, sample_id: str, *, analysis_id: str | None = None, variant_id: str | None = None, headers: OpHeaders = None) -> dict[str, Any]:
+        """Get a IGV configuration for a sample.
+        
+        Optional center the view on a variant by providing a analysis_id and variant_id
+        """
+        try:
+            resp = self.request_json(
+                "GET",
+                f"samples/{sample_id}/igv-config",
+                json={'analysis_id': analysis_id, 'variant_id': variant_id},
+                headers=headers,
+            )
+        except UnauthorizedError as exc:
+            LOG.error("Failed authenticating user", exc_info=exc)
+            raise
+        return resp.data

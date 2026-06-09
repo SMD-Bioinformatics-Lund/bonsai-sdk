@@ -223,3 +223,21 @@ class UserResponse(UserBase):
     """User information."""
 
     authentication_method: str
+
+
+class AnnotationTrack(Model):
+    """Annoatation track info."""
+
+    name: str
+    format: str | None = None
+    type: str
+    path: str
+    index_path: str | None = None
+
+
+class GenomicResourceInput(Model):
+    """Genomic resource input model."""
+
+    reference_genome_id: str
+    pipeline_run_id: str
+    resource_data: list[AnnotationTrack] = Field(default_factory=list, min_length=1)

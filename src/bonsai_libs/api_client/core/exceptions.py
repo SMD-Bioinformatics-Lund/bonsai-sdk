@@ -20,6 +20,12 @@ class ServerError(ApiError):
     """Base for 5xx errors."""
 
 
+# ---- 3xx ----
+
+
+class NotModifiedError(ClientError):
+    status = 304
+
 # ---- 4xx ----
 
 
@@ -71,6 +77,7 @@ class ApiRequestFailed(ApiError):
 
 
 _STATUS_TO_ERROR: dict[int, type[ApiError]] = {
+    304: NotModifiedError,
     400: BadRequestError,
     401: UnauthorizedError,
     403: ForbiddenError,
@@ -85,7 +92,7 @@ def raise_for_status(status: int, body: str | None = None) -> None:
     """Raise a precise error based on the HTTP status code."""
     message = body or f"HTTP {status}"
 
-    if 400 <= status < 500:
+    if 300 <= status < 500:
         exc_cls = _STATUS_TO_ERROR.get(status, ClientError)
         raise exc_cls(message, status=status, body=body)
 
