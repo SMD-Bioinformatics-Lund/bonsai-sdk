@@ -223,10 +223,12 @@ class UserResponse(UserBase):
     """User information."""
 
     authentication_method: str
+
+
 class AnnotationTrack(Model):
     """Annoatation track info."""
 
-    format: str
+    format: str | None = None
     type: str
     path: str
     index_path: str | None = None
