@@ -9,7 +9,7 @@ LOG = logging.getLogger(__name__)
 
 from bonsai_libs.api_client.core.auth import BearerTokenAuth
 from bonsai_libs.api_client.core.base import BaseClient
-from bonsai_libs.api_client.core.exceptions import ClientError, UnauthorizedError
+from bonsai_libs.api_client.core.exceptions import ClientError, UnauthorizedError, NotModifiedError
 
 from .models import (
     CreateGroupInput,
