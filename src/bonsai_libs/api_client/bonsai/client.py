@@ -398,7 +398,19 @@ class BonsaiApiClient(BaseClient):
     # References
     # ----------------------------
 
-    def create_reference_genome(self, reference_genome: CreateReferenceGenomeInput,*, headers: OpHeaders = None) -> dict[str, Any]:
+    def list_reference_genomes(self, *, headers: OpHeaders = None) -> dict[str, Any]:
+        """Get a IGV configuration for a sample.
+        
+        Optional center the view on a variant by providing a analysis_id and variant_id
+        """
+        try:
+            resp = self.request_json("GET", f"reference-genomes", headers=headers)
+        except UnauthorizedError as exc:
+            LOG.error("Failed authenticating user", exc_info=exc)
+            raise
+        return resp.data
+
+    def create_reference_genome(self, reference_genome: CreateReferenceGenomeInput, *, headers: OpHeaders = None) -> dict[str, Any]:
         """Get a IGV configuration for a sample.
         
         Optional center the view on a variant by providing a analysis_id and variant_id
