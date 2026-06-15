@@ -6,11 +6,11 @@ import time
 from abc import ABC
 from collections.abc import Iterable
 from http import HTTPStatus
-from typing import Any, Literal
+from typing import Any
 
 import requests
 
-from bonsai_libs.api_client.core.response import ApiResponse
+from bonsai_libs.api_client.core.models import ApiResponse, RequestMethods
 
 from .auth import AuthStrategy
 from .exceptions import ApiRequestFailed, UnauthorizedError, raise_for_status
@@ -18,7 +18,6 @@ from .exceptions import ApiRequestFailed, UnauthorizedError, raise_for_status
 LOG = logging.getLogger(__name__)
 
 
-RequestMethods = Literal["GET", "POST", "PUT", "DELETE"]
 
 JSONData = dict[str, Any]
 
@@ -56,7 +55,7 @@ class BaseClient(ABC):
         timeout: float | None = None,
         headers: dict[str, str] | None = None,
         **kwargs: Any,
-    ) -> ApiResponse | None:
+    ) -> ApiResponse:
         """Base request class"""
         url = f"{self.base_url}/{path.lstrip('/')}"
         attempts = self.retries + 1
@@ -95,7 +94,7 @@ class BaseClient(ABC):
                 ):
                     LOG.warning("401 recieved, appempting token refresh and retry")
                     try:
-                        if self.auth.did_force_refresh():
+                        if self.auth.force_refresh():
                             # update combined headers with new auth token
                             combined_headers.update(self.auth.headers())
                         did_force_refresh = True
@@ -180,7 +179,7 @@ class BaseClient(ABC):
         path: str,
         *,
         json: dict[str, Any] | list[Any] | None = None,
-        expected_status: Iterable[int] = (HTTPStatus.OK,),
+        expected_status: Iterable[int | HTTPStatus] = (HTTPStatus.OK,),
         headers: dict[str, str] | None = None,
         **kwargs: Any,
     ) -> ApiResponse:

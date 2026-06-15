@@ -225,6 +225,63 @@ class UserResponse(UserBase):
     authentication_method: str
 
 
+class PhenotypeAnnotation(Model):
+    """Phenotype annotation."""
+
+    name: str
+    meta: dict[str, Any] = Field(default_factory=dict)
+
+
+class VariantCurationRecord(Model):
+    """Input data for creating a variant curation."""
+
+    result_key: str
+    decision: str
+    annotation_type: str
+    rejection_reason: str | None = None
+    phenotypes: list[PhenotypeAnnotation] = Field(default_factory=list)
+
+
+class SampleBasketObject(Model):
+    """Sample object for basket operations."""
+
+    sample_id: str
+
+
+class SubmittedJob(Model):
+    """Response from job submission endpoints."""
+
+    job_id: str | None = None
+    status: str | None = None
+
+
+class ApiGetSamplesDetailsInput(Model):
+    """Input for getting sample details."""
+
+    limit: int | None = None
+    offset: int = 0
+    sid: list[str] | None = None
+    group_id: str | None = None
+
+
+class SampleSummaryManifest(Model):
+    """Valid columns for sample summaries."""
+
+    columns: list[dict[str, Any]] = Field(default_factory=list)
+
+
+class GroupColumnsResponse(Model):
+    """Valid columns for a group."""
+
+    columns: list[dict[str, Any]] = Field(default_factory=list)
+
+
+class ReferenceDataResponse(Model):
+    """Response containing reference data."""
+
+    data: list[dict[str, Any]] = Field(default_factory=list)
+
+
 class AnnotationTrack(Model):
     """Annoatation track info."""
 
