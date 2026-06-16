@@ -18,3 +18,4 @@ class ApiRequestProtocol(Protocol):
         headers: dict[str, str] | None = None,
         **kwargs: Any,
     ) -> "ApiResponse[Any]":
+        """Make a API request passing json info."""
