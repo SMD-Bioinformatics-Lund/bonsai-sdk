@@ -4,15 +4,15 @@ import logging
 
 from bonsai_libs.api_client.core.auth import BearerTokenAuth
 from bonsai_libs.api_client.core.exceptions import ClientError, UnauthorizedError
+from bonsai_libs.api_client.core.protocols import ApiRequestProtocol
 
-from bonsai_libs.api_client.core.base import BaseClient
 
 from .models import OpHeaders
 
 LOG = logging.getLogger(__name__)
 
 
-class AuthMixin(BaseClient):
+class AuthMixin(ApiRequestProtocol):
     """Authenticate users useing the Bonsai API."""
 
     def authenticate_user(self, username: str, password: str, *, headers: OpHeaders = None) -> bool:

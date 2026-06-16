@@ -3,14 +3,14 @@ from typing import Any
 import logging
 from http import HTTPStatus
 
-from bonsai_libs.api_client.core.base import BaseClient
+from bonsai_libs.api_client.core.protocols import ApiRequestProtocol
 
 from .models import CreateGroupInput, GroupResponse, GroupColumnsResponse, OpHeaders
 
 LOG = logging.getLogger(__name__)
 
 
-class GroupsMixin(BaseClient):
+class GroupsMixin(ApiRequestProtocol):
     """Group domain API functions."""
 
     def create_group(self, group: CreateGroupInput, *, headers: OpHeaders = None) -> GroupResponse:

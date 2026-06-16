@@ -55,7 +55,7 @@ class BaseClient(ABC):
         timeout: float | None = None,
         headers: dict[str, str] | None = None,
         **kwargs: Any,
-    ) -> ApiResponse:
+    ) -> ApiResponse[Any]:
         """Base request class"""
         url = f"{self.base_url}/{path.lstrip('/')}"
         attempts = self.retries + 1
@@ -182,7 +182,7 @@ class BaseClient(ABC):
         expected_status: Iterable[int | HTTPStatus] = (HTTPStatus.OK,),
         headers: dict[str, str] | None = None,
         **kwargs: Any,
-    ) -> ApiResponse:
+    ) -> ApiResponse[Any]:
         """Helper function for making HTTP requests with JSON data."""
         final_headers = merge_headers(headers, {"Content-Type": "application/json"})
         return self._request(
@@ -203,7 +203,7 @@ class BaseClient(ABC):
         expected_status: Iterable[int] = (HTTPStatus.OK,),
         headers: dict[str, str] | None = None,
         **kwargs: Any,
-    ) -> ApiResponse:
+    ) -> ApiResponse[Any]:
         """Helper for form data."""
         final_headers = merge_headers(
             headers, {"Content-Type": "application/x-www-form-urlencoded"}
@@ -226,7 +226,7 @@ class BaseClient(ABC):
         expected_status: Iterable[int] = (HTTPStatus.OK,),
         headers: dict[str, str] | None = None,
         **kwargs: Any,
-    ) -> ApiResponse:
+    ) -> ApiResponse[Any]:
         """Helper for Multi-part data."""
         # Dont set Content-Type for multipart.
         final_headers = merge_headers(headers)
