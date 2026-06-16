@@ -22,6 +22,8 @@ class AuthStrategy(Protocol):
     def force_refresh(self) -> bool:
         """Force token refresh. Return True if changed."""
 
+        return False
+
 
 @dataclass
 class BearerTokenAuth(AuthStrategy):
@@ -120,7 +122,7 @@ class OAuth2RefreshingAuth(AuthStrategy):
             after = self._token.access_token if self._token else None
             return before != after
 
-    def force_refresh(self):
+    def force_refresh(self) -> bool:
         """Force a refresh (e.g. after a 401).
 
         Try refresh_token flow first, then fetch a new token. Returns True if token changed.

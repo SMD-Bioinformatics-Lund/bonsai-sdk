@@ -1,2 +1,2 @@
 
-from .auth import OAuth2RefreshingAuth, BearerTokenAuth
+from .auth import OAuth2RefreshingAuth, BearerTokenAuth, AuthStrategy

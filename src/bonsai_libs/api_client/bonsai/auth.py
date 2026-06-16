@@ -1,13 +1,17 @@
 """Authentication-related API methods for Bonsai."""
 from http import HTTPStatus
 import logging
+from typing import TYPE_CHECKING
 
 from bonsai_libs.api_client.core.auth import BearerTokenAuth
 from bonsai_libs.api_client.core.exceptions import ClientError, UnauthorizedError
-from bonsai_libs.api_client.core.protocols import ApiRequestProtocol
-
 
 from .models import OpHeaders
+
+if TYPE_CHECKING:
+    from bonsai_libs.api_client.core.protocols import ApiRequestProtocol
+else:
+    ApiRequestProtocol = object
 
 LOG = logging.getLogger(__name__)
 

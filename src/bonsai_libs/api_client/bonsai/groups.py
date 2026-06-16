@@ -1,9 +1,12 @@
 """Group-related API methods for Bonsai."""
-from typing import Any
+from typing import TYPE_CHECKING, Any
 import logging
 from http import HTTPStatus
 
-from bonsai_libs.api_client.core.protocols import ApiRequestProtocol
+if TYPE_CHECKING:
+    from bonsai_libs.api_client.core.protocols import ApiRequestProtocol
+else:
+    ApiRequestProtocol = object
 
 from .models import CreateGroupInput, GroupResponse, GroupColumnsResponse, OpHeaders
 
