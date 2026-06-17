@@ -68,14 +68,9 @@ class BaseClient(ABC):
         # Add auth headers
         if self.auth is not None:
             try:
-                LOG.error("--------> %s", type(self.auth))
-                LOG.error(self.auth)
                 combined_headers.update(self.auth.headers())
             except Exception as exc:
-                LOG.exception("Auth header generation failed: %s", exc)
-                raise
-
-        did_force_refresh = False  # ensure only one force refresh per request
+                raise UnauthorizedError("Failed to generate auth headers") from exc
 
         for attempt in range(1, attempts + 1):
             LOG.info("Request: %s %s - attempt %d", method, url, attempt)
@@ -87,25 +82,6 @@ class BaseClient(ABC):
                     timeout=timeout or self.timeout,
                     **kwargs,
                 )
-
-                # 401 error; attempt one forced refresh if implemented and then retry
-                if (
-                    resp.status_code == HTTPStatus.UNAUTHORIZED
-                    and self.auth is not None
-                    and hasattr(self.auth, "force_refresh")
-                    and not did_force_refresh
-                ):
-                    LOG.warning("401 recieved, appempting token refresh and retry")
-                    try:
-                        if self.auth.force_refresh():
-                            # update combined headers with new auth token
-                            combined_headers.update(self.auth.headers())
-                        did_force_refresh = True
-                        # retry call
-                        continue
-                    except Exception as exc:
-                        LOG.exception("Token refresh failed, %s", exc)
-                        raise UnauthorizedError("Authentication failed") from exc
 
                 # Check if non-successful status codes
                 if resp.status_code not in expected_status:
@@ -119,8 +95,10 @@ class BaseClient(ABC):
                         raw=resp,
                         headers=dict(resp.headers),
                     )
+
                 content_type = resp.headers.get("Content-Type", "").lower()
-                if "application/json" in content_type:
+
+                if "json" in content_type:
                     data = resp.json()
                 else:
                     data = resp.text
@@ -131,12 +109,14 @@ class BaseClient(ABC):
                     raw=resp,
                     headers=dict(resp.headers),
                 )
+
             except (requests.ConnectionError, requests.Timeout):
-                LOG.debug(
-                    "Request attempt %d failed retrying %d times",
+                LOG.warning(
+                    "Request failed (attempt %d/%d): %s %s",
                     attempt,
                     attempts,
-                    extra={"url": url},
+                    method,
+                    url
                 )
                 self._sleep_with_jitter(attempt)
         raise ApiRequestFailed(f"Request {method} {url} failed")

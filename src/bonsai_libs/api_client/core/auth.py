@@ -14,17 +14,6 @@ class AuthStrategy(Protocol):
     def headers(self) -> Mapping[str, str]:
         """Return headers to attach to a API request."""
 
-    def refresh(self) -> bool:
-        """Refresh tokens proactively. Return True if changed."""
-
-        return False
-
-    def force_refresh(self) -> bool:
-        """Force token refresh. Return True if changed."""
-
-        return False
-
-
 @dataclass
 class BearerTokenAuth(AuthStrategy):
     """Static bearer token, no refresh."""
