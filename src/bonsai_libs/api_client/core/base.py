@@ -68,9 +68,12 @@ class BaseClient(ABC):
         # Add auth headers
         if self.auth is not None:
             try:
+                LOG.error("--------> %s", type(self.auth))
+                LOG.error(self.auth)
                 combined_headers.update(self.auth.headers())
             except Exception as exc:
                 LOG.exception("Auth header generation failed: %s", exc)
+                raise
 
         did_force_refresh = False  # ensure only one force refresh per request
 
