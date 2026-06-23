@@ -201,6 +201,9 @@ class GroupResponse(GroupBase):  # pylint: disable=too-few-public-methods
 
     table_columns: list[str] = Field(default_factory=list, description="IDs of columns to display.")
 
+    created_at: str
+    modified_at: str
+
 
 class UserBase(BaseModel):  # pylint: disable=too-few-public-methods
     """Basic user info."""
