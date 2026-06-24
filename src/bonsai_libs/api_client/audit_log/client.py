@@ -4,7 +4,10 @@ import datetime as dt
 import logging
 from http import HTTPStatus
 
+from pydantic import ValidationError
+
 from bonsai_libs.api_client.core.base import BaseClient
+from bonsai_libs.api_client.core.exceptions import ApiError
 
 from .models import EventCreate, EventResponse, PaginatedEventsOut
 
@@ -17,8 +20,15 @@ class AuditLogClient(BaseClient):
     def post_event(self, event: EventCreate) -> EventResponse:
         """Record a new event to the event log."""
         payload = event.model_dump(mode="json", by_alias=True, exclude_none=True)
-        resp = self.post("events", json=payload, expected_status=(HTTPStatus.ACCEPTED,))
-        return EventResponse.model_validate(resp)
+        try:
+            resp = self.post("events", json=payload, expected_status=(HTTPStatus.ACCEPTED,))
+            return EventResponse.model_validate(resp.data)
+        except ApiError as err:
+            LOG.error("Audit Log Error: %s", err)
+            raise
+        except ValidationError as err:
+            LOG.error("Audit Log Error: %s", err)
+            raise ApiError(f"Internal api error - {err}") from err
 
     def get_events(
         self,
@@ -40,5 +50,12 @@ class AuditLogClient(BaseClient):
         if occurred_before:
             params["occurred_before"] = occurred_before
 
-        resp = self.get("events", params=params, expected_status=(HTTPStatus.OK,))
-        return PaginatedEventsOut.model_validate(resp)
+        try:
+            resp = self.get("events", params=params, expected_status=(HTTPStatus.OK,))
+            return PaginatedEventsOut.model_validate(resp.data)
+        except ApiError as err:
+            LOG.error("Audit Log Error: %s", err)
+            raise
+        except ValidationError as err:
+            LOG.error("Audit Log Error: %s", err)
+            raise ApiError(f"Internal api error - {err}") from err
