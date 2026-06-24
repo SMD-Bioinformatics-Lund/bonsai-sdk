@@ -1,0 +1,29 @@
+sample_id: ecoli_test_1
+sample_name: ecoli_test_1
+lims_id: longLIMSid
+gambitcore: ./gambitcore.tsv
+groups:
+  - ecoli
+  - ecoli-validation
+ref_genome_sequence: ./genome.fasta
+ref_genome_annotation: ./annotation.gff
+igv_annotations:
+  - name: Cool variants
+    type: variant
+    uri: ./variants.vcf
+  - name: Read coverage
+    type: alignment
+    uri: ./mapping.bam
+    index_uri: ./mapping.bam.bai
+nextflow_run_info: ./analysis_meta.json
+software_info:
+  - ./resfinder_meta.json
+  - ./virulencefinder_meta.json
+kraken: ./bracken.out
+quast: ./quast.tsv
+postalnqc: ./bwa.qc
+resfinder: ./resfinder.json
+virulencefinder: ./virulencefinder.json
+amrfinder: ./amrfinder.out
+shigapass: ./shigapass.csv
+chewbbaca: ./chewbbaca.out

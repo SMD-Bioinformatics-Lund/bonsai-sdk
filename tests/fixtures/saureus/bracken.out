@@ -1,0 +1,56 @@
+name	taxonomy_id	taxonomy_lvl	kraken_assigned_reads	added_reads	new_est_reads	fraction_total_reads
+Staphylococcus aureus	1280	S	938967	234890	1173857	0.98240
+Staphylococcus simulans	1286	S	2344	69	2413	0.00202
+Staphylococcus haemolyticus	1283	S	1716	196	1912	0.00160
+Staphylococcus epidermidis	1282	S	1429	170	1599	0.00134
+Staphylococcus cohnii	29382	S	879	56	935	0.00078
+Staphylococcus hominis	1290	S	595	43	638	0.00053
+Staphylococcus lugdunensis	28035	S	546	13	559	0.00047
+Staphylococcus saprophyticus	29385	S	392	218	610	0.00051
+Staphylococcus nepalensis	214473	S	186	5	191	0.00016
+Staphylococcus warneri	1292	S	184	28	212	0.00018
+Staphylococcus schweitzeri	1654388	S	169	28	197	0.00016
+Staphylococcus arlettae	29378	S	144	8	152	0.00013
+Staphylococcus pasteuri	45972	S	128	5	133	0.00011
+Staphylococcus sciuri	1296	S	110	2	112	0.00009
+Staphylococcus argenteus	985002	S	72	392	464	0.00039
+Staphylococcus sp. AntiMn-1	1715860	S	27	915	942	0.00079
+Staphylococcus sp. SDB 2975	2044912	S	26	2	28	0.00002
+Staphylococcus sp. M0911	2025492	S	12	1	13	0.00001
+Staphylococcus capitis	29388	S	62	5	67	0.00006
+Staphylococcus schleiferi	1295	S	60	6	66	0.00006
+Staphylococcus pseudintermedius	283734	S	59	281	340	0.00028
+Staphylococcus equorum	246432	S	55	113	168	0.00014
+Staphylococcus caprae	29380	S	46	3	49	0.00004
+Staphylococcus xylosus	1288	S	43	0	43	0.00004
+Staphylococcus simiae	308354	S	41	0	41	0.00003
+Staphylococcus chromogenes	46126	S	34	0	34	0.00003
+Staphylococcus condimenti	70255	S	34	1	35	0.00003
+Staphylococcus agnetis	985762	S	28	1	29	0.00002
+Staphylococcus auricularis	29379	S	26	0	26	0.00002
+Staphylococcus kloosii	29384	S	21	0	21	0.00002
+Staphylococcus carnosus	1281	S	18	1	19	0.00002
+Staphylococcus pettenkoferi	170573	S	18	0	18	0.00002
+Staphylococcus lutrae	155085	S	15	0	15	0.00001
+Staphylococcus succinus	61015	S	14	0	14	0.00001
+Auricoccus indicus	1849491	S	13	0	13	0.00001
+Bacillus anthracis	1392	S	55	48	103	0.00009
+Bacillus cereus	1396	S	51	17	68	0.00006
+Bacillus thuringiensis	1428	S	48	27	75	0.00006
+Bacillus velezensis	492670	S	26	2	28	0.00002
+Bacillus amyloliquefaciens	1390	S	14	5	19	0.00002
+Bacillus subtilis	1423	S	19	44	63	0.00005
+Lysinibacillus timonensis	2086577	S	14	0	14	0.00001
+Listeria monocytogenes	1639	S	20	7	27	0.00002
+Lactobacillus plantarum	1590	S	12	18	30	0.00003
+Carnobacterium sp. 17-4	208596	S	27	9	36	0.00003
+Enterococcus faecalis	1351	S	12	34	46	0.00004
+Clostridioides difficile	1496	S	10	38	48	0.00004
+Salmonella enterica	28901	S	14	34	48	0.00004
+Ralstonia pickettii	329	S	44	3	47	0.00004
+Homo sapiens	9606	S	2131	0	2131	0.00178
+Staphylococcus virus 29	320846	S	407	3787	4194	0.00351
+Staphylococcus phage 3MRA	1505026	S	132	1027	1159	0.00097
+Staphylococcus phage B236	1636205	S	40	119	159	0.00013
+Staphylococcus virus phiSLT	130478	S	45	173	218	0.00018
+Staphylococcus phage tp310-2	445516	S	39	341	380	0.00032

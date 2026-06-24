@@ -18,14 +18,16 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = [
-    "black",
-    "isort",
-    "pytest",
-    "mypy",
-]
 tests = [
-    "pytest",
+    "pytest-cov>=4.1",
+    "mypy==1.13.0",
+    "pydantic[mypy]>=2.4",
+]
+
+dev = [
+    "pylint>=3.0",
+    "black>=23.11",
+    "isort>=5.12",
 ]
 
 [build-system]
