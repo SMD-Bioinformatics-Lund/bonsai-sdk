@@ -132,22 +132,22 @@ class BaseClient(ABC):
         time.sleep(sleep)
 
     # helper methods
-    def get(self, path: str, **kwargs: Any):
+    def get(self, path: str, **kwargs: Any) -> ApiResponse[Any]:
         """Get request to entrypoint."""
         LOG.debug("Request: GET %s; params: %s", path, kwargs)
         return self._request("GET", path, **kwargs)
 
-    def post(self, path: str, **kwargs: Any):
+    def post(self, path: str, **kwargs: Any) -> ApiResponse[Any]:
         """POST request to entrypoint."""
         LOG.debug("Request: POST %s; params: %s", path, kwargs)
         return self._request("POST", path, **kwargs)
 
-    def put(self, path: str, **kwargs: Any):
+    def put(self, path: str, **kwargs: Any) -> ApiResponse[Any]:
         """PUT request to entrypoint."""
         LOG.debug("Request: PUT %s; params: %s", path, kwargs)
         return self._request("PUT", path, **kwargs)
 
-    def delete(self, path: str, **kwargs: Any):
+    def delete(self, path: str, **kwargs: Any) -> ApiResponse[Any]:
         """DELETE request to entrypoint."""
         LOG.debug("Request: DELETE %s; params: %s", path, kwargs)
         return self._request("DELETE", path, **kwargs)
