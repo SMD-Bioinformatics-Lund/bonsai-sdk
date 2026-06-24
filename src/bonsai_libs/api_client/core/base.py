@@ -6,11 +6,11 @@ import time
 from abc import ABC
 from collections.abc import Iterable
 from http import HTTPStatus
-from typing import Any, Literal
+from typing import Any
 
 import requests
 
-from bonsai_libs.api_client.core.response import ApiResponse
+from bonsai_libs.api_client.core.models import ApiResponse, RequestMethods
 
 from .auth import AuthStrategy
 from .exceptions import ApiRequestFailed, UnauthorizedError, raise_for_status
@@ -18,7 +18,6 @@ from .exceptions import ApiRequestFailed, UnauthorizedError, raise_for_status
 LOG = logging.getLogger(__name__)
 
 
-RequestMethods = Literal["GET", "POST", "PUT", "DELETE"]
 
 JSONData = dict[str, Any]
 
@@ -56,7 +55,7 @@ class BaseClient(ABC):
         timeout: float | None = None,
         headers: dict[str, str] | None = None,
         **kwargs: Any,
-    ) -> ApiResponse | None:
+    ) -> ApiResponse[Any]:
         """Base request class"""
         url = f"{self.base_url}/{path.lstrip('/')}"
         attempts = self.retries + 1
@@ -71,9 +70,7 @@ class BaseClient(ABC):
             try:
                 combined_headers.update(self.auth.headers())
             except Exception as exc:
-                LOG.exception("Auth header generation failed: %s", exc)
-
-        did_force_refresh = False  # ensure only one force refresh per request
+                raise UnauthorizedError("Failed to generate auth headers") from exc
 
         for attempt in range(1, attempts + 1):
             LOG.info("Request: %s %s - attempt %d", method, url, attempt)
@@ -85,25 +82,6 @@ class BaseClient(ABC):
                     timeout=timeout or self.timeout,
                     **kwargs,
                 )
-
-                # 401 error; attempt one forced refresh if implemented and then retry
-                if (
-                    resp.status_code == HTTPStatus.UNAUTHORIZED
-                    and self.auth is not None
-                    and hasattr(self.auth, "force_refresh")
-                    and not did_force_refresh
-                ):
-                    LOG.warning("401 recieved, appempting token refresh and retry")
-                    try:
-                        if self.auth.did_force_refresh():
-                            # update combined headers with new auth token
-                            combined_headers.update(self.auth.headers())
-                        did_force_refresh = True
-                        # retry call
-                        continue
-                    except Exception as exc:
-                        LOG.exception("Token refresh failed, %s", exc)
-                        raise UnauthorizedError("Authentication failed") from exc
 
                 # Check if non-successful status codes
                 if resp.status_code not in expected_status:
@@ -117,8 +95,10 @@ class BaseClient(ABC):
                         raw=resp,
                         headers=dict(resp.headers),
                     )
+
                 content_type = resp.headers.get("Content-Type", "").lower()
-                if "application/json" in content_type:
+
+                if "json" in content_type:
                     data = resp.json()
                 else:
                     data = resp.text
@@ -129,12 +109,14 @@ class BaseClient(ABC):
                     raw=resp,
                     headers=dict(resp.headers),
                 )
+
             except (requests.ConnectionError, requests.Timeout):
-                LOG.debug(
-                    "Request attempt %d failed retrying %d times",
+                LOG.warning(
+                    "Request failed (attempt %d/%d): %s %s",
                     attempt,
                     attempts,
-                    extra={"url": url},
+                    method,
+                    url
                 )
                 self._sleep_with_jitter(attempt)
         raise ApiRequestFailed(f"Request {method} {url} failed")
@@ -150,22 +132,22 @@ class BaseClient(ABC):
         time.sleep(sleep)
 
     # helper methods
-    def get(self, path: str, **kwargs: Any):
+    def get(self, path: str, **kwargs: Any) -> ApiResponse[Any]:
         """Get request to entrypoint."""
         LOG.debug("Request: GET %s; params: %s", path, kwargs)
         return self._request("GET", path, **kwargs)
 
-    def post(self, path: str, **kwargs: Any):
+    def post(self, path: str, **kwargs: Any) -> ApiResponse[Any]:
         """POST request to entrypoint."""
         LOG.debug("Request: POST %s; params: %s", path, kwargs)
         return self._request("POST", path, **kwargs)
 
-    def put(self, path: str, **kwargs: Any):
+    def put(self, path: str, **kwargs: Any) -> ApiResponse[Any]:
         """PUT request to entrypoint."""
         LOG.debug("Request: PUT %s; params: %s", path, kwargs)
         return self._request("PUT", path, **kwargs)
 
-    def delete(self, path: str, **kwargs: Any):
+    def delete(self, path: str, **kwargs: Any) -> ApiResponse[Any]:
         """DELETE request to entrypoint."""
         LOG.debug("Request: DELETE %s; params: %s", path, kwargs)
         return self._request("DELETE", path, **kwargs)
@@ -180,10 +162,10 @@ class BaseClient(ABC):
         path: str,
         *,
         json: dict[str, Any] | list[Any] | None = None,
-        expected_status: Iterable[int] = (HTTPStatus.OK,),
+        expected_status: Iterable[int | HTTPStatus] = (HTTPStatus.OK,),
         headers: dict[str, str] | None = None,
         **kwargs: Any,
-    ) -> ApiResponse:
+    ) -> ApiResponse[Any]:
         """Helper function for making HTTP requests with JSON data."""
         final_headers = merge_headers(headers, {"Content-Type": "application/json"})
         return self._request(
@@ -204,7 +186,7 @@ class BaseClient(ABC):
         expected_status: Iterable[int] = (HTTPStatus.OK,),
         headers: dict[str, str] | None = None,
         **kwargs: Any,
-    ) -> ApiResponse:
+    ) -> ApiResponse[Any]:
         """Helper for form data."""
         final_headers = merge_headers(
             headers, {"Content-Type": "application/x-www-form-urlencoded"}
@@ -227,7 +209,7 @@ class BaseClient(ABC):
         expected_status: Iterable[int] = (HTTPStatus.OK,),
         headers: dict[str, str] | None = None,
         **kwargs: Any,
-    ) -> ApiResponse:
+    ) -> ApiResponse[Any]:
         """Helper for Multi-part data."""
         # Dont set Content-Type for multipart.
         final_headers = merge_headers(headers)

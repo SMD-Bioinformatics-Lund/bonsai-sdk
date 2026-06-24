@@ -1,0 +1,17 @@
+[
+   {
+      "alleles" : {
+         "yqiL" : "10",
+         "arcC" : "1",
+         "aroE" : "4",
+         "pta" : "12",
+         "gmk" : "4",
+         "glpF" : "1",
+         "tpi" : "1"
+      },
+      "id" : "saureus_test_1.fasta",
+      "scheme" : "saureus",
+      "filename" : "saureus_test_1.fasta",
+      "sequence_type" : "5"
+   }
+]

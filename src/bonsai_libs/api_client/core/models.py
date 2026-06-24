@@ -1,11 +1,14 @@
 """Shared response handling for API clients."""
 
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, TypeVar, Generic, Literal
 
+T = TypeVar("T")
+
+RequestMethods = Literal["GET", "POST", "PUT", "DELETE"]
 
 @dataclass
-class ApiResponse:
+class ApiResponse(Generic[T]):
     """Structured API response."""
 
     status: int

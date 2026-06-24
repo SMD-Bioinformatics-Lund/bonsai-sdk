@@ -1,0 +1,17 @@
+sample_id: kp_test_1
+sample_name: kp_test_1
+lims_id: longLIMSid
+groups:
+  - kpneumoniae
+igv_annotations:
+  - name: Cool variants
+    type: variant
+    uri: ./variants.vcf
+  - name: Read coverage
+    type: alignment
+    uri: ./mapping.bam
+    index_uri: ./mapping.bam.bai
+nextflow_run_info: ./analysis_meta.json
+quast: ./quast.tsv
+kleborate: ./kleborate_v3_kpsc_output.txt
+kleborate_hamronization: ./kleborate_v3_kpsc_hamronization_output.txt

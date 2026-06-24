@@ -1,0 +1,19 @@
+{
+  "workflow_name": "jolly_babbage",
+  "sample_name": "saureus_test_1",
+  "lims_id": "saureus_lims_1",
+  "sequencing_run": "validering",
+  "sequencing_platform": "illumina",
+  "sequencing_type": "PE",
+  "date": "2024-03-18T17:41:42.032774+01:00",
+  "pipeline": "main.nf",
+  "version": "0.5.0",
+  "commit": "null",
+  "configuration_files": [
+    "/fs1/pipelines/jasen/configs/nextflow.dev.config"
+  ],
+  "assay": "saureus",
+  "release_life_cycle": "production",
+  "analysis_profile": ["staphylococcus_aureus"],
+  "command": "nextflow run /fs1/pipelines/jasen/main.nf -profile staphylococcus_aureus -c /fs1/pipelines/jasen/configs/nextflow.dev.config --csv /fs1/ryan/pipelines/jasen/test-csvs/prp_test_samples_saureus.csv --queue normal -with-singularity /fs1/pipelines/jasen/container/jasen_2023_02-28.sif -with-report /fs1/nextflow//reports/saureus-test.jasen-saureus-dev.report.html -with-trace /fs1/nextflow//reports/saureus-test.jasen-saureus-dev.trace.txt -with-timeline /fs1/nextflow//reports/saureus-test.jasen-saureus-dev.timeline.html -work-dir /fs1/nextflow//saureus-test.jasen-saureus-dev"
+}
