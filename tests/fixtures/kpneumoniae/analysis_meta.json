@@ -1,0 +1,19 @@
+{
+  "workflow_name": "focused_snyder",
+  "sample_name": "kpneumoniae_test_1",
+  "lims_id": "kpneumoniae_lims_1",
+  "sequencing_run": "validering",
+  "sequencing_platform": "illumina",
+  "sequencing_type": "PE",
+  "date": "2023-12-06T15:53:45.482390+01:00",
+  "pipeline": "main.nf",
+  "version": "1.0.0",
+  "commit": "null",
+  "configuration_files": [
+    "/fs1/pipelines/JASEN/nextflow.config"
+  ],
+  "assay": "ecoli",
+  "release_life_cycle": "production",
+  "analysis_profile": ["klebisella_pneumoniae"],
+  "command": "nextflow run /fs1/pipelines/JASEN/main.nf -profile klebisella_pneumoniae --csv /fs1/pipelines/jasen/test-csvs/prp_test_samples_kp.csv --queue high -with-singularity /fs1/pipelines/JASEN/container/jasen_2023_02-28.sif -with-report /fs1/nextflow/reports/kp_test_1.jasen-kp-dev.report.html -with-trace /fs1/nextflow/reports/kp_test_1.jasen-kp-dev.trace.txt -with-timeline /fs1/nextflow/reports/kp_test_1.jasen-kp-dev.timeline.html -work-dir /fs1/nextflow//kp_test_1.jasen-ecoli-dev"
+}

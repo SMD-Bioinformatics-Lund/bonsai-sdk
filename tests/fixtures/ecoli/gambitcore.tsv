@@ -1,0 +1,2 @@
+Filename	Species	Completeness (%)	Assembly Core/species Core	Closest accession	Closest distance	Assembly Kmers	Species Kmers Mean	Species Kmers Std Dev	Assembly QC
+ecoli_test_1_skesa.fasta	Escherichia coli	99.58%	(2852/2864)	GCF_000303815.2	0.0128	11153	10710	498	green

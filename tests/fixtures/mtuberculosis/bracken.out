@@ -1,0 +1,90 @@
+name	taxonomy_id	taxonomy_lvl	kraken_assigned_reads	added_reads	new_est_reads	fraction_total_reads
+Mycobacterium tuberculosis	1773	S	308488	5518842	5827330	0.98023
+Mycobacterium canettii	78331	S	28588	6553	35141	0.00591
+Mycobacterium colombiense	339268	S	1157	3	1160	0.00020
+Mycobacterium avium	1764	S	1090	448	1538	0.00026
+Mycobacterium marseillense	701042	S	801	19	820	0.00014
+Mycobacterium intracellulare	1767	S	295	858	1153	0.00019
+Mycobacterium lepraemurium	64667	S	289	56	345	0.00006
+Mycobacterium chimaera	222805	S	286	394	680	0.00011
+Mycobacterium paraintracellulare	1138383	S	19	83	102	0.00002
+Mycobacterium sp. JS623	212767	S	714	0	714	0.00012
+Mycobacterium sp. KMS	189918	S	441	14	455	0.00008
+Mycobacterium sp. MS1601	1936029	S	415	1	416	0.00007
+Mycobacterium sp. THAF192	2587868	S	387	3	390	0.00007
+Mycobacterium sp. YC-RL4	1682113	S	362	4	366	0.00006
+Mycobacterium sp. ELW1	1547487	S	361	7	368	0.00006
+Mycobacterium sp. DL90	2487344	S	358	1	359	0.00006
+Mycobacterium sp. EPa45	1545728	S	341	8	349	0.00006
+Mycobacterium sp. 3/86Rv	2041046	S	322	35106	35428	0.00596
+Mycobacterium sp. WY10	1920667	S	74	261	335	0.00006
+Mycobacterium sp. PYR15	2051552	S	72	254	326	0.00005
+Mycobacterium sp. MOTT36Y	1168287	S	22	29	51	0.00001
+Mycobacterium sp. QIA-37	1561223	S	15	5	20	0.00000
+Mycobacterium kansasii	1768	S	2832	10	2842	0.00048
+Mycobacterium haemophilum	29311	S	2260	0	2260	0.00038
+Mycobacterium basiliense	2094119	S	2158	0	2158	0.00036
+Mycobacterium paragordonae	1389713	S	1758	3	1761	0.00030
+Mycobacterium shigaense	722731	S	1348	0	1348	0.00023
+Mycobacterium leprae	1769	S	632	0	632	0.00011
+Mycobacterium marinum	1781	S	601	61	662	0.00011
+Mycobacterium dioxanotrophicus	482462	S	431	2	433	0.00007
+Mycobacterium grossiae	1552759	S	387	2	389	0.00007
+Mycobacterium ulcerans	1809	S	159	60	219	0.00004
+Mycobacterium liflandii	261524	S	43	40	83	0.00001
+Mycobacterium pseudoshottsii	265949	S	38	25	63	0.00001
+Mycolicibacterium aurum	1791	S	19	0	19	0.00000
+Mycolicibacterium fortuitum	1766	S	18	0	18	0.00000
+Mycolicibacterium hassiacum	46351	S	18	7	25	0.00000
+Mycolicibacterium gilvum	1804	S	17	2	19	0.00000
+Mycolicibacterium thermoresistibile	1797	S	16	2	18	0.00000
+Mycolicibacterium smegmatis	1772	S	15	1	16	0.00000
+Mycolicibacterium rhodesiae	36814	S	15	0	15	0.00000
+Mycolicibacterium chitae	1792	S	14	0	14	0.00000
+Mycolicibacterium goodii	134601	S	12	1	13	0.00000
+Mycolicibacterium vanbaalenii	110539	S	11	2	13	0.00000
+Mycolicibacter terrae	1788	S	29	0	29	0.00000
+Mycolicibacter sinensis	875328	S	21	0	21	0.00000
+Mycobacteroides abscessus	36809	S	15	2	17	0.00000
+Rhodococcus opacus	37919	S	12	27	39	0.00001
+Corynebacterium sphenisci	191493	S	12	15	27	0.00000
+Rothia mucilaginosa	43675	S	6301	167	6468	0.00109
+Rothia dentocariosa	2047	S	32	1	33	0.00001
+Rothia aeria	172042	S	23	1	24	0.00000
+Schaalia odontolytica	1660	S	853	22	875	0.00015
+Schaalia meyeri	52773	S	46	1	47	0.00001
+Actinomyces pacaensis	1852377	S	172	2	174	0.00003
+Actinomyces hongkongensis	178339	S	15	6	21	0.00000
+Streptomyces sp. ICC4	2099584	S	353	85	438	0.00007
+Streptomyces sp. ICC1	2099583	S	181	39	220	0.00004
+Streptomyces venezuelae	54571	S	14	0	14	0.00000
+Pseudopropionibacterium propionicum	1750	S	143	2	145	0.00002
+Cutibacterium acnes	1747	S	24	1	25	0.00000
+Nocardioides sp. SB3-45	2558918	S	10	1	11	0.00000
+Nocardioides dokdonensis	450734	S	11	2	13	0.00000
+Pseudonocardia sp. HH130630-07	1690815	S	12	13	25	0.00000
+Olsenella uli	133926	S	43	0	43	0.00001
+Olsenella sp. oral taxon 807	712411	S	40	0	40	0.00001
+Streptococcus sp. NPS 308	1902136	S	877	153	1030	0.00017
+Streptococcus sp. 1643	2576376	S	120	53	173	0.00003
+Streptococcus sp. ChDC B345	1433513	S	51	12	63	0.00001
+Streptococcus sp. oral taxon 064	712624	S	46	60	106	0.00002
+Streptococcus sp. 116-D4	2598453	S	45	5	50	0.00001
+Streptococcus sp. oral taxon 431	712633	S	38	2	40	0.00001
+Streptococcus oralis	1303	S	793	238	1031	0.00017
+Streptococcus mitis	28037	S	371	68	439	0.00007
+Streptococcus pneumoniae	1313	S	209	155	364	0.00006
+Streptococcus australis	113107	S	137	25	162	0.00003
+Streptococcus sanguinis	1305	S	104	3	107	0.00002
+Streptococcus gordonii	1302	S	60	2	62	0.00001
+Streptococcus pseudopneumoniae	257758	S	40	14	54	0.00001
+Streptococcus salivarius	1304	S	36	22	58	0.00001
+Streptococcus cristatus	45634	S	10	0	10	0.00000
+Staphylococcus epidermidis	1282	S	16	5	21	0.00000
+Staphylococcus aureus	1280	S	13	12	25	0.00000
+Veillonella dispar	39778	S	154	20	174	0.00003
+Veillonella parvula	29466	S	79	6	85	0.00001
+Veillonella atypica	39777	S	17	1	18	0.00000
+Sorangium cellulosum	56	S	13	50	63	0.00001
+Leptospira santarosai	28183	S	16	0	16	0.00000
+Homo sapiens	9606	S	11046	22	11068	0.00186

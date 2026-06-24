@@ -1,0 +1,18 @@
+[
+   {
+      "alleles" : {
+         "trpB" : "2",
+         "polB" : "26",
+         "icdA" : "3",
+         "dinB" : "5",
+         "putP" : "5",
+         "trpA" : "1",
+         "pabB" : "3",
+         "uidA" : "5"
+      },
+      "scheme" : "ecoli",
+      "sequence_type" : "58",
+      "filename" : "ecoli_test_1.fasta",
+      "id" : "ecoli_test_1.fasta"
+   }
+]

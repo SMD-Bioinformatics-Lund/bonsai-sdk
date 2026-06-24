@@ -1,0 +1,529 @@
+##fileformat=VCFv4.2
+##fileDate=20250627
+##source=freeBayes v1.3.6
+##reference=cmdtest1_240918_nb000000_0000_test_skesa.fasta
+##contig=<ID=Contig_1_46.7252,length=5963>
+##contig=<ID=Contig_2_34.1433,length=948>
+##contig=<ID=Contig_3_73.8594,length=26928>
+##contig=<ID=Contig_4_60.9997,length=3435>
+##contig=<ID=Contig_5_53.3224,length=2982>
+##contig=<ID=Contig_6_16.8813,length=1915>
+##contig=<ID=Contig_7_107.483,length=3352>
+##contig=<ID=Contig_8_102.093,length=6158>
+##contig=<ID=Contig_9_44.026,length=1557>
+##contig=<ID=Contig_10_90.6858,length=44006>
+##contig=<ID=Contig_11_45.9472,length=7295>
+##contig=<ID=Contig_12_22.5524,length=1785>
+##contig=<ID=Contig_13_64.8908,length=2521>
+##contig=<ID=Contig_14_70.9547,length=14464>
+##contig=<ID=Contig_15_92.2663,length=5877>
+##contig=<ID=Contig_16_137.49,length=50650>
+##contig=<ID=Contig_17_48.1878,length=8087>
+##contig=<ID=Contig_18_54.5299,length=9220>
+##contig=<ID=Contig_19_89.6584,length=19131>
+##contig=<ID=Contig_20_87.2755,length=49042>
+##contig=<ID=Contig_21_85.2825,length=13262>
+##contig=<ID=Contig_22_54.3733,length=1113>
+##contig=<ID=Contig_23_75.6695,length=9535>
+##contig=<ID=Contig_24_71.6194,length=9663>
+##contig=<ID=Contig_25_49.1273,length=6517>
+##contig=<ID=Contig_26_22.6951,length=1909>
+##contig=<ID=Contig_27_35.0605,length=8361>
+##contig=<ID=Contig_28_71.5001,length=16184>
+##contig=<ID=Contig_29_12.92,length=745>
+##contig=<ID=Contig_30_77.4469,length=17034>
+##contig=<ID=Contig_31_71.0636,length=1937>
+##contig=<ID=Contig_32_894.35,length=780>
+##contig=<ID=Contig_33_93.5301,length=71791>
+##contig=<ID=Contig_34_80.0696,length=9583>
+##contig=<ID=Contig_35_62.4264,length=7569>
+##contig=<ID=Contig_36_118.551,length=3286>
+##contig=<ID=Contig_37_70.4638,length=8692>
+##contig=<ID=Contig_38_70.6332,length=18719>
+##contig=<ID=Contig_39_88.5807,length=4511>
+##contig=<ID=Contig_40_34.8298,length=1683>
+##contig=<ID=Contig_41_65.9127,length=6150>
+##contig=<ID=Contig_42_7.30711,length=681>
+##contig=<ID=Contig_43_57.7119,length=18438>
+##contig=<ID=Contig_44_61.5624,length=5057>
+##contig=<ID=Contig_45_32.1251,length=1587>
+##contig=<ID=Contig_46_60.6385,length=6715>
+##contig=<ID=Contig_47_92.5842,length=7238>
+##contig=<ID=Contig_48_31.7617,length=2106>
+##contig=<ID=Contig_49_24.8913,length=1308>
+##contig=<ID=Contig_50_83.7068,length=2776>
+##contig=<ID=Contig_51_31.8475,length=10466>
+##contig=<ID=Contig_52_20.3707,length=1099>
+##contig=<ID=Contig_53_73.4663,length=35687>
+##contig=<ID=Contig_54_95.3305,length=29989>
+##contig=<ID=Contig_55_96.1974,length=8107>
+##contig=<ID=Contig_56_18.2645,length=1196>
+##contig=<ID=Contig_57_84.5277,length=1517>
+##contig=<ID=Contig_58_65.1119,length=16298>
+##contig=<ID=Contig_59_5.87961,length=535>
+##contig=<ID=Contig_60_82.6282,length=9792>
+##contig=<ID=Contig_61_92.9527,length=37703>
+##contig=<ID=Contig_62_1110.15,length=22006>
+##contig=<ID=Contig_63_80.8447,length=15576>
+##contig=<ID=Contig_64_136.568,length=3228>
+##contig=<ID=Contig_65_72.3063,length=4551>
+##contig=<ID=Contig_66_12655.9,length=381>
+##contig=<ID=Contig_67_74.0605,length=43290>
+##contig=<ID=Contig_68_88.4959,length=25253>
+##contig=<ID=Contig_69_108.452,length=5991>
+##contig=<ID=Contig_70_46.2796,length=1887>
+##contig=<ID=Contig_71_75.3066,length=22668>
+##contig=<ID=Contig_72_87.2201,length=53182>
+##contig=<ID=Contig_73_45.1661,length=3313>
+##contig=<ID=Contig_74_71.6174,length=8395>
+##contig=<ID=Contig_75_66.1549,length=19145>
+##contig=<ID=Contig_76_18.2768,length=3141>
+##contig=<ID=Contig_77_61.9603,length=15605>
+##contig=<ID=Contig_78_29.6333,length=2316>
+##contig=<ID=Contig_79_51.6502,length=1718>
+##contig=<ID=Contig_80_52.8743,length=7013>
+##contig=<ID=Contig_81_29.4299,length=1802>
+##contig=<ID=Contig_82_97.3116,length=15158>
+##contig=<ID=Contig_83_64.6399,length=7449>
+##contig=<ID=Contig_84_86.9045,length=11712>
+##contig=<ID=Contig_85_95.3842,length=4453>
+##contig=<ID=Contig_86_144.524,length=2662>
+##contig=<ID=Contig_87_111.865,length=11708>
+##contig=<ID=Contig_88_62.0379,length=7355>
+##contig=<ID=Contig_89_58.1612,length=13895>
+##contig=<ID=Contig_90_64.6751,length=23463>
+##contig=<ID=Contig_91_27.6557,length=2059>
+##contig=<ID=Contig_92_99.2941,length=37212>
+##contig=<ID=Contig_93_71.3449,length=4740>
+##contig=<ID=Contig_94_18.1042,length=1910>
+##contig=<ID=Contig_95_82.2125,length=25058>
+##contig=<ID=Contig_96_113.377,length=4685>
+##contig=<ID=Contig_97_56.3718,length=3987>
+##contig=<ID=Contig_98_63.8967,length=2537>
+##contig=<ID=Contig_99_4.3741,length=715>
+##contig=<ID=Contig_100_13.2105,length=381>
+##contig=<ID=Contig_101_56.0462,length=7624>
+##contig=<ID=Contig_102_62.4029,length=7207>
+##contig=<ID=Contig_103_76.2682,length=11934>
+##contig=<ID=Contig_104_31.7407,length=5856>
+##contig=<ID=Contig_105_71.2014,length=51631>
+##contig=<ID=Contig_106_107.377,length=4916>
+##contig=<ID=Contig_107_34.3746,length=2671>
+##contig=<ID=Contig_108_4041.19,length=3312>
+##contig=<ID=Contig_109_7.16071,length=748>
+##contig=<ID=Contig_110_82.7666,length=23478>
+##contig=<ID=Contig_111_63.5993,length=10799>
+##contig=<ID=Contig_112_1016.16,length=427>
+##contig=<ID=Contig_113_56.537,length=2774>
+##contig=<ID=Contig_114_52.3865,length=2310>
+##contig=<ID=Contig_115_12.2111,length=489>
+##contig=<ID=Contig_116_71.3843,length=8771>
+##contig=<ID=Contig_117_73.007,length=2308>
+##contig=<ID=Contig_118_79.19,length=12203>
+##contig=<ID=Contig_119_19.065,length=4082>
+##contig=<ID=Contig_120_63.8238,length=25787>
+##contig=<ID=Contig_121_48.1051,length=9714>
+##contig=<ID=Contig_122_67.1221,length=4534>
+##contig=<ID=Contig_123_7.08366,length=534>
+##contig=<ID=Contig_124_15.7082,length=2388>
+##contig=<ID=Contig_125_45.4985,length=7864>
+##contig=<ID=Contig_126_95.5028,length=4857>
+##contig=<ID=Contig_127_73.7336,length=1525>
+##contig=<ID=Contig_128_924.285,length=634>
+##contig=<ID=Contig_129_9.32853,length=644>
+##contig=<ID=Contig_130_65.5739,length=3658>
+##contig=<ID=Contig_131_26.8945,length=845>
+##contig=<ID=Contig_132_61.049,length=5812>
+##contig=<ID=Contig_133_55.0355,length=4053>
+##contig=<ID=Contig_134_127.106,length=35417>
+##contig=<ID=Contig_135_28.7713,length=1384>
+##contig=<ID=Contig_136_66.1966,length=44453>
+##contig=<ID=Contig_137_74.622,length=1684>
+##contig=<ID=Contig_138_77.1038,length=14356>
+##contig=<ID=Contig_139_21.2116,length=1159>
+##contig=<ID=Contig_140_28.6592,length=1138>
+##contig=<ID=Contig_141_51.7222,length=6888>
+##contig=<ID=Contig_142_52.7379,length=6696>
+##contig=<ID=Contig_143_12.1407,length=1768>
+##contig=<ID=Contig_144_45.2353,length=3888>
+##contig=<ID=Contig_145_77.0656,length=3147>
+##contig=<ID=Contig_146_5.36561,length=712>
+##contig=<ID=Contig_147_16.1653,length=2131>
+##contig=<ID=Contig_148_62.9289,length=9544>
+##contig=<ID=Contig_149_101.077,length=19206>
+##contig=<ID=Contig_150_88.6851,length=37768>
+##contig=<ID=Contig_151_12.0723,length=4240>
+##contig=<ID=Contig_152_20.2967,length=630>
+##contig=<ID=Contig_153_99.5058,length=13793>
+##contig=<ID=Contig_154_71.4936,length=18852>
+##contig=<ID=Contig_155_61.3533,length=10894>
+##contig=<ID=Contig_156_11.2053,length=507>
+##contig=<ID=Contig_157_66.0542,length=9340>
+##contig=<ID=Contig_158_60.0374,length=12579>
+##contig=<ID=Contig_159_57.6575,length=17619>
+##contig=<ID=Contig_160_40.5528,length=9162>
+##contig=<ID=Contig_161_24.3634,length=4010>
+##contig=<ID=Contig_162_78.3363,length=14618>
+##contig=<ID=Contig_163_16.971,length=1330>
+##contig=<ID=Contig_164_106.739,length=14965>
+##contig=<ID=Contig_165_10.9153,length=1012>
+##contig=<ID=Contig_166_89.9675,length=22015>
+##contig=<ID=Contig_167_92.6585,length=47673>
+##contig=<ID=Contig_168_67.7366,length=20699>
+##contig=<ID=Contig_169_85.298,length=8214>
+##contig=<ID=Contig_170_72.7793,length=8272>
+##contig=<ID=Contig_171_122.397,length=5746>
+##contig=<ID=Contig_172_19.4058,length=1262>
+##contig=<ID=Contig_173_9.21728,length=402>
+##contig=<ID=Contig_174_48.7497,length=6261>
+##contig=<ID=Contig_175_52.6647,length=2099>
+##contig=<ID=Contig_176_82.8781,length=5286>
+##contig=<ID=Contig_177_102.152,length=3185>
+##contig=<ID=Contig_178_12.8828,length=1351>
+##contig=<ID=Contig_179_915.45,length=646>
+##contig=<ID=Contig_180_50.5541,length=2682>
+##contig=<ID=Contig_181_5.52446,length=388>
+##contig=<ID=Contig_182_85.7969,length=14489>
+##contig=<ID=Contig_183_7.31897,length=716>
+##contig=<ID=Contig_184_43.2525,length=1596>
+##contig=<ID=Contig_185_800.089,length=490>
+##contig=<ID=Contig_186_84.0794,length=14103>
+##contig=<ID=Contig_187_45.65,length=360>
+##contig=<ID=Contig_188_24.538,length=1074>
+##contig=<ID=Contig_189_30.0644,length=1215>
+##contig=<ID=Contig_190_98.1876,length=24949>
+##contig=<ID=Contig_191_67.9005,length=9721>
+##contig=<ID=Contig_192_53.3172,length=5770>
+##contig=<ID=Contig_193_27.0291,length=879>
+##contig=<ID=Contig_194_4.80819,length=484>
+##contig=<ID=Contig_195_4.09509,length=346>
+##contig=<ID=Contig_196_65.7681,length=5053>
+##contig=<ID=Contig_197_5.24094,length=572>
+##contig=<ID=Contig_198_68.9048,length=18473>
+##contig=<ID=Contig_199_91.7385,length=31696>
+##contig=<ID=Contig_200_43.4718,length=1667>
+##contig=<ID=Contig_201_56.3064,length=3646>
+##contig=<ID=Contig_202_88.4354,length=35826>
+##contig=<ID=Contig_203_67.444,length=3678>
+##contig=<ID=Contig_204_25.4051,length=889>
+##contig=<ID=Contig_205_42.7977,length=4553>
+##contig=<ID=Contig_206_81.8773,length=6501>
+##contig=<ID=Contig_207_9.09179,length=739>
+##contig=<ID=Contig_208_124.141,length=8258>
+##contig=<ID=Contig_209_56.4682,length=1513>
+##contig=<ID=Contig_210_54.3801,length=10482>
+##contig=<ID=Contig_211_77.2087,length=50050>
+##contig=<ID=Contig_212_48.6708,length=4094>
+##contig=<ID=Contig_213_65.7525,length=6464>
+##contig=<ID=Contig_214_75.8455,length=6882>
+##contig=<ID=Contig_215_6.61528,length=779>
+##contig=<ID=Contig_216_57.0026,length=19166>
+##contig=<ID=Contig_217_52.2913,length=13092>
+##contig=<ID=Contig_218_83.6569,length=12992>
+##contig=<ID=Contig_219_7.64451,length=366>
+##contig=<ID=Contig_220_78.7399,length=6703>
+##contig=<ID=Contig_221_87.4998,length=10094>
+##contig=<ID=Contig_222_103.942,length=8821>
+##contig=<ID=Contig_223_54.1289,length=3572>
+##contig=<ID=Contig_224_83.2982,length=5792>
+##contig=<ID=Contig_225_44.3314,length=2594>
+##contig=<ID=Contig_226_110.323,length=6298>
+##contig=<ID=Contig_227_5.59271,length=651>
+##contig=<ID=Contig_228_40.5155,length=3029>
+##contig=<ID=Contig_229_71.3999,length=14607>
+##contig=<ID=Contig_230_81.77,length=4350>
+##contig=<ID=Contig_231_83.8477,length=11172>
+##contig=<ID=Contig_232_26.6926,length=1962>
+##contig=<ID=Contig_233_9.58678,length=1351>
+##contig=<ID=Contig_234_8.63285,length=434>
+##contig=<ID=Contig_235_11.1723,length=2760>
+##contig=<ID=Contig_236_54.1416,length=12354>
+##contig=<ID=Contig_237_29.3286,length=513>
+##contig=<ID=Contig_238_6.79715,length=651>
+##contig=<ID=Contig_239_108.823,length=1339>
+##contig=<ID=Contig_240_32.6314,length=4089>
+##contig=<ID=Contig_241_25.8924,length=4119>
+##contig=<ID=Contig_242_5.1127,length=508>
+##contig=<ID=Contig_243_18.5953,length=1038>
+##contig=<ID=Contig_244_14.7441,length=661>
+##contig=<ID=Contig_245_55.7799,length=2505>
+##contig=<ID=Contig_246_70.4244,length=5807>
+##contig=<ID=Contig_247_94.797,length=16235>
+##contig=<ID=Contig_248_46.3451,length=8042>
+##contig=<ID=Contig_249_36.9593,length=6454>
+##contig=<ID=Contig_250_11.1935,length=692>
+##contig=<ID=Contig_251_57.029,length=15488>
+##contig=<ID=Contig_252_41.4902,length=2578>
+##contig=<ID=Contig_253_17.3886,length=2053>
+##contig=<ID=Contig_254_47.8301,length=9335>
+##contig=<ID=Contig_255_59.9194,length=8877>
+##contig=<ID=Contig_256_10.8773,length=843>
+##contig=<ID=Contig_257_16.6848,length=350>
+##contig=<ID=Contig_258_11.4116,length=885>
+##contig=<ID=Contig_259_81.45,length=3373>
+##contig=<ID=Contig_260_28.5337,length=3033>
+##contig=<ID=Contig_261_121.104,length=4246>
+##contig=<ID=Contig_262_96.9436,length=11307>
+##contig=<ID=Contig_263_12.1937,length=495>
+##contig=<ID=Contig_264_9.54139,length=467>
+##contig=<ID=Contig_265_23.0668,length=769>
+##contig=<ID=Contig_266_56.1901,length=1414>
+##contig=<ID=Contig_267_72.5804,length=37980>
+##contig=<ID=Contig_268_34.0766,length=5399>
+##contig=<ID=Contig_269_71.1664,length=1444>
+##contig=<ID=Contig_270_55.5207,length=4888>
+##contig=<ID=Contig_271_68.2931,length=4953>
+##contig=<ID=Contig_272_80.6468,length=20071>
+##contig=<ID=Contig_273_10.4015,length=1462>
+##contig=<ID=Contig_274_84.6508,length=1790>
+##contig=<ID=Contig_275_77.8631,length=7594>
+##contig=<ID=Contig_276_82.8251,length=40521>
+##contig=<ID=Contig_277_68.6384,length=19585>
+##contig=<ID=Contig_278_16.5515,length=535>
+##contig=<ID=Contig_279_493.246,length=1307>
+##contig=<ID=Contig_280_83.0848,length=1825>
+##contig=<ID=Contig_281_33.5566,length=1628>
+##contig=<ID=Contig_282_60.5692,length=7192>
+##contig=<ID=Contig_283_111.781,length=11828>
+##contig=<ID=Contig_284_72.5108,length=4691>
+##contig=<ID=Contig_285_66.0127,length=7827>
+##contig=<ID=Contig_286_98.2145,length=51450>
+##contig=<ID=Contig_287_70.6047,length=16727>
+##contig=<ID=Contig_288_40.9389,length=5014>
+##contig=<ID=Contig_289_60.6619,length=8101>
+##contig=<ID=Contig_290_116.627,length=32134>
+##contig=<ID=Contig_291_5.91358,length=344>
+##contig=<ID=Contig_292_70.3614,length=16214>
+##contig=<ID=Contig_293_68.2548,length=11054>
+##contig=<ID=Contig_294_8.37838,length=1241>
+##contig=<ID=Contig_295_84.3074,length=3790>
+##contig=<ID=Contig_296_13.1467,length=1261>
+##contig=<ID=Contig_297_66.5496,length=5287>
+##contig=<ID=Contig_298_79.5514,length=16389>
+##contig=<ID=Contig_299_53.4564,length=1983>
+##contig=<ID=Contig_300_67.4825,length=6632>
+##contig=<ID=Contig_301_120.261,length=2542>
+##contig=<ID=Contig_302_34.3556,length=5444>
+##contig=<ID=Contig_303_22.4346,length=425>
+##contig=<ID=Contig_304_80.092,length=4022>
+##contig=<ID=Contig_305_50.6334,length=1204>
+##contig=<ID=Contig_306_76.0638,length=1336>
+##contig=<ID=Contig_307_12.0687,length=573>
+##contig=<ID=Contig_308_71.6492,length=13756>
+##contig=<ID=Contig_309_43.5963,length=3458>
+##contig=<ID=Contig_310_64.0955,length=6939>
+##phasing=none
+##commandline="freebayes -C 2 -F 0.2 --pooled-continuous -f cmdtest1_240918_nb000000_0000_test_skesa.fasta cmdtest1_240918_nb000000_0000_test_bwa.bam"
+##INFO=<ID=NS,Number=1,Type=Integer,Description="Number of samples with data">
+##INFO=<ID=DP,Number=1,Type=Integer,Description="Total read depth at the locus">
+##INFO=<ID=DPB,Number=1,Type=Float,Description="Total read depth per bp at the locus; bases in reads overlapping / bases in haplotype">
+##INFO=<ID=AC,Number=A,Type=Integer,Description="Total number of alternate alleles in called genotypes">
+##INFO=<ID=AN,Number=1,Type=Integer,Description="Total number of alleles in called genotypes">
+##INFO=<ID=AF,Number=A,Type=Float,Description="Estimated allele frequency in the range (0,1]">
+##INFO=<ID=RO,Number=1,Type=Integer,Description="Count of full observations of the reference haplotype.">
+##INFO=<ID=AO,Number=A,Type=Integer,Description="Count of full observations of this alternate haplotype.">
+##INFO=<ID=PRO,Number=1,Type=Float,Description="Reference allele observation count, with partial observations recorded fractionally">
+##INFO=<ID=PAO,Number=A,Type=Float,Description="Alternate allele observations, with partial observations recorded fractionally">
+##INFO=<ID=QR,Number=1,Type=Integer,Description="Reference allele quality sum in phred">
+##INFO=<ID=QA,Number=A,Type=Integer,Description="Alternate allele quality sum in phred">
+##INFO=<ID=PQR,Number=1,Type=Float,Description="Reference allele quality sum in phred for partial observations">
+##INFO=<ID=PQA,Number=A,Type=Float,Description="Alternate allele quality sum in phred for partial observations">
+##INFO=<ID=SRF,Number=1,Type=Integer,Description="Number of reference observations on the forward strand">
+##INFO=<ID=SRR,Number=1,Type=Integer,Description="Number of reference observations on the reverse strand">
+##INFO=<ID=SAF,Number=A,Type=Integer,Description="Number of alternate observations on the forward strand">
+##INFO=<ID=SAR,Number=A,Type=Integer,Description="Number of alternate observations on the reverse strand">
+##INFO=<ID=SRP,Number=1,Type=Float,Description="Strand balance probability for the reference allele: Phred-scaled upper-bounds estimate of the probability of observing the deviation between SRF and SRR given E(SRF/SRR) ~ 0.5, derived using Hoeffding's inequality">
+##INFO=<ID=SAP,Number=A,Type=Float,Description="Strand balance probability for the alternate allele: Phred-scaled upper-bounds estimate of the probability of observing the deviation between SAF and SAR given E(SAF/SAR) ~ 0.5, derived using Hoeffding's inequality">
+##INFO=<ID=AB,Number=A,Type=Float,Description="Allele balance at heterozygous sites: a number between 0 and 1 representing the ratio of reads showing the reference allele to all reads, considering only reads from individuals called as heterozygous">
+##INFO=<ID=ABP,Number=A,Type=Float,Description="Allele balance probability at heterozygous sites: Phred-scaled upper-bounds estimate of the probability of observing the deviation between ABR and ABA given E(ABR/ABA) ~ 0.5, derived using Hoeffding's inequality">
+##INFO=<ID=RUN,Number=A,Type=Integer,Description="Run length: the number of consecutive repeats of the alternate allele in the reference genome">
+##INFO=<ID=RPP,Number=A,Type=Float,Description="Read Placement Probability: Phred-scaled upper-bounds estimate of the probability of observing the deviation between RPL and RPR given E(RPL/RPR) ~ 0.5, derived using Hoeffding's inequality">
+##INFO=<ID=RPPR,Number=1,Type=Float,Description="Read Placement Probability for reference observations: Phred-scaled upper-bounds estimate of the probability of observing the deviation between RPL and RPR given E(RPL/RPR) ~ 0.5, derived using Hoeffding's inequality">
+##INFO=<ID=RPL,Number=A,Type=Float,Description="Reads Placed Left: number of reads supporting the alternate balanced to the left (5') of the alternate allele">
+##INFO=<ID=RPR,Number=A,Type=Float,Description="Reads Placed Right: number of reads supporting the alternate balanced to the right (3') of the alternate allele">
+##INFO=<ID=EPP,Number=A,Type=Float,Description="End Placement Probability: Phred-scaled upper-bounds estimate of the probability of observing the deviation between EL and ER given E(EL/ER) ~ 0.5, derived using Hoeffding's inequality">
+##INFO=<ID=EPPR,Number=1,Type=Float,Description="End Placement Probability for reference observations: Phred-scaled upper-bounds estimate of the probability of observing the deviation between EL and ER given E(EL/ER) ~ 0.5, derived using Hoeffding's inequality">
+##INFO=<ID=DPRA,Number=A,Type=Float,Description="Alternate allele depth ratio.  Ratio between depth in samples with each called alternate allele and those without.">
+##INFO=<ID=ODDS,Number=1,Type=Float,Description="The log odds ratio of the best genotype combination to the second-best.">
+##INFO=<ID=GTI,Number=1,Type=Integer,Description="Number of genotyping iterations required to reach convergence or bailout.">
+##INFO=<ID=TYPE,Number=A,Type=String,Description="The type of allele, either snp, mnp, ins, del, or complex.">
+##INFO=<ID=CIGAR,Number=A,Type=String,Description="The extended CIGAR representation of each alternate allele, with the exception that '=' is replaced by 'M' to ease VCF parsing.  Note that INDEL alleles do not have the first matched base (which is provided by default, per the spec) referred to by the CIGAR.">
+##INFO=<ID=NUMALT,Number=1,Type=Integer,Description="Number of unique non-reference alleles in called genotypes at this position.">
+##INFO=<ID=MEANALT,Number=A,Type=Float,Description="Mean number of unique non-reference allele observations per sample with the corresponding alternate alleles.">
+##INFO=<ID=LEN,Number=A,Type=Integer,Description="allele length">
+##INFO=<ID=MQM,Number=A,Type=Float,Description="Mean mapping quality of observed alternate alleles">
+##INFO=<ID=MQMR,Number=1,Type=Float,Description="Mean mapping quality of observed reference alleles">
+##INFO=<ID=PAIRED,Number=A,Type=Float,Description="Proportion of observed alternate alleles which are supported by properly paired read fragments">
+##INFO=<ID=PAIREDR,Number=1,Type=Float,Description="Proportion of observed reference alleles which are supported by properly paired read fragments">
+##INFO=<ID=MIN_DP,Number=1,Type=Integer,Description="Minimum depth in gVCF output block.">
+##INFO=<ID=END,Number=1,Type=Integer,Description="Last position (inclusive) in gVCF output record.">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=GQ,Number=1,Type=Float,Description="Genotype Quality, the Phred-scaled marginal (or unconditional) probability of the called genotype">
+##FORMAT=<ID=GL,Number=G,Type=Float,Description="Genotype Likelihood, log10-scaled likelihoods of the data given the called genotype for each possible genotype generated from the reference and alternate alleles given the sample ploidy">
+##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Read Depth">
+##FORMAT=<ID=AD,Number=R,Type=Integer,Description="Number of observation for each allele">
+##FORMAT=<ID=RO,Number=1,Type=Integer,Description="Reference allele observation count">
+##FORMAT=<ID=QR,Number=1,Type=Integer,Description="Sum of quality of the reference observations">
+##FORMAT=<ID=AO,Number=A,Type=Integer,Description="Alternate allele observation count">
+##FORMAT=<ID=QA,Number=A,Type=Integer,Description="Sum of quality of the alternate observations">
+##FORMAT=<ID=MIN_DP,Number=1,Type=Integer,Description="Minimum depth in gVCF output block.">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	unknown
+Contig_5_53.3224	2832	.	T	A	0.110538	.	AB=0.2;ABP=10.8276;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=10;DPB=10;DPRA=0;EPP=7.35324;EPPR=3.0103;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=3.65819;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=63;QR=289;RO=8;RPL=1;RPP=3.0103;RPPR=4.09604;RPR=1;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=3;SRP=4.09604;SRR=5;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:10:8,2:8:289:2:63:-2.97247,0,-23.3462
+Contig_7_107.483	2312	.	G	A	592.81	.	AB=0.350515;ABP=21.8372;AC=1;AF=0.5;AN=2;AO=34;CIGAR=1X;DP=97;DPB=97;DPRA=0;EPP=7.09778;EPPR=4.69922;GTI=0;LEN=1;MEANALT=1;MQM=57.2941;MQMR=60;NS=1;NUMALT=1;ODDS=136.499;PAIRED=0.558824;PAIREDR=0.984127;PAO=0;PQA=0;PQR=0;PRO=0;QA=1189;QR=2128;RO=63;RPL=0;RPP=76.8404;RPPR=12.9715;RPR=34;RUN=1;SAF=21;SAP=7.09778;SAR=13;SRF=37;SRP=7.18091;SRR=26;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:97:63,34:63:2128:34:1189:-77.0351,0,-162.56
+Contig_7_107.483	2419	.	CAAATGAC	CAGTTTT	1290.28	.	AB=0.376543;ABP=24.4569;AC=1;AF=0.5;AN=2;AO=61;CIGAR=1M1D1M1X1M3X;DP=162;DPB=154.25;DPRA=0;EPP=25.259;EPPR=3.03269;GTI=0;LEN=7;MEANALT=5;MQM=55.8852;MQMR=60;NS=1;NUMALT=1;ODDS=297.098;PAIRED=0.557377;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=2181;QR=3486;RO=97;RPL=15;RPP=37.2199;RPPR=19.3299;RPR=46;RUN=1;SAF=40;SAP=15.8611;SAR=21;SRF=47;SRP=3.21178;SRR=50;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/1:162:97,61:97:3486:61:2181:-144.048,0,-266.232
+Contig_7_107.483	2518	.	G	C	784.977	.	AB=0.342466;ABP=34.4818;AC=1;AF=0.5;AN=2;AO=50;CIGAR=1X;DP=146;DPB=146;DPRA=0;EPP=28.0257;EPPR=6.26751;GTI=0;LEN=1;MEANALT=1;MQM=56.82;MQMR=60;NS=1;NUMALT=1;ODDS=180.748;PAIRED=0.46;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=1700;QR=3344;RO=96;RPL=49;RPP=103.072;RPPR=16.0391;RPR=1;RUN=1;SAF=36;SAP=24.0302;SAR=14;SRF=48;SRP=3.0103;SRR=48;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:146:96,50:96:3344:50:1700:-104.791,0,-257.185
+Contig_7_107.483	2523	.	A	T	751.013	.	AB=0.338028;ABP=35.3683;AC=1;AF=0.5;AN=2;AO=48;CIGAR=1X;DP=142;DPB=142;DPRA=0;EPP=24.906;EPPR=5.83555;GTI=0;LEN=1;MEANALT=2;MQM=56.6875;MQMR=60;NS=1;NUMALT=1;ODDS=172.927;PAIRED=0.4375;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=1650;QR=3156;RO=93;RPL=48;RPP=107.241;RPPR=15.362;RPR=0;RUN=1;SAF=35;SAP=24.906;SAR=13;SRF=47;SRP=3.03365;SRR=46;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:142:93,48:93:3156:48:1650:-102.203,0,-241.674
+Contig_7_107.483	3214	.	CAAAAAACG	CAAAAACG	579.173	.	AB=0.307018;ABP=39.8872;AC=1;AF=0.5;AN=2;AO=35;CIGAR=1M1D7M;DP=114;DPB=110;DPRA=0;EPP=4.56135;EPPR=9.52472;GTI=0;LEN=1;MEANALT=5;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=133.359;PAIRED=0.742857;PAIREDR=0.706667;PAO=0;PQA=0;PQR=0;PRO=0;QA=1221;QR=2671;RO=75;RPL=0;RPP=79.0118;RPPR=42.6469;RPR=35;RUN=1;SAF=20;SAP=4.56135;SAR=15;SRF=44;SRP=7.90335;SRR=31;TYPE=del	GT:DP:AD:RO:QR:AO:QA:GL	0/1:114:75,35:75:2671:35:1221:-76.8234,0,-207.265
+Contig_8_102.093	3691	.	C	T	131.955	.	AB=0.318966;ABP=36.0317;AC=1;AF=0.5;AN=2;AO=37;CIGAR=1X;DP=116;DPB=116;DPRA=0;EPP=34.0565;EPPR=5.23675;GTI=0;LEN=1;MEANALT=1;MQM=57.8108;MQMR=60;NS=1;NUMALT=1;ODDS=30.3838;PAIRED=0.972973;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=689;QR=1818;RO=79;RPL=22;RPP=5.88603;RPPR=7.6556;RPR=15;RUN=1;SAF=25;SAP=12.9286;SAR=12;SRF=55;SRP=29.4253;SRR=24;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:116:79,37:79:1818:37:689:-26.8372,0,-128.886
+Contig_8_102.093	3931	.	A	G	7.28675e-14	.	AB=0.214815;ABP=98.3782;AC=1;AF=0.5;AN=2;AO=29;CIGAR=1X;DP=135;DPB=135;DPRA=0;EPP=42.621;EPPR=31.7269;GTI=0;LEN=1;MEANALT=3;MQM=59.7586;MQMR=59.5918;NS=1;NUMALT=1;ODDS=34.9096;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=474;QR=2799;RO=98;RPL=12;RPP=4.88226;RPPR=5.22609;RPR=17;RUN=1;SAF=9;SAP=12.0706;SAR=20;SRF=49;SRP=3.0103;SRR=49;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:135:98,29:98:2799:29:474:-4.42278,0,-213.102
+Contig_8_102.093	4033	.	C	T	2.78128	.	AB=0.242424;ABP=79.0776;AC=1;AF=0.5;AN=2;AO=32;CIGAR=1X;DP=132;DPB=132;DPRA=0;EPP=24.9965;EPPR=13.0905;GTI=0;LEN=1;MEANALT=3;MQM=60;MQMR=59.9789;NS=1;NUMALT=1;ODDS=0.108402;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=605;QR=2714;RO=95;RPL=16;RPP=3.0103;RPPR=8.15326;RPR=16;RUN=1;SAF=9;SAP=16.3106;SAR=23;SRF=53;SRP=5.77607;SRR=42;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:132:95,32:95:2714:32:605:-16.284,0,-206.087
+Contig_13_64.8908	1482	.	C	T	151.328	.	AB=0.25;ABP=29.068;AC=1;AF=0.5;AN=2;AO=12;CIGAR=1X;DP=48;DPB=48;DPRA=0;EPP=3.0103;EPPR=3.25157;GTI=0;LEN=1;MEANALT=1;MQM=55.3333;MQMR=60;NS=1;NUMALT=1;ODDS=34.8445;PAIRED=0.833333;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=442;QR=1354;RO=36;RPL=6;RPP=3.0103;RPPR=32.2045;RPR=6;RUN=1;SAF=6;SAP=3.0103;SAR=6;SRF=18;SRP=3.0103;SRR=18;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:48:36,12:36:1354:12:442:-22.6792,0,-107.704
+Contig_13_64.8908	1539	.	T	C	188.392	.	AB=0.47619;ABP=3.1137;AC=1;AF=0.5;AN=2;AO=10;CIGAR=1X;DP=21;DPB=21;DPRA=0;EPP=6.48466;EPPR=3.20771;GTI=0;LEN=1;MEANALT=1;MQM=50.8;MQMR=60;NS=1;NUMALT=1;ODDS=43.3789;PAIRED=0.8;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=359;QR=404;RO=11;RPL=2;RPP=10.8276;RPPR=3.20771;RPR=8;RUN=1;SAF=5;SAP=3.0103;SAR=5;SRF=6;SRP=3.20771;SRR=5;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:21:11,10:11:404:10:359:-24.5105,0,-30.3829
+Contig_13_64.8908	1573	.	T	A	197.836	.	AB=0.47619;ABP=3.1137;AC=1;AF=0.5;AN=2;AO=10;CIGAR=1X;DP=21;DPB=21;DPRA=0;EPP=3.87889;EPPR=3.20771;GTI=0;LEN=1;MEANALT=1;MQM=50.8;MQMR=60;NS=1;NUMALT=1;ODDS=45.5534;PAIRED=0.8;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=378;QR=392;RO=11;RPL=3;RPP=6.48466;RPPR=12.6832;RPR=7;RUN=1;SAF=5;SAP=3.0103;SAR=5;SRF=6;SRP=3.20771;SRR=5;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:21:11,10:11:392:10:378:-24.7859,0,-29.2948
+Contig_13_64.8908	1583	.	CGTCCCACCCAACT	TGTACCACCCCAACT	182.389	.	AB=0.454545;ABP=3.40511;AC=1;AF=0.5;AN=2;AO=10;CIGAR=1X2M1X3M1I7M;DP=22;DPB=22.7143;DPRA=0;EPP=3.0103;EPPR=3.0103;GTI=0;LEN=15;MEANALT=1;MQM=50.8;MQMR=60;NS=1;NUMALT=1;ODDS=41.9966;PAIRED=0.8;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=329;QR=407;RO=12;RPL=6;RPP=3.87889;RPPR=14.5915;RPR=4;RUN=1;SAF=5;SAP=3.0103;SAR=5;SRF=6;SRP=3.0103;SRR=6;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/1:22:12,10:12:407:10:329:-22.9567,0,-30.3289
+Contig_13_64.8908	1607	.	T	C	134.267	.	AB=0.322581;ABP=11.486;AC=1;AF=0.5;AN=2;AO=10;CIGAR=1X;DP=31;DPB=31;DPRA=0;EPP=3.0103;EPPR=3.1137;GTI=0;LEN=1;MEANALT=1;MQM=50.8;MQMR=60;NS=1;NUMALT=1;ODDS=30.916;PAIRED=0.8;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=355;QR=749;RO=21;RPL=8;RPP=10.8276;RPPR=20.4855;RPR=2;RUN=1;SAF=5;SAP=3.0103;SAR=5;SRF=11;SRP=3.1137;SRR=10;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:31:21,10:21:749:10:355:-19.6866,0,-58.3931
+Contig_13_64.8908	1620	.	TCCGCC	ATCGTA	83.2035	.	AB=0.285714;ABP=14.1779;AC=1;AF=0.5;AN=2;AO=8;CIGAR=2X2M2X;DP=28;DPB=28;DPRA=0;EPP=4.09604;EPPR=3.12459;GTI=0;LEN=6;MEANALT=2;MQM=48.5;MQMR=60;NS=1;NUMALT=1;ODDS=19.1583;PAIRED=0.875;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=300;QR=666;RO=19;RPL=8;RPP=20.3821;RPPR=22.325;RPR=0;RUN=1;SAF=3;SAP=4.09604;SAR=5;SRF=11;SRP=4.03889;SRR=8;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/1:28:19,8:19:666:8:300:-15.8301,0,-51.9232
+Contig_13_64.8908	1633	.	A	G	69.7956	.	AB=0.275862;ABP=15.6647;AC=1;AF=0.5;AN=2;AO=8;CIGAR=1X;DP=29;DPB=29;DPRA=0;EPP=4.09604;EPPR=3.1137;GTI=0;LEN=1;MEANALT=1;MQM=48.5;MQMR=60;NS=1;NUMALT=1;ODDS=16.071;PAIRED=0.875;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=294;QR=769;RO=21;RPL=8;RPP=20.3821;RPPR=15.5221;RPR=0;RUN=1;SAF=3;SAP=4.09604;SAR=5;SRF=12;SRP=3.94093;SRR=9;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:29:21,8:21:769:8:294:-14.8051,0,-60.8025
+Contig_13_64.8908	1644	.	CCG	CACA	83.5349	.	AB=0.296296;ABP=12.7417;AC=1;AF=0.5;AN=2;AO=8;CIGAR=1M1I1M1X;DP=27;DPB=29.6667;DPRA=0;EPP=4.09604;EPPR=3.12459;GTI=0;LEN=4;MEANALT=1;MQM=48.5;MQMR=60;NS=1;NUMALT=1;ODDS=19.2346;PAIRED=0.875;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=299;QR=679;RO=19;RPL=8;RPP=20.3821;RPPR=12.2676;RPR=0;RUN=1;SAF=3;SAP=4.09604;SAR=5;SRF=11;SRP=4.03889;SRR=8;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/1:27:19,8:19:679:8:299:-15.8633,0,-53.3066
+Contig_13_64.8908	1655	.	T	C	60.39	.	AB=0.258065;ABP=18.771;AC=1;AF=0.5;AN=2;AO=8;CIGAR=1X;DP=31;DPB=31;DPRA=0;EPP=4.09604;EPPR=3.10471;GTI=0;LEN=1;MEANALT=1;MQM=48.5;MQMR=60;NS=1;NUMALT=1;ODDS=13.9053;PAIRED=0.875;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=294;QR=828;RO=23;RPL=8;RPP=20.3821;RPPR=18.9659;RPR=0;RUN=1;SAF=3;SAP=4.09604;SAR=5;SRF=13;SRP=3.86001;SRR=10;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:31:23,8:23:828:8:294:-14.2023,0,-65.5051
+Contig_13_64.8908	1690	.	G	T	39.7724	.	AB=0.222222;ABP=27.1378;AC=1;AF=0.5;AN=2;AO=8;CIGAR=1X;DP=36;DPB=36;DPRA=0;EPP=4.09604;EPPR=3.32051;GTI=0;LEN=1;MEANALT=1;MQM=48.5;MQMR=59.0714;NS=1;NUMALT=1;ODDS=9.15782;PAIRED=0.875;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=298;QR=1012;RO=28;RPL=8;RPP=20.3821;RPPR=18.2106;RPR=0;RUN=1;SAF=3;SAP=4.09604;SAR=5;SRF=16;SRP=4.25114;SRR=12;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:36:28,8:28:1012:8:298:-13.0617,0,-80.4571
+Contig_28_71.5001	5200	.	T	A	37.3156	.	AB=0.6;ABP=3.44459;AC=1;AF=0.5;AN=2;AO=3;CIGAR=1X;DP=5;DPB=5;DPRA=0;EPP=9.52472;EPPR=7.35324;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=4.60607;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=112;QR=76;RO=2;RPL=0;RPP=9.52472;RPPR=3.0103;RPR=3;RUN=1;SAF=3;SAP=9.52472;SAR=0;SRF=1;SRP=3.0103;SRR=1;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:5:2,3:2:76:3:112:-8.94158,0,-5.70966
+Contig_28_71.5001	14045	.	A	G	3.28861	.	AB=0.222222;ABP=9.04217;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=9;DPB=9;DPRA=0;EPP=3.0103;EPPR=5.80219;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=0.124307;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=75;QR=260;RO=7;RPL=2;RPP=7.35324;RPPR=5.80219;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=3;SRP=3.32051;SRR=4;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:9:7,2:7:260:2:75:-4.41107,0,-21.0475
+Contig_33_93.5301	47372	.	A	T	1.08773	.	AB=0.2;ABP=10.8276;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=10;DPB=10;DPRA=0;EPP=3.0103;EPPR=4.09604;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=1.25661;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=74;QR=276;RO=8;RPL=0;RPP=7.35324;RPPR=3.0103;RPR=2;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=5;SRP=4.09604;SRR=3;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:10:8,2:8:276:2:74:-4.01547,0,-22.1625
+Contig_33_93.5301	71078	.	A	G	1.45187	.	AB=0.25;ABP=7.35324;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=8;DPB=8;DPRA=0;EPP=3.0103;EPPR=4.45795;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=0.923896;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=65;QR=227;RO=6;RPL=0;RPP=7.35324;RPPR=16.0391;RPR=2;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=2;SRP=4.45795;SRR=4;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:8:6,2:6:227:2:65:-3.76396,0,-18.3856
+Contig_35_62.4264	4198	.	C	T	1426.4	.	AB=0.52459;ABP=3.65106;AC=1;AF=0.5;AN=2;AO=64;CIGAR=1X;DP=122;DPB=122;DPRA=0;EPP=25.9465;EPPR=8.40154;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=285.88;PAIRED=0.96875;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=2290;QR=1945;RO=58;RPL=63;RPP=133.434;RPPR=69.053;RPR=1;RUN=1;SAF=20;SAP=22.5536;SAR=44;SRF=23;SRP=8.40154;SRR=35;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:122:58,64:58:1945:64:2290:-169.604,0,-138.57
+Contig_35_62.4264	4210	.	T	C	1110.65	.	AB=0.515789;ABP=3.21602;AC=1;AF=0.5;AN=2;AO=49;CIGAR=1X;DP=95;DPB=95;DPRA=0;EPP=26.4533;EPPR=6.03148;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=255.737;PAIRED=0.959184;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=1798;QR=1684;RO=46;RPL=48;RPP=100.904;RPPR=45.4956;RPR=1;RUN=1;SAF=14;SAP=22.5536;SAR=35;SRF=19;SRP=6.03148;SRR=27;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:95:46,49:46:1684:49:1798:-133.486,0,-123.232
+Contig_35_62.4264	4558	.	T	C	8.12649	.	AB=0.285714;ABP=5.80219;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=7;DPB=7;DPRA=0;EPP=3.0103;EPPR=3.44459;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=1.70403;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=72;QR=189;RO=5;RPL=0;RPP=7.35324;RPPR=6.91895;RPR=2;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=2;SRP=3.44459;SRR=3;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:7:5,2:5:189:2:72:-4.72916,0,-15.2687
+Contig_37_70.4638	8473	.	G	A	1.58317	.	AB=0.2;ABP=10.8276;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=10;DPB=10;DPRA=0;EPP=3.0103;EPPR=4.09604;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=0.821324;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=76;QR=297;RO=8;RPL=2;RPP=7.35324;RPPR=4.09604;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=4;SRP=3.0103;SRR=4;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:10:8,2:8:297:2:76:-4.20451,0,-24.0734
+Contig_38_70.6332	3292	.	G	T	130.42	.	AB=0.277778;ABP=18.4519;AC=1;AF=0.5;AN=2;AO=10;CIGAR=1X;DP=36;DPB=36;DPRA=0;EPP=3.0103;EPPR=4.34659;GTI=0;LEN=1;MEANALT=1;MQM=53.2;MQMR=60;NS=1;NUMALT=1;ODDS=30.0304;PAIRED=0.8;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=367;QR=970;RO=26;RPL=10;RPP=24.725;RPPR=8.35546;RPR=0;RUN=1;SAF=5;SAP=3.0103;SAR=5;SRF=12;SRP=3.34437;SRR=14;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:36:26,10:26:970:10:367:-21.7021,0,-76.7792
+Contig_49_24.8913	1267	.	C	T	11.5035	.	AB=0.285714;ABP=5.80219;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=7;DPB=7;DPRA=0;EPP=3.0103;EPPR=3.44459;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=2.57542;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=76;QR=190;RO=5;RPL=2;RPP=7.35324;RPPR=13.8677;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=2;SRP=3.44459;SRR=3;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:7:5,2:5:190:2:76:-5.1076,0,-15.3602
+Contig_50_83.7068	48	.	GACG	AACA,GACA	551.227	.	AB=0.257576,0.409091;ABP=36.701,7.74806;AC=0,1;AF=0,0.5;AN=2;AO=17,27;CIGAR=1X2M1X,3M1X;DP=66;DPB=67.25;DPRA=0,0;EPP=4.1599,3.73412;EPPR=5.59539;GTI=0;LEN=4,1;MEANALT=3,3;MQM=58.8824,60;MQMR=58.4286;NS=1;NUMALT=2;ODDS=13.3961;PAIRED=0.764706,0.925926;PAIREDR=0.904762;PAO=2.5,2.5;PQA=73.5,73.5;PQR=0;PRO=0;QA=567,918;QR=643;RO=21;RPL=0,0;RPP=39.9253,61.6401;RPPR=40.3389;RPR=17,27;RUN=1,1;SAF=7,12;SAP=4.1599,3.73412;SAR=10,15;SRF=9;SRP=3.94093;SRR=12;TYPE=complex,snp	GT:DP:AD:RO:QR:AO:QA:GL	0/2:66:21,17,27:21:643:17,27:567,918:-68.1266,-28.5669,-74.9473,0,-5.60105,-43.3674
+Contig_50_83.7068	111	.	A	G	1998.44	.	AB=0.614815;ABP=18.468;AC=1;AF=0.5;AN=2;AO=83;CIGAR=1X;DP=135;DPB=135;DPRA=0;EPP=7.43173;EPPR=3.17734;GTI=0;LEN=1;MEANALT=1;MQM=59.253;MQMR=60;NS=1;NUMALT=1;ODDS=225.663;PAIRED=0.855422;PAIREDR=0.942308;PAO=0;PQA=0;PQR=0;PRO=0;QA=2850;QR=1751;RO=52;RPL=68;RPP=76.5003;RPPR=99.2232;RPR=15;RUN=1;SAF=40;SAP=3.24576;SAR=43;SRF=27;SRP=3.17734;SRR=25;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:135:52,83:52:1751:83:2850:-216.036,0,-117.196
+Contig_50_83.7068	126	.	AG	GA	1841.64	.	AB=0.597015;ABP=13.9649;AC=1;AF=0.5;AN=2;AO=80;CIGAR=2X;DP=134;DPB=134;DPRA=0;EPP=3.11887;EPPR=3.05127;GTI=0;LEN=2;MEANALT=2;MQM=59.225;MQMR=60;NS=1;NUMALT=1;ODDS=249.213;PAIRED=0.8375;PAIREDR=0.962264;PAO=0;PQA=0;PQR=0;PRO=0;QA=2830;QR=1821;RO=53;RPL=80;RPP=176.728;RPPR=78.766;RPR=0;RUN=1;SAF=39;SAP=3.11887;SAR=41;SRF=26;SRP=3.05127;SRR=27;TYPE=mnp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:134:53,80:53:1821:80:2830:-214.72,0,-124.011
+Contig_53_73.4663	22546	.	AATATATAG	AATATATATAG	0.0194519	.	AB=0.2;ABP=10.8276;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1M2I8M;DP=10;DPB=10.4444;DPRA=0;EPP=3.0103;EPPR=4.09604;GTI=0;LEN=2;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=5.40613;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=55;QR=278;RO=8;RPL=2;RPP=7.35324;RPPR=4.09604;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=6;SRP=7.35324;SRR=2;TYPE=ins	GT:DP:AD:RO:QR:AO:QA:GL	0/1:10:8,2:8:278:2:55:-2.21336,0,-22.3461
+Contig_61_92.9527	18599	.	A	G	0.000127707	.	AB=0.2;ABP=10.8276;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=10;DPB=10;DPRA=0;EPP=3.0103;EPPR=7.35324;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=10.4343;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=32;QR=302;RO=8;RPL=0;RPP=7.35324;RPPR=4.09604;RPR=2;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=3;SRP=4.09604;SRR=5;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:10:8,2:8:302:2:32:-0.0296438,0,-24.5282
+Contig_64_136.568	2452	.	T	C	24.0789	.	AB=0.291262;ABP=41.9914;AC=1;AF=0.5;AN=2;AO=30;CIGAR=1X;DP=103;DPB=103;DPRA=0;EPP=10.2485;EPPR=3.0103;GTI=0;LEN=1;MEANALT=2;MQM=57.8667;MQMR=60;NS=1;NUMALT=1;ODDS=5.54045;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=469;QR=1804;RO=64;RPL=16;RPP=3.29983;RPPR=3.55317;RPR=14;RUN=1;SAF=24;SAP=26.4622;SAR=6;SRF=24;SRP=11.6962;SRR=40;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:103:64,30:64:1804:30:469:-13.8724,0,-134.117
+Contig_64_136.568	2500	.	G	A	0.000955498	.	AB=0.255102;ABP=54.0621;AC=1;AF=0.5;AN=2;AO=25;CIGAR=1X;DP=98;DPB=98;DPRA=0;EPP=41.3151;EPPR=34.7758;GTI=0;LEN=1;MEANALT=3;MQM=58.96;MQMR=59.4143;NS=1;NUMALT=1;ODDS=8.42172;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=439;QR=2013;RO=70;RPL=12;RPP=3.09716;RPPR=3.0103;RPR=13;RUN=1;SAF=14;SAP=3.79203;SAR=11;SRF=32;SRP=4.12706;SRR=38;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:98:70,25:70:2013:25:439:-10.9303,0,-150.931
+Contig_64_136.568	2530	.	G	A	0.195327	.	AB=0.264151;ABP=54.2243;AC=1;AF=0.5;AN=2;AO=28;CIGAR=1X;DP=106;DPB=106;DPRA=0;EPP=28.1373;EPPR=28.0269;GTI=0;LEN=1;MEANALT=3;MQM=56.3929;MQMR=59.9589;NS=1;NUMALT=1;ODDS=3.07906;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=468;QR=1945;RO=73;RPL=15;RPP=3.32051;RPPR=3.27802;RPR=13;RUN=1;SAF=14;SAP=3.0103;SAR=14;SRF=34;SRP=3.75395;SRR=39;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:106:73,28:73:1945:28:468:-11.3443,0,-144.684
+Contig_64_136.568	2541	.	A	G	3.53644e-11	.	AB=0.220183;ABP=77.1392;AC=1;AF=0.5;AN=2;AO=24;CIGAR=1X;DP=109;DPB=109;DPRA=0;EPP=6.26751;EPPR=15.4469;GTI=0;LEN=1;MEANALT=3;MQM=55.7917;MQMR=59.2597;NS=1;NUMALT=1;ODDS=25.5348;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=410;QR=1973;RO=77;RPL=11;RPP=3.37221;RPPR=3.26411;RPR=13;RUN=1;SAF=2;SAP=39.2015;SAR=22;SRF=43;SRP=5.29458;SRR=34;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:109:77,24:77:1973:24:410:-5.01422,0,-146.686
+Contig_64_136.568	2554	.	T	A	0.00206178	.	AB=0.242991;ABP=64.4001;AC=1;AF=0.5;AN=2;AO=26;CIGAR=1X;DP=107;DPB=107;DPRA=0;EPP=19.3799;EPPR=26.0162;GTI=0;LEN=1;MEANALT=3;MQM=53.5;MQMR=59.9595;NS=1;NUMALT=1;ODDS=7.6525;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=482;QR=2076;RO=74;RPL=10;RPP=6.01695;RPPR=4.06669;RPR=16;RUN=1;SAF=8;SAP=11.3621;SAR=18;SRF=39;SRP=3.47981;SRR=35;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:107:74,26:74:2076:26:482:-10.1339,0,-156.767
+Contig_67_74.0605	3018	.	T	C	0.00809599	.	AB=0.2;ABP=10.8276;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=10;DPB=10;DPRA=0;EPP=3.0103;EPPR=4.09604;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=6.28401;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=51;QR=302;RO=8;RPL=0;RPP=7.35324;RPPR=4.09604;RPR=2;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=4;SRP=3.0103;SRR=4;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:10:8,2:8:302:2:51:-1.8321,0,-24.5282
+Contig_67_74.0605	22330	.	T	A	3.58267e-06	.	AB=0;ABP=0;AC=0;AF=0;AN=2;AO=2;CIGAR=1X;DP=10;DPB=10;DPRA=0;EPP=7.35324;EPPR=7.35324;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=14.008;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=22;QR=285;RO=8;RPL=0;RPP=7.35324;RPPR=7.35324;RPR=2;RUN=1;SAF=2;SAP=7.35324;SAR=0;SRF=2;SRP=7.35324;SRR=6;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/0:10:8,2:8:285:2:22:0,-0.920309,-23.9019
+Contig_68_88.4959	16642	.	A	T	404.561	.	AB=0;ABP=0;AC=2;AF=1;AN=2;AO=14;CIGAR=1X;DP=17;DPB=17;DPRA=0;EPP=3.63072;EPPR=3.73412;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=18.5993;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=502;QR=33;RO=3;RPL=2;RPP=18.5208;RPPR=9.52472;RPR=12;RUN=1;SAF=8;SAP=3.63072;SAR=6;SRF=1;SRP=3.73412;SRR=2;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	1/1:17:3,14:3:33:14:502:-42.4301,-2.03752,0
+Contig_74_71.6174	43	.	C	T	0.00176216	.	AB=0.2;ABP=10.8276;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=10;DPB=10;DPRA=0;EPP=3.0103;EPPR=4.09604;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=7.80957;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=44;QR=295;RO=8;RPL=0;RPP=7.35324;RPPR=20.3821;RPR=2;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=5;SRP=4.09604;SRR=3;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:10:8,2:8:295:2:44:-1.16956,0,-23.892
+Contig_77_61.9603	5706	.	T	A	0.0137308	.	AB=0.230769;ABP=11.1951;AC=1;AF=0.5;AN=2;AO=3;CIGAR=1X;DP=13;DPB=13;DPRA=0;EPP=9.52472;EPPR=3.0103;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=5.75508;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=71;QR=346;RO=10;RPL=1;RPP=3.73412;RPPR=16.9077;RPR=2;RUN=1;SAF=1;SAP=3.73412;SAR=2;SRF=6;SRP=3.87889;SRR=4;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:13:10,3:10:346:3:71:-2.71265,0,-27.5536
+Contig_88_62.0379	78	.	T	A	0.00420726	.	AB=0.2;ABP=10.8276;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=10;DPB=10;DPRA=0;EPP=3.0103;EPPR=3.0103;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=6.93901;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=48;QR=285;RO=8;RPL=0;RPP=7.35324;RPPR=7.35324;RPR=2;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=4;SRP=3.0103;SRR=4;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:10:8,2:8:285:2:48:-1.54763,0,-22.9819
+Contig_92_99.2941	25344	.	A	G	12.6758	.	AB=0.4;ABP=3.44459;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=5;DPB=5;DPRA=0;EPP=3.0103;EPPR=3.73412;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=2.86316;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=68;QR=107;RO=3;RPL=2;RPP=7.35324;RPPR=3.73412;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=1;SRP=3.73412;SRR=2;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:5:3,2:3:107:2:68:-4.95273,0,-8.47591
+Contig_95_82.2125	17749	.	A	C	430.895	.	AB=0.40678;ABP=7.46366;AC=1;AF=0.5;AN=2;AO=24;CIGAR=1X;DP=59;DPB=59;DPRA=0;EPP=3.37221;EPPR=3.07234;GTI=0;LEN=1;MEANALT=1;MQM=41.7917;MQMR=59.8286;NS=1;NUMALT=1;ODDS=99.2172;PAIRED=0.958333;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=877;QR=1263;RO=35;RPL=0;RPP=55.1256;RPPR=20.9405;RPR=24;RUN=1;SAF=13;SAP=3.37221;SAR=11;SRF=16;SRP=3.56868;SRR=19;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:59:35,24:35:1263:24:877:-55.3948,0,-96.1958
+Contig_95_82.2125	17818	.	G	A	484.08	.	AB=0.472727;ABP=3.36563;AC=1;AF=0.5;AN=2;AO=26;CIGAR=1X;DP=55;DPB=55;DPRA=0;EPP=3.34437;EPPR=3.08518;GTI=0;LEN=1;MEANALT=1;MQM=42.1538;MQMR=60;NS=1;NUMALT=1;ODDS=111.464;PAIRED=0.961538;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=920;QR=1014;RO=29;RPL=25;RPP=51.1168;RPPR=9.07545;RPR=1;RUN=1;SAF=13;SAP=3.0103;SAR=13;SRF=15;SRP=3.08518;SRR=14;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:55:29,26:29:1014:26:920:-59.4766,0,-74.9947
+Contig_95_82.2125	17846	.	CAGCGA	TGGCGG	441.677	.	AB=0.470588;ABP=3.3935;AC=1;AF=0.5;AN=2;AO=24;CIGAR=2X3M1X;DP=51;DPB=51;DPRA=0;EPP=3.0103;EPPR=3.34437;GTI=0;LEN=6;MEANALT=2;MQM=41.4583;MQMR=60;NS=1;NUMALT=1;ODDS=101.7;PAIRED=0.958333;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=853;QR=912;RO=26;RPL=24;RPP=55.1256;RPPR=24.391;RPR=0;RUN=1;SAF=12;SAP=3.0103;SAR=12;SRF=11;SRP=4.34659;SRR=15;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/1:51:26,24:26:912:24:853:-55.9445,0,-67.2146
+Contig_100_13.2105	133	.	A	G	3.81569	.	AB=0.222222;ABP=9.04217;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=9;DPB=9;DPRA=0;EPP=3.0103;EPPR=3.32051;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=0.341827;PAIRED=1;PAIREDR=0.857143;PAO=0;PQA=0;PQR=0;PRO=0;QA=76;QR=254;RO=7;RPL=2;RPP=7.35324;RPPR=18.2106;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=4;SRP=3.32051;SRR=3;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:9:7,2:7:254:2:76:-4.50554,0,-20.4984
+Contig_103_76.2682	5285	.	T	A	11.5035	.	AB=0.285714;ABP=5.80219;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=7;DPB=7;DPRA=0;EPP=3.0103;EPPR=3.44459;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=2.57542;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=76;QR=170;RO=5;RPL=2;RPP=7.35324;RPPR=6.91895;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=3;SRP=3.44459;SRR=2;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:7:5,2:5:170:2:76:-5.1076,0,-13.5232
+Contig_107_34.3746	2493	.	G	A	11.5035	.	AB=0.285714;ABP=5.80219;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=7;DPB=7;DPRA=0;EPP=3.0103;EPPR=3.44459;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=2.57542;PAIRED=1;PAIREDR=0.6;PAO=0;PQA=0;PQR=0;PRO=0;QA=76;QR=140;RO=5;RPL=0;RPP=7.35324;RPPR=3.44459;RPR=2;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=4;SRP=6.91895;SRR=1;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:7:5,2:5:140:2:76:-5.1076,0,-10.7679
+Contig_110_82.7666	2155	.	A	G	3.43763e-05	.	AB=0;ABP=0;AC=0;AF=0;AN=2;AO=2;CIGAR=1X;DP=10;DPB=10;DPRA=0;EPP=3.0103;EPPR=4.09604;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=11.7467;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=26;QR=298;RO=8;RPL=0;RPP=7.35324;RPPR=3.0103;RPR=2;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=5;SRP=4.09604;SRR=3;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/0:10:8,2:8:298:2:26:0,-0.540316,-24.7051
+Contig_110_82.7666	2169	.	AAGCA	TAGCG	0.599592	.	AB=0.2;ABP=10.8276;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X3M1X;DP=10;DPB=10;DPRA=0;EPP=3.0103;EPPR=4.09604;GTI=0;LEN=5;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=1.91023;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=71;QR=295;RO=8;RPL=0;RPP=7.35324;RPPR=3.0103;RPR=2;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=5;SRP=4.09604;SRR=3;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/1:10:8,2:8:295:2:71:-3.7316,0,-23.892
+Contig_110_82.7666	2201	.	CTA	TTC	0.961691	.	AB=0.333333;ABP=4.45795;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X1M1X;DP=6;DPB=6;DPRA=0;EPP=3.0103;EPPR=5.18177;GTI=0;LEN=3;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=1.39486;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=53;QR=135;RO=4;RPL=0;RPP=7.35324;RPPR=11.6962;RPR=2;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=3;SRP=5.18177;SRR=1;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/1:6:4,2:4:135:2:53:-3.22843,0,-10.6754
+Contig_110_82.7666	2209	.	T	C	14.941	.	AB=0.333333;ABP=4.45795;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=6;DPB=6;DPRA=0;EPP=3.0103;EPPR=5.18177;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=3.40772;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=75;QR=147;RO=4;RPL=0;RPP=7.35324;RPPR=11.6962;RPR=2;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=3;SRP=5.18177;SRR=1;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:6:4,2:4:147:2:75:-5.31416,0,-11.7833
+Contig_110_82.7666	2250	.	A	C	9.62079	.	AB=0.333333;ABP=4.45795;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=6;DPB=6;DPRA=0;EPP=3.0103;EPPR=3.0103;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=2.09972;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=69;QR=141;RO=4;RPL=2;RPP=7.35324;RPPR=5.18177;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=3;SRP=5.18177;SRR=1;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:6:4,2:4:141:2:69:-4.7461,0,-11.2285
+Contig_113_56.537	31	.	T	G	19.6088	.	AB=0.4;ABP=3.87889;AC=1;AF=0.5;AN=2;AO=4;CIGAR=1X;DP=10;DPB=10;DPRA=0;EPP=3.0103;EPPR=3.0103;GTI=0;LEN=1;MEANALT=1;MQM=37.5;MQMR=60;NS=1;NUMALT=1;ODDS=4.50408;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=135;QR=226;RO=6;RPL=0;RPP=11.6962;RPPR=16.0391;RPR=4;RUN=1;SAF=2;SAP=3.0103;SAR=2;SRF=3;SRP=3.0103;SRR=3;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:10:6,4:6:226:4:135:-6.70024,0,-17.6923
+Contig_113_56.537	40	.	A	G	19.4393	.	AB=0.4;ABP=3.87889;AC=1;AF=0.5;AN=2;AO=4;CIGAR=1X;DP=10;DPB=10;DPRA=0;EPP=3.0103;EPPR=3.0103;GTI=0;LEN=1;MEANALT=1;MQM=37.5;MQMR=60;NS=1;NUMALT=1;ODDS=4.46463;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=142;QR=216;RO=6;RPL=0;RPP=11.6962;RPPR=4.45795;RPR=4;RUN=1;SAF=2;SAP=3.0103;SAR=2;SRF=3;SRP=3.0103;SRR=3;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:10:6,4:6:216:4:142:-6.6831,0,-16.7775
+Contig_113_56.537	48	.	C	T	72.4264	.	AB=0.461538;ABP=3.17734;AC=1;AF=0.5;AN=2;AO=6;CIGAR=1X;DP=13;DPB=13;DPRA=0;EPP=3.0103;EPPR=3.32051;GTI=0;LEN=1;MEANALT=1;MQM=44;MQMR=60;NS=1;NUMALT=1;ODDS=16.6768;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=219;QR=256;RO=7;RPL=0;RPP=16.0391;RPPR=3.32051;RPR=6;RUN=1;SAF=3;SAP=3.0103;SAR=3;SRF=3;SRP=3.32051;SRR=4;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:13:7,6:7:256:6:219:-12.738,0,-19.4786
+Contig_116_71.3843	2765	.	T	C	26.4144	.	AB=0.266667;ABP=10.1038;AC=1;AF=0.5;AN=2;AO=4;CIGAR=1X;DP=15;DPB=15;DPRA=0;EPP=5.18177;EPPR=7.94546;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=6.07985;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=140;QR=409;RO=11;RPL=4;RPP=11.6962;RPPR=12.6832;RPR=0;RUN=1;SAF=1;SAP=5.18177;SAR=3;SRF=3;SRP=7.94546;SRR=8;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:15:11,4:11:409:4:140:-8.429,0,-32.6431
+Contig_122_67.1221	19	.	A	G	60.1096	.	AB=0;ABP=0;AC=2;AF=1;AN=2;AO=2;CIGAR=1X;DP=2;DPB=2;DPRA=0;EPP=3.0103;EPPR=0;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=0;NS=1;NUMALT=1;ODDS=7.37776;PAIRED=1;PAIREDR=0;PAO=0;PQA=0;PQR=0;PRO=0;QA=76;QR=0;RO=0;RPL=0;RPP=7.35324;RPPR=0;RPR=2;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=0;SRP=0;SRR=0;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	1/1:2:0,2:0:0:2:76:-7.21481,-0.60206,0
+Contig_122_67.1221	39	.	A	G	23.842	.	AB=0.5;ABP=3.0103;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=4;DPB=4;DPRA=0;EPP=3.0103;EPPR=3.0103;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=5.48154;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=76;QR=76;RO=2;RPL=0;RPP=7.35324;RPPR=7.35324;RPR=2;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=1;SRP=3.0103;SRR=1;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:4:2,2:2:76:2:76:-6.01069,0,-6.01069
+Contig_122_67.1221	640	.	AAAACG	GTAACA	215.78	.	AB=0.409091;ABP=6.16881;AC=1;AF=0.5;AN=2;AO=18;CIGAR=2X3M1X;DP=44;DPB=44;DPRA=0;EPP=3.0103;EPPR=3.34437;GTI=0;LEN=6;MEANALT=1;MQM=31.4444;MQMR=58.3077;NS=1;NUMALT=1;ODDS=49.6851;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=675;QR=961;RO=26;RPL=8;RPP=3.49285;RPPR=4.34659;RPR=10;RUN=1;SAF=9;SAP=3.0103;SAR=9;SRF=13;SRP=3.0103;SRR=13;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/1:44:26,18:26:961:18:675:-27.0516,0,-73.4565
+Contig_122_67.1221	669	.	C	A	98.2622	.	AB=0.363636;ABP=8.34028;AC=1;AF=0.5;AN=2;AO=12;CIGAR=1X;DP=33;DPB=33;DPRA=0;EPP=3.0103;EPPR=3.94093;GTI=0;LEN=1;MEANALT=1;MQM=30.3333;MQMR=58.9524;NS=1;NUMALT=1;ODDS=22.6257;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=455;QR=775;RO=21;RPL=4;RPP=5.9056;RPPR=3.94093;RPR=8;RUN=1;SAF=6;SAP=3.0103;SAR=6;SRF=10;SRP=3.1137;SRR=11;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:33:21,12:21:775:12:455:-15.4213,0,-60.0847
+Contig_122_67.1221	674	.	AAGATATA	GAGGTATG	22.8743	.	AB=0.322581;ABP=11.486;AC=1;AF=0.5;AN=2;AO=10;CIGAR=1X2M1X3M1X;DP=31;DPB=32;DPRA=0;EPP=3.0103;EPPR=5.59539;GTI=0;LEN=8;MEANALT=1;MQM=26.8;MQMR=58.9524;NS=1;NUMALT=1;ODDS=5.26183;PAIRED=1;PAIREDR=1;PAO=2;PQA=70;PQR=0;PRO=0;QA=371;QR=774;RO=21;RPL=8;RPP=10.8276;RPPR=5.59539;RPR=2;RUN=1;SAF=5;SAP=3.0103;SAR=5;SRF=10;SRP=3.1137;SRR=11;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/1:31:21,10:21:774:10:371:-8.54509,0,-60.2482
+Contig_122_67.1221	686	.	T	A	1.2798e-05	.	AB=0.266667;ABP=17.1973;AC=1;AF=0.5;AN=2;AO=8;CIGAR=1X;DP=30;DPB=30;DPRA=0;EPP=3.0103;EPPR=4.58955;GTI=0;LEN=1;MEANALT=1;MQM=21.75;MQMR=59;NS=1;NUMALT=1;ODDS=12.7348;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=278;QR=803;RO=22;RPL=6;RPP=7.35324;RPPR=6.56362;RPR=2;RUN=1;SAF=4;SAP=3.0103;SAR=4;SRF=11;SRP=3.0103;SRR=11;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:30:22,8:22:803:8:278:-0.82025,0,-63.5216
+Contig_122_67.1221	692	.	CAAC	TAAG	0.0088672	.	AB=0.285714;ABP=14.1779;AC=1;AF=0.5;AN=2;AO=8;CIGAR=1X2M1X;DP=28;DPB=28;DPRA=0;EPP=3.0103;EPPR=4.74748;GTI=0;LEN=4;MEANALT=1;MQM=21.75;MQMR=60;NS=1;NUMALT=1;ODDS=6.19293;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=296;QR=725;RO=20;RPL=6;RPP=7.35324;RPPR=4.74748;RPR=2;RUN=1;SAF=4;SAP=3.0103;SAR=4;SRF=10;SRP=3.0103;SRR=10;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/1:28:20,8:20:725:8:296:-3.33416,0,-57.1454
+Contig_122_67.1221	708	.	T	C	31.4193	.	AB=0.322581;ABP=11.486;AC=1;AF=0.5;AN=2;AO=10;CIGAR=1X;DP=31;DPB=31;DPRA=0;EPP=3.0103;EPPR=3.94093;GTI=0;LEN=1;MEANALT=1;MQM=29.4;MQMR=60;NS=1;NUMALT=1;ODDS=7.23385;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=380;QR=742;RO=21;RPL=8;RPP=10.8276;RPPR=3.94093;RPR=2;RUN=1;SAF=5;SAP=3.0103;SAR=5;SRF=10;SRP=3.1137;SRR=11;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:31:21,10:21:742:10:380:-9.40152,0,-57.7614
+Contig_122_67.1221	713	.	AA	GT	37.2836	.	AB=0.344828;ABP=9.07545;AC=1;AF=0.5;AN=2;AO=10;CIGAR=2X;DP=29;DPB=29;DPRA=0;EPP=3.0103;EPPR=5.8675;GTI=0;LEN=2;MEANALT=1;MQM=29.4;MQMR=60;NS=1;NUMALT=1;ODDS=8.58467;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=372;QR=707;RO=19;RPL=8;RPP=10.8276;RPPR=3.12459;RPR=2;RUN=1;SAF=5;SAP=3.0103;SAR=5;SRF=8;SRP=4.03889;SRR=11;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/1:29:19,10:19:707:10:372:-9.73135,0,-55.2309
+Contig_122_67.1221	740	.	C	A	194.298	.	AB=0.457143;ABP=3.56868;AC=1;AF=0.5;AN=2;AO=16;CIGAR=1X;DP=35;DPB=35;DPRA=0;EPP=3.0103;EPPR=5.8675;GTI=0;LEN=1;MEANALT=1;MQM=40.875;MQMR=60;NS=1;NUMALT=1;ODDS=44.7388;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=606;QR=669;RO=19;RPL=16;RPP=37.7539;RPPR=8.61041;RPR=0;RUN=1;SAF=8;SAP=3.0103;SAR=8;SRF=7;SRP=5.8675;SRR=12;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:35:19,16:19:669:16:606:-28.5876,0,-49.9878
+Contig_122_67.1221	747	.	G	A	0.000482402	.	AB=0.296296;ABP=12.7417;AC=1;AF=0.5;AN=2;AO=8;CIGAR=1X;DP=27;DPB=27;DPRA=0;EPP=3.0103;EPPR=3.12459;GTI=0;LEN=1;MEANALT=1;MQM=21.75;MQMR=60;NS=1;NUMALT=1;ODDS=9.10523;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=288;QR=703;RO=19;RPL=8;RPP=20.3821;RPPR=16.8392;RPR=0;RUN=1;SAF=4;SAP=3.0103;SAR=4;SRF=7;SRP=5.8675;SRR=12;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:27:19,8:19:703:8:288:-3.36161,0,-55.4727
+Contig_122_67.1221	3539	.	TAAT	CCAG	213.415	.	AB=0.37037;ABP=6.95112;AC=1;AF=0.5;AN=2;AO=10;CIGAR=2X1M1X;DP=27;DPB=27;DPRA=0;EPP=3.0103;EPPR=3.55317;GTI=0;LEN=4;MEANALT=2;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=49.1406;PAIRED=0.9;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=379;QR=575;RO=16;RPL=4;RPP=3.87889;RPPR=3.0103;RPR=6;RUN=1;SAF=5;SAP=3.0103;SAR=5;SRF=7;SRP=3.55317;SRR=9;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/1:27:16,10:16:575:10:379:-26.3489,0,-43.968
+Contig_122_67.1221	3551	.	T	C	230.972	.	AB=0.37931;ABP=6.67934;AC=1;AF=0.5;AN=2;AO=11;CIGAR=1X;DP=29;DPB=29;DPRA=0;EPP=3.20771;EPPR=3.49285;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=53.1834;PAIRED=0.909091;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=417;QR=629;RO=18;RPL=9;RPP=12.6832;RPPR=3.49285;RPR=2;RUN=1;SAF=5;SAP=3.20771;SAR=6;SRF=8;SRP=3.49285;SRR=10;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:29:18,11:18:629:11:417:-29.1524,0,-48.1958
+Contig_122_67.1221	3573	.	A	T	158.706	.	AB=0.346154;ABP=8.35546;AC=1;AF=0.5;AN=2;AO=9;CIGAR=1X;DP=26;DPB=26;DPRA=0;EPP=3.25157;EPPR=3.13803;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=36.5433;PAIRED=0.888889;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=340;QR=620;RO=17;RPL=9;RPP=22.5536;RPPR=24.5973;RPR=0;RUN=1;SAF=4;SAP=3.25157;SAR=5;SRF=8;SRP=3.13803;SRR=9;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:26:17,9:17:620:9:340:-23.1296,0,-48.3037
+Contig_122_67.1221	3578	.	A	G	158.706	.	AB=0.346154;ABP=8.35546;AC=1;AF=0.5;AN=2;AO=9;CIGAR=1X;DP=26;DPB=26;DPRA=0;EPP=3.25157;EPPR=3.13803;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=36.5433;PAIRED=0.888889;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=340;QR=627;RO=17;RPL=9;RPP=22.5536;RPPR=13.3567;RPR=0;RUN=1;SAF=4;SAP=3.25157;SAR=5;SRF=8;SRP=3.13803;SRR=9;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:26:17,9:17:627:9:340:-23.1296,0,-48.9365
+Contig_122_67.1221	3605	.	T	C	110.555	.	AB=0.318182;ABP=9.32731;AC=1;AF=0.5;AN=2;AO=7;CIGAR=1X;DP=22;DPB=22;DPRA=0;EPP=3.32051;EPPR=6.62942;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=25.4563;PAIRED=0.857143;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=266;QR=506;RO=15;RPL=7;RPP=18.2106;RPPR=6.62942;RPR=0;RUN=1;SAF=3;SAP=3.32051;SAR=4;SRF=8;SRP=3.15506;SRR=7;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:22:15,7:15:506:7:266:-17.6799,0,-39.2292
+Contig_122_67.1221	3617	.	A	C	106.111	.	AB=0.304348;ABP=10.6577;AC=1;AF=0.5;AN=2;AO=7;CIGAR=1X;DP=23;DPB=23;DPRA=0;EPP=3.32051;EPPR=7.89611;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=24.4329;PAIRED=0.857143;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=266;QR=569;RO=16;RPL=7;RPP=18.2106;RPPR=7.89611;RPR=0;RUN=1;SAF=3;SAP=3.32051;SAR=4;SRF=8;SRP=3.0103;SRR=8;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:23:16,7:16:569:7:266:-17.3788,0,-44.6116
+Contig_122_67.1221	3629	.	T	C	92.3356	.	AB=0.269231;ABP=15.0369;AC=1;AF=0.5;AN=2;AO=7;CIGAR=1X;DP=26;DPB=26;DPRA=0;EPP=3.32051;EPPR=5.8675;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=21.2611;PAIRED=0.857143;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=266;QR=686;RO=19;RPL=7;RPP=18.2106;RPPR=8.61041;RPR=0;RUN=1;SAF=3;SAP=3.32051;SAR=4;SRF=9;SRP=3.12459;SRR=10;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:26:19,7:19:686:7:266:-16.4757,0,-54.2338
+Contig_122_67.1221	3635	.	A	C	88.6935	.	AB=0.269231;ABP=15.0369;AC=1;AF=0.5;AN=2;AO=7;CIGAR=1X;DP=26;DPB=26;DPRA=0;EPP=3.32051;EPPR=4.03889;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=20.4224;PAIRED=0.857143;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=262;QR=692;RO=19;RPL=7;RPP=18.2106;RPPR=5.8675;RPR=0;RUN=1;SAF=3;SAP=3.32051;SAR=4;SRF=9;SRP=3.12459;SRR=10;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:26:19,7:19:692:7:262:-16.1115,0,-54.778
+Contig_122_67.1221	3644	.	TAAAG	CAAAA	62.6522	.	AB=0.24;ABP=17.6895;AC=1;AF=0.5;AN=2;AO=6;CIGAR=1X3M1X;DP=25;DPB=25;DPRA=0;EPP=3.0103;EPPR=4.03889;GTI=0;LEN=5;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=14.4262;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=228;QR=691;RO=19;RPL=6;RPP=16.0391;RPPR=5.8675;RPR=0;RUN=1;SAF=3;SAP=3.0103;SAR=3;SRF=9;SRP=3.12459;SRR=10;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/1:25:19,6:19:691:6:228:-13.3592,0,-54.9907
+Contig_122_67.1221	3654	.	G	A	47.8687	.	AB=0.214286;ABP=22.8638;AC=1;AF=0.5;AN=2;AO=6;CIGAR=1X;DP=28;DPB=28;DPRA=0;EPP=3.0103;EPPR=3.40511;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=11.0222;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=228;QR=804;RO=22;RPL=6;RPP=16.0391;RPPR=9.32731;RPR=0;RUN=1;SAF=3;SAP=3.0103;SAR=3;SRF=11;SRP=3.0103;SRR=11;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:28:22,6:22:804:6:228:-12.4561,0,-64.2502
+Contig_132_61.049	1093	.	A	G	0.00338098	.	AB=0.2;ABP=10.8276;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=10;DPB=10;DPRA=0;EPP=7.35324;EPPR=4.09604;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=7.15775;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=47;QR=300;RO=8;RPL=1;RPP=3.0103;RPPR=3.0103;RPR=1;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=3;SRP=4.09604;SRR=5;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:10:8,2:8:300:2:47:-1.45263,0,-24.3463
+Contig_138_77.1038	1077	.	A	G	3.28861	.	AB=0.222222;ABP=9.04217;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=9;DPB=9;DPRA=0;EPP=3.0103;EPPR=3.32051;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=0.124307;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=75;QR=252;RO=7;RPL=2;RPP=7.35324;RPPR=3.32051;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=4;SRP=3.32051;SRR=3;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:9:7,2:7:252:2:75:-4.41107,0,-20.3186
+Contig_144_45.2353	55	.	G	A	344.505	.	AB=0.594595;ABP=5.88603;AC=1;AF=0.5;AN=2;AO=22;CIGAR=1X;DP=37;DPB=37;DPRA=0;EPP=3.40511;EPPR=3.15506;GTI=0;LEN=1;MEANALT=1;MQM=42.8636;MQMR=51.9333;NS=1;NUMALT=1;ODDS=64.3857;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=698;QR=557;RO=15;RPL=4;RPP=22.3561;RPPR=35.5824;RPR=18;RUN=1;SAF=10;SAP=3.40511;SAR=12;SRF=7;SRP=3.15506;SRR=8;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:37:15,22:15:557:22:698:-41.9995,0,-37.0583
+Contig_144_45.2353	110	.	G	A	212.795	.	AB=0.533333;ABP=3.29983;AC=1;AF=0.5;AN=2;AO=16;CIGAR=1X;DP=30;DPB=30;DPRA=0;EPP=3.55317;EPPR=5.49198;GTI=0;LEN=1;MEANALT=1;MQM=42.8125;MQMR=52.5;NS=1;NUMALT=1;ODDS=48.9979;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=522;QR=486;RO=14;RPL=16;RPP=37.7539;RPPR=5.49198;RPR=0;RUN=1;SAF=9;SAP=3.55317;SAR=7;SRF=4;SRP=8.59409;SRR=10;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:30:14,16:14:486:16:522:-30.4804,0,-33.8379
+Contig_145_77.0656	28	.	T	C	4.12119	.	AB=0.4;ABP=3.44459;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=5;DPB=5;DPRA=0;EPP=3.0103;EPPR=3.73412;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=0.459282;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=57;QR=112;RO=3;RPL=0;RPP=7.35324;RPPR=9.52472;RPR=2;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=2;SRP=3.73412;SRR=1;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:5:3,2:3:112:2:57:-3.90873,0,-8.94148
+Contig_147_16.1653	2005	.	ATA	TTC	2.81209	.	AB=0.222222;ABP=9.04217;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X1M1X;DP=9;DPB=9;DPRA=0;EPP=3.0103;EPPR=3.32051;GTI=0;LEN=3;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=0.0934637;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=74;QR=262;RO=7;RPL=2;RPP=7.35324;RPPR=5.80219;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=3;SRP=3.32051;SRR=4;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/1:9:7,2:7:262:2:74:-4.3165,0,-21.229
+Contig_148_62.9289	7690	.	A	C	10.477	.	AB=0.333333;ABP=4.45795;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=6;DPB=6;DPRA=0;EPP=3.0103;EPPR=3.0103;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=2.31856;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=70;QR=144;RO=4;RPL=0;RPP=7.35324;RPPR=5.18177;RPR=2;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=3;SRP=5.18177;SRR=1;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:6:4,2:4:144:2:70:-4.84115,0,-11.5058
+Contig_148_62.9289	7709	.	C	T	3.28861	.	AB=0.222222;ABP=9.04217;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=9;DPB=9;DPRA=0;EPP=3.0103;EPPR=3.32051;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=0.124307;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=75;QR=260;RO=7;RPL=2;RPP=7.35324;RPPR=10.7656;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=5;SRP=5.80219;SRR=2;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:9:7,2:7:260:2:75:-4.41107,0,-21.0472
+Contig_159_57.6575	9966	.	T	A	0.000662854	.	AB=0.285714;ABP=5.80219;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=7;DPB=7;DPRA=0;EPP=3.0103;EPPR=3.44459;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=8.78743;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=24;QR=188;RO=5;RPL=2;RPP=7.35324;RPPR=13.8677;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=3;SRP=3.44459;SRR=2;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:7:5,2:5:188:2:24:-0.172777,0,-15.1773
+Contig_161_24.3634	2224	.	G	C	1.58317	.	AB=0.2;ABP=10.8276;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=10;DPB=10;DPRA=0;EPP=3.0103;EPPR=3.0103;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=0.821324;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=76;QR=283;RO=8;RPL=2;RPP=7.35324;RPPR=7.35324;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=4;SRP=3.0103;SRR=4;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:10:8,2:8:283:2:76:-4.20451,0,-22.8004
+Contig_166_89.9675	21989	.	G	A	38.4708	.	AB=0.6;ABP=3.44459;AC=1;AF=0.5;AN=2;AO=3;CIGAR=1X;DP=5;DPB=5;DPRA=0;EPP=3.73412;EPPR=3.0103;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=4.60607;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=103;QR=76;RO=2;RPL=3;RPP=9.52472;RPPR=7.35324;RPR=0;RUN=1;SAF=1;SAP=3.73412;SAR=2;SRF=1;SRP=3.0103;SRR=1;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:5:2,3:2:76:3:103:-8.10288,0,-5.70966
+Contig_174_48.7497	988	.	G	A	290.113	.	AB=0.846154;ABP=16.5402;AC=1;AF=0.5;AN=2;AO=11;CIGAR=1X;DP=13;DPB=13;DPRA=0;EPP=7.94546;EPPR=3.0103;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=5.95481;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=411;QR=69;RO=2;RPL=4;RPP=4.78696;RPPR=7.35324;RPR=7;RUN=1;SAF=8;SAP=7.94546;SAR=3;SRF=1;SRP=3.0103;SRR=1;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:13:2,11:2:69:11:411:-33.4259,0,-2.63927
+Contig_191_67.9005	418	.	T	A	373.572	.	AB=0.875;ABP=22.5536;AC=1;AF=0.5;AN=2;AO=14;CIGAR=1X;DP=16;DPB=16;DPRA=0;EPP=3.0103;EPPR=3.0103;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=8.37578;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=503;QR=75;RO=2;RPL=5;RPP=5.49198;RPPR=7.35324;RPR=9;RUN=1;SAF=6;SAP=3.63072;SAR=8;SRF=1;SRP=3.0103;SRR=1;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:16:2,14:2:75:14:503:-40.7855,0,-2.30386
+Contig_191_67.9005	3819	.	C	A	20.085	.	AB=0.233083;ABP=85.314;AC=1;AF=0.5;AN=2;AO=31;CIGAR=1X;DP=133;DPB=133;DPRA=0;EPP=6.44263;EPPR=3.35774;GTI=0;LEN=1;MEANALT=2;MQM=59.2581;MQMR=59.44;NS=1;NUMALT=1;ODDS=4.61488;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=625;QR=2689;RO=100;RPL=11;RPP=8.68415;RPPR=4.40004;RPR=20;RUN=1;SAF=17;SAP=3.64073;SAR=14;SRF=54;SRP=4.40004;SRR=46;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:133:100,31:100:2689:31:625:-16.8911,0,-200.12
+Contig_191_67.9005	3897	.	C	A	183.411	.	AB=0.292308;ABP=51.7181;AC=1;AF=0.5;AN=2;AO=38;CIGAR=1X;DP=130;DPB=130;DPRA=0;EPP=25.8679;EPPR=3.0347;GTI=0;LEN=1;MEANALT=3;MQM=60;MQMR=59.1124;NS=1;NUMALT=1;ODDS=42.2319;PAIRED=0.973684;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=772;QR=2215;RO=89;RPL=22;RPP=5.06748;RPPR=3.22989;RPR=16;RUN=1;SAF=17;SAP=3.9246;SAR=21;SRF=48;SRP=4.20583;SRR=41;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:130:89,38:89:2215:38:772:-31.3281,0,-158.835
+Contig_191_67.9005	7945	.	A	T	14.941	.	AB=0.333333;ABP=4.45795;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=6;DPB=6;DPRA=0;EPP=3.0103;EPPR=3.0103;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=3.40772;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=75;QR=150;RO=4;RPL=2;RPP=7.35324;RPPR=11.6962;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=2;SRP=3.0103;SRR=2;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:6:4,2:4:150:2:75:-5.31416,0,-12.0598
+Contig_198_68.9048	4994	.	T	C	137.154	.	AB=0.75;ABP=7.35324;AC=1;AF=0.5;AN=2;AO=6;CIGAR=1X;DP=8;DPB=8;DPRA=0;EPP=3.0103;EPPR=7.35324;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=4.85865;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=216;QR=47;RO=2;RPL=0;RPP=16.0391;RPPR=3.0103;RPR=6;RUN=1;SAF=3;SAP=3.0103;SAR=3;SRF=1;SRP=3.0103;SRR=1;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:8:2,6:2:47:6:216:-17.3796,0,-2.05512
+Contig_199_91.7385	25023	.	G	A	0.169503	.	AB=0.222222;ABP=9.04217;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=9;DPB=9;DPRA=0;EPP=7.35324;EPPR=5.80219;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=3.22386;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=66;QR=265;RO=7;RPL=2;RPP=7.35324;RPPR=3.32051;RPR=0;RUN=1;SAF=0;SAP=7.35324;SAR=2;SRF=3;SRP=3.32051;SRR=4;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:9:7,2:7:265:2:66:-3.55904,0,-21.5023
+Contig_200_43.4718	1495	.	T	A	15.8584	.	AB=0.333333;ABP=4.45795;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=6;DPB=6;DPRA=0;EPP=3.0103;EPPR=5.18177;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=3.62524;PAIRED=1;PAIREDR=0.75;PAO=0;PQA=0;PQR=0;PRO=0;QA=76;QR=152;RO=4;RPL=2;RPP=7.35324;RPPR=5.18177;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=2;SRP=3.0103;SRR=2;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:6:4,2:4:152:2:76:-5.40863,0,-12.2437
+Contig_208_124.141	352	.	A	T	14.941	.	AB=0.333333;ABP=4.45795;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=6;DPB=6;DPRA=0;EPP=3.0103;EPPR=3.0103;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=3.40772;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=75;QR=150;RO=4;RPL=2;RPP=7.35324;RPPR=11.6962;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=2;SRP=3.0103;SRR=2;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:6:4,2:4:150:2:75:-5.31416,0,-12.0596
+Contig_210_54.3801	2354	.	A	T	0.110788	.	AB=0.2;ABP=10.8276;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=10;DPB=10;DPRA=0;EPP=3.0103;EPPR=7.35324;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=3.65591;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=63;QR=294;RO=8;RPL=2;RPP=7.35324;RPPR=12.7819;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=5;SRP=4.09604;SRR=3;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:10:8,2:8:294:2:63:-2.97347,0,-23.8012
+Contig_210_54.3801	4611	.	T	A	1.15151e-05	.	AB=0;ABP=0;AC=0;AF=0;AN=2;AO=2;CIGAR=1X;DP=10;DPB=10;DPRA=0;EPP=7.35324;EPPR=7.35324;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=12.8404;PAIRED=0.5;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=21;QR=277;RO=8;RPL=1;RPP=3.0103;RPPR=7.35324;RPR=1;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=4;SRP=3.0103;SRR=4;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/0:10:8,2:8:277:2:21:0,-1.01531,-23.2684
+Contig_211_77.2087	23103	.	TAAAAATG	TAAAAAATG	1.20279	.	AB=0.2;ABP=10.8276;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1M1I7M;DP=10;DPB=10.25;DPRA=0;EPP=7.35324;EPPR=3.32051;GTI=0;LEN=1;MEANALT=2;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=1.14224;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=71;QR=244;RO=7;RPL=1;RPP=3.0103;RPPR=3.32051;RPR=1;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=2;SRP=5.80219;SRR=5;TYPE=ins	GT:DP:AD:RO:QR:AO:QA:GL	0/1:10:7,2:7:244:2:71:-3.86102,0,-19.4766
+Contig_225_44.3314	2233	.	AAAGAAGAAGAT	AAAGAAGAT	105.111	.	AB=0.27027;ABP=19.9713;AC=1;AF=0.5;AN=2;AO=10;CIGAR=1M3D8M;DP=37;DPB=34.5;DPRA=0;EPP=3.87889;EPPR=3.09072;GTI=0;LEN=3;MEANALT=1;MQM=58.1;MQMR=60;NS=1;NUMALT=1;ODDS=24.2028;PAIRED=0.6;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=337;QR=976;RO=27;RPL=10;RPP=24.725;RPPR=5.02092;RPR=0;RUN=1;SAF=6;SAP=3.87889;SAR=4;SRF=15;SRP=3.73412;SRR=12;TYPE=del	GT:DP:AD:RO:QR:AO:QA:GL	0/1:37:27,10:27:976:10:337:-19.4937,0,-77.0121
+Contig_225_44.3314	2274	.	C	T	120.397	.	AB=0.263158;ABP=21.525;AC=1;AF=0.5;AN=2;AO=10;CIGAR=1X;DP=38;DPB=38;DPRA=0;EPP=3.87889;EPPR=3.32051;GTI=0;LEN=1;MEANALT=1;MQM=58.1;MQMR=60;NS=1;NUMALT=1;ODDS=27.7223;PAIRED=0.6;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=359;QR=1019;RO=28;RPL=10;RPP=24.725;RPPR=4.25114;RPR=0;RUN=1;SAF=6;SAP=3.87889;SAR=4;SRF=15;SRP=3.32051;SRR=13;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:38:28,10:28:1019:10:359:-21.1906,0,-80.5748
+Contig_225_44.3314	2283	.	C	A	91.1259	.	AB=0.236842;ABP=25.8679;AC=1;AF=0.5;AN=2;AO=9;CIGAR=1X;DP=38;DPB=38;DPRA=0;EPP=3.25157;EPPR=3.32051;GTI=0;LEN=1;MEANALT=2;MQM=57.8889;MQMR=60;NS=1;NUMALT=1;ODDS=20.9825;PAIRED=0.666667;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=323;QR=1026;RO=28;RPL=9;RPP=22.5536;RPPR=4.25114;RPR=0;RUN=1;SAF=5;SAP=3.25157;SAR=4;SRF=15;SRP=3.32051;SRR=13;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:38:28,9:28:1026:9:323:-18.0829,0,-81.3521
+Contig_226_110.323	4075	.	A	G	0.733588	.	AB=0.2;ABP=10.8276;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=10;DPB=10;DPRA=0;EPP=3.0103;EPPR=3.0103;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=1.69271;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=72;QR=295;RO=8;RPL=0;RPP=7.35324;RPPR=4.09604;RPR=2;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=5;SRP=4.09604;SRR=3;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:10:8,2:8:295:2:72:-3.82607,0,-23.8914
+Contig_229_71.3999	6446	.	G	T	3.28861	.	AB=0.222222;ABP=9.04217;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=9;DPB=9;DPRA=0;EPP=3.0103;EPPR=5.80219;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=0.124307;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=75;QR=260;RO=7;RPL=0;RPP=7.35324;RPPR=10.7656;RPR=2;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=4;SRP=3.32051;SRR=3;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:9:7,2:7:260:2:75:-4.41107,0,-21.0471
+Contig_233_9.58678	238	.	C	T	3.81569	.	AB=0.222222;ABP=9.04217;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=9;DPB=9;DPRA=0;EPP=3.0103;EPPR=3.32051;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=0.341827;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=76;QR=235;RO=7;RPL=2;RPP=7.35324;RPPR=3.32051;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=4;SRP=3.32051;SRR=3;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:9:7,2:7:235:2:76:-4.50554,0,-18.763
+Contig_238_6.79715	310	.	TAAAAGT	TAAAGT	11.346	.	AB=0.333333;ABP=4.45795;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1M1D5M;DP=6;DPB=5.71429;DPRA=0;EPP=3.0103;EPPR=5.18177;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=2.53633;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=71;QR=149;RO=4;RPL=2;RPP=7.35324;RPPR=3.0103;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=3;SRP=5.18177;SRR=1;TYPE=del	GT:DP:AD:RO:QR:AO:QA:GL	0/1:6:4,2:4:149:2:71:-4.93572,0,-11.9678
+Contig_240_32.6314	102	.	T	C	10.223	.	AB=0.3;ABP=6.48466;AC=1;AF=0.5;AN=2;AO=3;CIGAR=1X;DP=10;DPB=10;DPRA=0;EPP=3.73412;EPPR=5.80219;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=2.25412;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=93;QR=257;RO=7;RPL=0;RPP=9.52472;RPPR=18.2106;RPR=3;RUN=1;SAF=1;SAP=3.73412;SAR=2;SRF=5;SRP=5.80219;SRR=2;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:10:7,3:7:257:3:93:-5.6651,0,-20.4729
+Contig_241_25.8924	2396	.	A	G	0.260629	.	AB=0.2;ABP=10.8276;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=10;DPB=10;DPRA=0;EPP=3.0103;EPPR=4.09604;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=2.78305;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=67;QR=301;RO=8;RPL=2;RPP=7.35324;RPPR=3.0103;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=5;SRP=4.09604;SRR=3;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:10:8,2:8:301:2:67:-3.35254,0,-24.4373
+Contig_241_25.8924	3469	.	A	G	0.528007	.	AB=0.2;ABP=10.8276;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=10;DPB=10;DPRA=0;EPP=3.0103;EPPR=3.32051;GTI=0;LEN=1;MEANALT=2;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=2.04579;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=67;QR=244;RO=7;RPL=0;RPP=7.35324;RPPR=5.80219;RPR=2;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=3;SRP=3.32051;SRR=4;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:10:7,2:7:244:2:67:-3.46861,0,-19.4477
+Contig_241_25.8924	3760	.	C	G	0.84582	.	AB=0.2;ABP=18.6449;AC=1;AF=0.5;AN=2;AO=4;CIGAR=1X;DP=20;DPB=20;DPRA=0;EPP=3.0103;EPPR=3.0103;GTI=0;LEN=1;MEANALT=1;MQM=33;MQMR=60;NS=1;NUMALT=1;ODDS=1.53704;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=151;QR=547;RO=16;RPL=4;RPP=11.6962;RPPR=22.5536;RPR=0;RUN=1;SAF=2;SAP=3.0103;SAR=2;SRF=8;SRP=3.0103;SRR=8;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:20:16,4:16:547:4:151:-5.72383,0,-43.5193
+Contig_248_46.3451	98	.	T	A	10.6329	.	AB=0.285714;ABP=5.80219;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=7;DPB=7;DPRA=0;EPP=3.0103;EPPR=3.44459;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=2.3579;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=75;QR=186;RO=5;RPL=0;RPP=7.35324;RPPR=13.8677;RPR=2;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=3;SRP=3.44459;SRR=2;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:7:5,2:5:186:2:75:-5.01313,0,-14.9937
+Contig_249_36.9593	957	.	A	G	0.000953289	.	AB=0.285714;ABP=5.80219;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=7;DPB=7;DPRA=0;EPP=7.35324;EPPR=3.44459;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=8.42404;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=32;QR=161;RO=5;RPL=2;RPP=7.35324;RPPR=6.91895;RPR=0;RUN=1;SAF=2;SAP=7.35324;SAR=0;SRF=2;SRP=3.44459;SRR=3;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:7:5,2:5:161:2:32:-0.932658,0,-12.6957
+Contig_249_36.9593	6395	.	T	C	0.000408603	.	AB=0.222222;ABP=9.04217;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=9;DPB=9;DPRA=0;EPP=3.0103;EPPR=3.32051;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=9.27127;PAIRED=1;PAIREDR=0.857143;PAO=0;PQA=0;PQR=0;PRO=0;QA=32;QR=260;RO=7;RPL=2;RPP=7.35324;RPPR=18.2106;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=4;SRP=3.32051;SRR=3;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:9:7,2:7:260:2:32:-0.330625,0,-21.0472
+Contig_252_41.4902	978	.	G	A	1.58317	.	AB=0.2;ABP=10.8276;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=10;DPB=10;DPRA=0;EPP=3.0103;EPPR=3.0103;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=0.821324;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=76;QR=251;RO=8;RPL=2;RPP=7.35324;RPPR=3.0103;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=4;SRP=3.0103;SRR=4;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:10:8,2:8:251:2:76:-4.20451,0,-19.8815
+Contig_253_17.3886	1958	.	C	T	1.58317	.	AB=0.2;ABP=10.8276;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=10;DPB=10;DPRA=0;EPP=3.0103;EPPR=7.35324;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=0.821324;PAIRED=1;PAIREDR=0.5;PAO=0;PQA=0;PQR=0;PRO=0;QA=76;QR=292;RO=8;RPL=2;RPP=7.35324;RPPR=20.3821;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=6;SRP=7.35324;SRR=2;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:10:8,2:8:292:2:76:-4.20451,0,-23.618
+Contig_255_59.9194	1386	.	G	A	9.60745e-08	.	AB=0;ABP=0;AC=0;AF=0;AN=2;AO=4;CIGAR=1X;DP=19;DPB=19;DPRA=0;EPP=3.0103;EPPR=4.31318;GTI=0;LEN=1;MEANALT=1;MQM=11.5;MQMR=60;NS=1;NUMALT=1;ODDS=17.6267;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=152;QR=546;RO=15;RPL=0;RPP=11.6962;RPPR=6.62942;RPR=4;RUN=1;SAF=2;SAP=3.0103;SAR=2;SRF=7;SRP=3.15506;SRR=8;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/0:19:15,4:15:546:4:152:0,-1.46793,-45.2218
+Contig_255_59.9194	1392	.	TAAACA	CAATCT	9.60745e-08	.	AB=0;ABP=0;AC=0;AF=0;AN=2;AO=4;CIGAR=1X2M1X1M1X;DP=19;DPB=19;DPRA=0;EPP=3.0103;EPPR=4.31318;GTI=0;LEN=6;MEANALT=1;MQM=11.5;MQMR=60;NS=1;NUMALT=1;ODDS=17.6267;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=152;QR=537;RO=15;RPL=0;RPP=11.6962;RPPR=6.62942;RPR=4;RUN=1;SAF=2;SAP=3.0103;SAR=2;SRF=7;SRP=3.15506;SRR=8;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/0:19:15,4:15:537:4:152:0,-1.46793,-44.4095
+Contig_255_59.9194	1409	.	TC	CT	3.00233e-08	.	AB=0;ABP=0;AC=0;AF=0;AN=2;AO=4;CIGAR=2X;DP=20;DPB=20;DPRA=0;EPP=3.0103;EPPR=3.55317;GTI=0;LEN=2;MEANALT=1;MQM=11.5;MQMR=60;NS=1;NUMALT=1;ODDS=18.7898;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=152;QR=581;RO=16;RPL=4;RPP=11.6962;RPPR=3.55317;RPR=0;RUN=1;SAF=2;SAP=3.0103;SAR=2;SRF=8;SRP=3.0103;SRR=8;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/0:20:16,4:16:581:4:152:0,-1.76896,-48.3717
+Contig_255_59.9194	1417	.	GTTA	TTTT	9.60745e-08	.	AB=0;ABP=0;AC=0;AF=0;AN=2;AO=4;CIGAR=1X2M1X;DP=19;DPB=19;DPRA=0;EPP=3.0103;EPPR=3.15506;GTI=0;LEN=4;MEANALT=1;MQM=11.5;MQMR=60;NS=1;NUMALT=1;ODDS=17.6267;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=152;QR=543;RO=15;RPL=4;RPP=11.6962;RPPR=3.15506;RPR=0;RUN=1;SAF=2;SAP=3.0103;SAR=2;SRF=8;SRP=3.15506;SRR=7;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/0:19:15,4:15:543:4:152:0,-1.46793,-44.9487
+Contig_255_59.9194	1426	.	GCT	AAA	9.60745e-08	.	AB=0;ABP=0;AC=0;AF=0;AN=2;AO=4;CIGAR=3X;DP=19;DPB=19;DPRA=0;EPP=3.0103;EPPR=3.15506;GTI=0;LEN=3;MEANALT=1;MQM=11.5;MQMR=60;NS=1;NUMALT=1;ODDS=17.6267;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=152;QR=542;RO=15;RPL=4;RPP=11.6962;RPPR=10.1038;RPR=0;RUN=1;SAF=2;SAP=3.0103;SAR=2;SRF=8;SRP=3.15506;SRR=7;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/0:19:15,4:15:542:4:152:0,-1.46793,-44.8613
+Contig_261_121.104	1481	.	A	T	22.3455	.	AB=0.2;ABP=18.6449;AC=1;AF=0.5;AN=2;AO=4;CIGAR=1X;DP=20;DPB=20;DPRA=0;EPP=3.0103;EPPR=3.55317;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=5.1394;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=150;QR=595;RO=16;RPL=2;RPP=3.0103;RPPR=3.55317;RPR=2;RUN=1;SAF=2;SAP=3.0103;SAR=2;SRF=8;SRP=3.0103;SRR=8;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:20:16,4:16:595:4:150:-7.84523,0,-47.8664
+Contig_261_121.104	3654	.	G	A	471.075	.	AB=0.441667;ABP=6.55704;AC=1;AF=0.5;AN=2;AO=53;CIGAR=1X;DP=120;DPB=120;DPRA=0;EPP=32.8783;EPPR=18.709;GTI=0;LEN=1;MEANALT=3;MQM=57.0755;MQMR=59.7049;NS=1;NUMALT=1;ODDS=108.469;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=1071;QR=1541;RO=61;RPL=32;RPP=7.96781;RPPR=5.89373;RPR=21;RUN=1;SAF=37;SAP=21.0786;SAR=16;SRF=27;SRP=4.7546;SRR=34;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:120:61,53:61:1541:53:1071:-58.6207,0,-104.408
+Contig_261_121.104	3840	.	G	A	1.26689e-13	.	AB=0.201681;ABP=94.9968;AC=1;AF=0.5;AN=2;AO=24;CIGAR=1X;DP=119;DPB=119;DPRA=0;EPP=32.3252;EPPR=10.3933;GTI=0;LEN=1;MEANALT=3;MQM=56.75;MQMR=59.9647;NS=1;NUMALT=1;ODDS=34.8518;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=427;QR=2379;RO=85;RPL=7;RPP=12.0581;RPPR=8.75832;RPR=17;RUN=1;SAF=4;SAP=26.1727;SAR=20;SRF=32;SRP=14.2764;SRR=53;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:119:85,24:85:2379:24:427:-4.56169,0,-181.312
+Contig_269_71.1664	1349	.	G	A	2509.57	.	AB=0.5;ABP=3.0103;AC=1;AF=0.5;AN=2;AO=113;CIGAR=1X;DP=226;DPB=226;DPRA=0;EPP=11.4848;EPPR=7.33403;GTI=0;LEN=1;MEANALT=1;MQM=56.5841;MQMR=60;NS=1;NUMALT=1;ODDS=577.85;PAIRED=0.610619;PAIREDR=0.884956;PAO=0;PQA=0;PQR=0;PRO=0;QA=4094;QR=4037;RO=113;RPL=0;RPP=248.387;RPPR=56.9896;RPR=113;RUN=1;SAF=67;SAP=11.4848;SAR=46;SRF=64;SRP=7.33403;SRR=49;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:226:113,113:113:4037:113:4094:-292.19,0,-295.431
+Contig_269_71.1664	1359	.	A	G	2574.63	.	AB=0.504425;ABP=3.04873;AC=1;AF=0.5;AN=2;AO=114;CIGAR=1X;DP=226;DPB=226;DPRA=0;EPP=12.2295;EPPR=5.80219;GTI=0;LEN=1;MEANALT=1;MQM=56.614;MQMR=60;NS=1;NUMALT=1;ODDS=592.83;PAIRED=0.605263;PAIREDR=0.883929;PAO=0;PQA=0;PQR=0;PRO=0;QA=4163;QR=4070;RO=112;RPL=0;RPP=250.558;RPPR=120.968;RPR=114;RUN=1;SAF=68;SAP=12.2295;SAR=46;SRF=63;SRP=6.81038;SRR=49;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:226:112,114:112:4070:114:4163:-299.154,0,-298.399
+Contig_269_71.1664	1382	.	G	T	2677.72	.	AB=0.511521;ABP=3.26047;AC=1;AF=0.5;AN=2;AO=111;CIGAR=1X;DP=217;DPB=217;DPRA=0;EPP=8.66395;EPPR=5.96022;GTI=0;LEN=1;MEANALT=1;MQM=56.5225;MQMR=60;NS=1;NUMALT=1;ODDS=537.96;PAIRED=0.594595;PAIREDR=0.877358;PAO=0;PQA=0;PQR=0;PRO=0;QA=3974;QR=3721;RO=106;RPL=21;RPP=96.1489;RPPR=224.582;RPR=90;RUN=1;SAF=67;SAP=13.359;SAR=44;SRF=60;SRP=7.02548;SRR=46;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:217:106,111:106:3721:111:3974:-285.951,0,-269.724
+Contig_269_71.1664	1397	.	G	A	330.439	.	AB=0.20197;ABP=159.624;AC=1;AF=0.5;AN=2;AO=41;CIGAR=1X;DP=203;DPB=203;DPRA=0;EPP=4.33437;EPPR=15.074;GTI=0;LEN=1;MEANALT=1;MQM=56.0732;MQMR=58.4877;NS=1;NUMALT=1;ODDS=76.0863;PAIRED=0.609756;PAIREDR=0.746914;PAO=0;PQA=0;PQR=0;PRO=0;QA=1398;QR=5475;RO=162;RPL=38;RPP=67.8897;RPPR=354.789;RPR=3;RUN=1;SAF=24;SAP=5.60547;SAR=17;SRF=96;SRP=15.074;SRR=66;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:203:162,41:162:5475:41:1398:-63.4669,0,-426.567
+Contig_278_16.5515	469	.	T	A	0.00650655	.	AB=0.2;ABP=10.8276;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=10;DPB=10;DPRA=0;EPP=3.0103;EPPR=3.0103;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=6.50275;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=50;QR=301;RO=8;RPL=0;RPP=7.35324;RPPR=7.35324;RPR=2;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=4;SRP=3.0103;SRR=4;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:10:8,2:8:301:2:50:-1.7371,0,-24.4374
+Contig_279_493.246	245	.	T	C	17914.8	.	AB=0.818286;ABP=772.95;AC=1;AF=0.5;AN=2;AO=716;CIGAR=1X;DP=875;DPB=875;DPRA=0;EPP=5.7398;EPPR=11.1572;GTI=0;LEN=1;MEANALT=3;MQM=59.9902;MQMR=60;NS=1;NUMALT=1;ODDS=161.708;PAIRED=0.889665;PAIREDR=0.886525;PAO=0;PQA=0;PQR=0;PRO=0;QA=23930;QR=4772;RO=141;RPL=321;RPP=19.6178;RPPR=21.8759;RPR=395;RUN=1;SAF=320;SAP=20.5277;SAR=396;SRF=69;SRP=3.1489;SRR=72;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:875:141,716:141:4772:716:23930:-1894.75,0,-171.479
+Contig_279_493.246	548	.	GA	TC	6671.7	.	AB=0.64988;ABP=84.3754;AC=1;AF=0.5;AN=2;AO=271;CIGAR=2X;DP=417;DPB=418;DPRA=0;EPP=88.0182;EPPR=3.07324;GTI=0;LEN=2;MEANALT=5;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=651.501;PAIRED=0.9631;PAIREDR=0.985507;PAO=2;PQA=69;PQR=0;PRO=0;QA=9803;QR=4782;RO=138;RPL=257;RPP=476.159;RPPR=55.9439;RPR=14;RUN=1;SAF=84;SAP=88.0182;SAR=187;SRF=50;SRP=25.7321;SRR=88;TYPE=mnp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:417:138,271:138:4782:271:9803:-758.72,0,-307.105
+Contig_279_493.246	566	.	C	T	739.197	.	AB=0.207071;ABP=298.155;AC=1;AF=0.5;AN=2;AO=82;CIGAR=1X;DP=396;DPB=396;DPRA=0;EPP=45.3805;EPPR=26.2741;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=170.206;PAIRED=0.939024;PAIREDR=0.980892;PAO=0;PQA=0;PQR=0;PRO=0;QA=2925;QR=11103;RO=314;RPL=82;RPP=181.071;RPPR=279.631;RPR=0;RUN=1;SAF=21;SAP=45.3805;SAR=61;SRF=109;SRP=66.7437;SRR=205;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:396:314,82:314:11103:82:2925:-144.242,0,-879.824
+Contig_279_493.246	597	.	GTTCA	ATTTAACA	1179.54	.	AB=0.327869;ABP=50.1063;AC=1;AF=0.5;AN=2;AO=60;CIGAR=1X2M3I2M;DP=183;DPB=219.6;DPRA=0;EPP=6.62942;EPPR=5.57335;GTI=0;LEN=8;MEANALT=2;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=271.598;PAIRED=0.983333;PAIREDR=0.991803;PAO=0;PQA=0;PQR=0;PRO=0;QA=2142;QR=4288;RO=122;RPL=53;RPP=79.5909;RPPR=47.5077;RPR=7;RUN=1;SAF=26;SAP=5.32654;SAR=34;SRF=43;SRP=26.0777;SRR=79;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/1:183:122,60:122:4288:60:2142:-137.874,0,-330.901
+Contig_279_493.246	608	.	TT	AA	1202.53	.	AB=0.331492;ABP=47.6515;AC=1;AF=0.5;AN=2;AO=60;CIGAR=2X;DP=181;DPB=182;DPRA=0;EPP=8.22183;EPPR=7.04816;GTI=0;LEN=2;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=276.893;PAIRED=0.983333;PAIREDR=0.991736;PAO=2;PQA=72;PQR=0;PRO=0;QA=2166;QR=4230;RO=121;RPL=53;RPP=79.5909;RPPR=57.2971;RPR=7;RUN=1;SAF=25;SAP=6.62942;SAR=35;SRF=42;SRP=27.5784;SRR=79;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/1:181:121,60:121:4230:60:2166:-140.333,0,-325.992
+Contig_279_493.246	687	.	T	C	199.986	.	AB=0.217391;ABP=66.8327;AC=1;AF=0.5;AN=2;AO=20;CIGAR=1X;DP=92;DPB=92;DPRA=0;EPP=6.91895;EPPR=15.074;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=46.0485;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=727;QR=2561;RO=72;RPL=20;RPP=46.4397;RPPR=12.7819;RPR=0;RUN=1;SAF=7;SAP=6.91895;SAR=13;SRF=25;SRP=17.6074;SRR=47;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:92:72,20:72:2561:20:727:-38.0547,0,-203.008
+Contig_279_493.246	928	.	GTTTAAATCTTTTTATAAAAGAACGTAAT	GT,GTTTAAATCTTTTTATAAAAGAACGTAAC	2516.97	.	AB=0.505051,0.267677;ABP=3.05417,95.8353;AC=1,1;AF=0.5,0.5;AN=2;AO=100,53;CIGAR=1M27D1M,28M1X;DP=198;DPB=105.172;DPRA=0,0;EPP=6.13722,9.93443;EPPR=3.79993;GTI=0;LEN=27,1;MEANALT=3,3;MQM=60,60;MQMR=60;NS=1;NUMALT=2;ODDS=72.5749;PAIRED=0.98,0.962264;PAIREDR=0.977273;PAO=0.333333,7.33333;PQA=2.33333,251.333;PQR=2.33333;PRO=0.333333;QA=3152,1940;QR=1551;RO=44;RPL=21,17;RPP=76.0586,17.8009;RPPR=6.16881;RPR=79,36;RUN=1,1;SAF=59,32;SAP=10.0459,7.96781;SAR=41,21;SRF=22;SRP=3.0103;SRR=22;TYPE=del,snp	GT:DP:AD:RO:QR:AO:QA:GL	1/2:198:44,100,53:44:1551:100,53:3152,1940:-272.446,-32.2678,-128.436,-127.145,0,-237.476
+Contig_279_493.246	960	.	ATGTTAACGTTTGACTTATAAAAATGG	CTGTAGGA	2568.9	.	AB=0.469194;ABP=4.74954;AC=1;AF=0.5;AN=2;AO=99;CIGAR=1X3M19D1M1X1M1X;DP=211;DPB=140.926;DPRA=0;EPP=5.66432;EPPR=14.1628;GTI=0;LEN=27;MEANALT=9;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=591.512;PAIRED=0.979798;PAIREDR=0.941748;PAO=4;PQA=138;PQR=0;PRO=4;QA=3626;QR=3711;RO=103;RPL=38;RPP=14.6134;RPPR=35.0764;RPR=61;RUN=1;SAF=58;SAP=9.34924;SAR=41;SRF=59;SRP=7.75381;SRR=44;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/1:211:103,99:103:3711:99:3626:-265.503,0,-273.167
+Contig_279_493.246	1012	.	G	A	1159.04	.	AB=0.222812;ABP=254.607;AC=1;AF=0.5;AN=2;AO=84;CIGAR=1X;DP=377;DPB=377;DPRA=0;EPP=5.59539;EPPR=20.9268;GTI=0;LEN=1;MEANALT=3;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=266.878;PAIRED=0.928571;PAIREDR=0.910653;PAO=0;PQA=0;PQR=0;PRO=0;QA=2925;QR=10467;RO=291;RPL=34;RPP=9.62812;RPPR=94.9509;RPR=50;RUN=1;SAF=51;SAP=11.386;SAR=33;SRF=176;SRP=30.7768;SRR=115;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:377:291,84:291:10467:84:2925:-150.399,0,-828.779
+Contig_279_493.246	1207	.	T	C	15947.8	.	AB=0.848951;ABP=759.232;AC=1;AF=0.5;AN=2;AO=607;CIGAR=1X;DP=715;DPB=715;DPRA=0;EPP=3.61488;EPPR=4.00471;GTI=0;LEN=1;MEANALT=2;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=37.5585;PAIRED=0.688633;PAIREDR=0.607477;PAO=0;PQA=0;PQR=0;PRO=0;QA=21385;QR=3609;RO=107;RPL=400;RPP=136.264;RPPR=3.51765;RPR=207;RUN=1;SAF=381;SAP=88.957;SAR=226;SRF=72;SRP=30.793;SRR=35;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:715:107,607:107:3609:607:21385:-1708.84,0,-109.924
+Contig_286_98.2145	10236	.	GTG	GA	1150.78	.	AB=0.331633;ABP=51.2702;AC=1;AF=0.5;AN=2;AO=65;CIGAR=1M1D1X;DP=196;DPB=174;DPRA=0;EPP=3.04371;EPPR=7.42218;GTI=0;LEN=2;MEANALT=6;MQM=52.5538;MQMR=60;NS=1;NUMALT=1;ODDS=264.977;PAIRED=0.907692;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=2388;QR=4498;RO=126;RPL=65;RPP=144.156;RPPR=3.07924;RPR=0;RUN=1;SAF=33;SAP=3.04371;SAR=32;SRF=53;SRP=9.90386;SRR=73;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/1:196:126,65:126:4498:65:2388:-144.185,0,-347.318
+Contig_286_98.2145	10267	.	C	T	986.879	.	AB=0.322581;ABP=53.8648;AC=1;AF=0.5;AN=2;AO=60;CIGAR=1X;DP=186;DPB=186;DPRA=0;EPP=3.15506;EPPR=4.73369;GTI=0;LEN=1;MEANALT=1;MQM=55.8333;MQMR=60;NS=1;NUMALT=1;ODDS=227.237;PAIRED=0.9;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=2084;QR=4521;RO=126;RPL=60;RPP=133.299;RPPR=8.59409;RPR=0;RUN=1;SAF=29;SAP=3.15506;SAR=31;SRF=54;SRP=8.59409;SRR=72;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:186:126,60:126:4521:60:2084:-127.158,0,-351.012
+Contig_286_98.2145	10302	.	A	G	965.333	.	AB=0.308511;ABP=62.8875;AC=1;AF=0.5;AN=2;AO=58;CIGAR=1X;DP=188;DPB=188;DPRA=0;EPP=3.16006;EPPR=3.61163;GTI=0;LEN=1;MEANALT=1;MQM=55.6897;MQMR=60;NS=1;NUMALT=1;ODDS=222.276;PAIRED=0.896552;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=2073;QR=4577;RO=130;RPL=58;RPP=128.956;RPPR=27.1303;RPR=0;RUN=1;SAF=28;SAP=3.16006;SAR=30;SRF=54;SRP=11.0949;SRR=76;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:188:130,58:130:4577:58:2073:-125.331,0,-355.441
+Contig_287_70.6047	870	.	T	A	342.012	.	AB=0.287671;ABP=31.5964;AC=1;AF=0.5;AN=2;AO=21;CIGAR=1X;DP=73;DPB=73;DPRA=0;EPP=3.1137;EPPR=4.51363;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=78.7512;PAIRED=0.952381;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=774;QR=1831;RO=52;RPL=0;RPP=48.6112;RPPR=27.0635;RPR=21;RUN=1;SAF=11;SAP=3.1137;SAR=10;SRF=25;SRP=3.17734;SRR=27;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:73:52,21:52:1831:21:774:-48.0111,0,-143.073
+Contig_287_70.6047	929	.	A	T	479.308	.	AB=0.328947;ABP=22.325;AC=1;AF=0.5;AN=2;AO=25;CIGAR=1X;DP=76;DPB=76;DPRA=0;EPP=3.09716;EPPR=4.07475;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=59.6275;NS=1;NUMALT=1;ODDS=110.365;PAIRED=0.96;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=903;QR=1826;RO=51;RPL=3;RPP=34.3664;RPPR=12.5903;RPR=22;RUN=1;SAF=13;SAP=3.09716;SAR=12;SRF=24;SRP=3.3935;SRR=27;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:76:51,25:51:1826:25:903:-58.6984,0,-141.716
+Contig_287_70.6047	939	.	G	T	613.381	.	AB=0.375;ABP=13.8677;AC=1;AF=0.5;AN=2;AO=30;CIGAR=1X;DP=80;DPB=80;DPRA=0;EPP=3.29983;EPPR=3.70517;GTI=0;LEN=1;MEANALT=1;MQM=59.3667;MQMR=60;NS=1;NUMALT=1;ODDS=141.236;PAIRED=0.966667;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=1071;QR=1781;RO=50;RPL=3;RPP=44.7026;RPPR=14.1282;RPR=27;RUN=1;SAF=15;SAP=3.0103;SAR=15;SRF=24;SRP=3.18402;SRR=26;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:80:50,30:50:1781:30:1071:-72.6034,0,-136.467
+Contig_287_70.6047	949	.	T	C	715.963	.	AB=0.4;ABP=9.95901;AC=1;AF=0.5;AN=2;AO=32;CIGAR=1X;DP=80;DPB=80;DPRA=0;EPP=3.28173;EPPR=3.19126;GTI=0;LEN=1;MEANALT=1;MQM=59.4062;MQMR=60;NS=1;NUMALT=1;ODDS=164.857;PAIRED=0.96875;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=1188;QR=1748;RO=48;RPL=3;RPP=48.8827;RPPR=21.1059;RPR=29;RUN=1;SAF=16;SAP=3.0103;SAR=16;SRF=23;SRP=3.19126;SRR=25;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:80:48,32:48:1748:32:1188:-83.01,0,-133.504
+Contig_287_70.6047	970	.	C	T	617.845	.	AB=0.37037;ABP=14.8328;AC=1;AF=0.5;AN=2;AO=30;CIGAR=1X;DP=81;DPB=81;DPRA=0;EPP=3.29983;EPPR=3.05288;GTI=0;LEN=1;MEANALT=1;MQM=57.5333;MQMR=60;NS=1;NUMALT=1;ODDS=142.264;PAIRED=0.966667;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=1078;QR=1829;RO=51;RPL=4;RPP=38.0434;RPPR=29.6215;RPR=26;RUN=1;SAF=14;SAP=3.29983;SAR=16;SRF=25;SRP=3.05288;SRR=26;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:81:51,30:51:1829:30:1078:-72.3487,0,-140.488
+Contig_287_70.6047	1013	.	T	A	681.663	.	AB=0.410959;ABP=8.03741;AC=1;AF=0.5;AN=2;AO=30;CIGAR=1X;DP=73;DPB=73;DPRA=0;EPP=3.29983;EPPR=3.21711;GTI=0;LEN=1;MEANALT=2;MQM=57.5333;MQMR=57.5714;NS=1;NUMALT=1;ODDS=156.959;PAIRED=0.966667;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=1106;QR=1500;RO=42;RPL=24;RPP=26.4622;RPPR=37.9607;RPR=6;RUN=1;SAF=14;SAP=3.29983;SAR=16;SRF=20;SRP=3.21711;SRR=22;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:73:42,30:42:1500:30:1106:-76.6186,0,-108.616
+Contig_287_70.6047	1110	.	G	A	16.4322	.	AB=0.25;ABP=13.8677;AC=1;AF=0.5;AN=2;AO=5;CIGAR=1X;DP=20;DPB=20;DPRA=0;EPP=3.44459;EPPR=6.62942;GTI=0;LEN=1;MEANALT=1;MQM=45.2;MQMR=60;NS=1;NUMALT=1;ODDS=3.76064;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=186;QR=553;RO=15;RPL=5;RPP=13.8677;RPPR=6.62942;RPR=0;RUN=1;SAF=2;SAP=3.44459;SAR=3;SRF=9;SRP=4.31318;SRR=6;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:20:15,5:15:553:5:186:-7.97883,0,-44.0861
+Contig_287_70.6047	1116	.	T	C	18.2278	.	AB=0.25;ABP=13.8677;AC=1;AF=0.5;AN=2;AO=5;CIGAR=1X;DP=20;DPB=20;DPRA=0;EPP=3.44459;EPPR=6.62942;GTI=0;LEN=1;MEANALT=1;MQM=45.2;MQMR=60;NS=1;NUMALT=1;ODDS=4.18195;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=186;QR=551;RO=15;RPL=5;RPP=13.8677;RPPR=6.62942;RPR=0;RUN=1;SAF=2;SAP=3.44459;SAR=3;SRF=9;SRP=4.31318;SRR=6;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:20:15,5:15:551:5:186:-8.16181,0,-43.9054
+Contig_292_70.3614	15406	.	A	T	3.28861	.	AB=0.222222;ABP=9.04217;AC=1;AF=0.5;AN=2;AO=2;CIGAR=1X;DP=9;DPB=9;DPRA=0;EPP=3.0103;EPPR=3.32051;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=0.124307;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=75;QR=264;RO=7;RPL=2;RPP=7.35324;RPPR=5.80219;RPR=0;RUN=1;SAF=1;SAP=3.0103;SAR=1;SRF=3;SRP=3.32051;SRR=4;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:9:7,2:7:264:2:75:-4.41107,0,-21.4114
+Contig_301_120.261	1039	.	A	G	656.234	.	AB=0.30137;ABP=53.0434;AC=1;AF=0.5;AN=2;AO=44;CIGAR=1X;DP=146;DPB=146;DPRA=0;EPP=15.6443;EPPR=3.09716;GTI=0;LEN=1;MEANALT=2;MQM=56.1364;MQMR=60;NS=1;NUMALT=1;ODDS=151.103;PAIRED=0.636364;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=1556;QR=3439;RO=100;RPL=0;RPP=98.5551;RPPR=3.79203;RPR=44;RUN=1;SAF=14;SAP=15.6443;SAR=30;SRF=52;SRP=3.35774;SRR=48;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:146:100,44:100:3439:44:1556:-91.2369,0,-266.214
+Contig_301_120.261	1044	.	AAAAATGT	GGTAAT	705.452	.	AB=0.302158;ABP=50.2672;AC=1;AF=0.5;AN=2;AO=42;CIGAR=3X2M2D1M;DP=139;DPB=127.875;DPRA=0;EPP=13.1438;EPPR=3.89863;GTI=0;LEN=6;MEANALT=8;MQM=55.9524;MQMR=60;NS=1;NUMALT=1;ODDS=162.436;PAIRED=0.642857;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=1505;QR=3031;RO=88;RPL=2;RPP=77.6676;RPPR=4.58955;RPR=40;RUN=1;SAF=14;SAP=13.1438;SAR=28;SRF=47;SRP=3.89863;SRR=41;TYPE=complex	GT:DP:AD:RO:QR:AO:QA:GL	0/1:139:88,42:88:3031:42:1505:-90.8329,0,-233.716
+Contig_301_120.261	1055	.	G	A	765.471	.	AB=0.315068;ABP=46.3803;AC=1;AF=0.5;AN=2;AO=46;CIGAR=1X;DP=146;DPB=146;DPRA=0;EPP=15.095;EPPR=3.09716;GTI=0;LEN=1;MEANALT=1;MQM=56.3043;MQMR=60;NS=1;NUMALT=1;ODDS=176.256;PAIRED=0.652174;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=1610;QR=3389;RO=100;RPL=6;RPP=57.5803;RPPR=3.79203;RPR=40;RUN=1;SAF=15;SAP=15.095;SAR=31;SRF=48;SRP=3.35774;SRR=52;TYPE=snp	GT:DP:AD:RO:QR:AO:QA:GL	0/1:146:100,46:100:3389:46:1610:-95.2905,0,-261.225
