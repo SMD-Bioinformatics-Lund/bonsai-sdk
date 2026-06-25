@@ -44,8 +44,10 @@ class GroupsMixin(ApiRequestProtocol):
             headers=headers,
             expected_status=(HTTPStatus.OK,),
         )
-        data = resp.data or []
-        return [GroupResponse.model_validate(group) for group in data]
+        groups = []
+        if resp.data: 
+            groups = resp.data.get("data", [])
+        return [GroupResponse.model_validate(group) for group in groups]
 
     def delete_group(self, group_id: str, *, headers: OpHeaders = None) -> dict[str, Any]:
         """Delete a group."""
