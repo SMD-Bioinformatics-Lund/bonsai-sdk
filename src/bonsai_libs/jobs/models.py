@@ -2,88 +2,50 @@
 
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 
 class JobRequest(BaseModel):
-    """Represents a job execution request.
+    """Represents a job execution request."""
 
-    Attributes:
-        task: The name of the registered task to execute.
-        payload: Dictionary of task arguments.
-    """
+    model_config = ConfigDict(extra="forbid")
 
     task: str = Field(..., description="Name of the registered task to execute")
-    payload: dict[str, Any] = Field(
-        default_factory=dict, description="Task arguments"
-    )
-
-    class Config:
-        """Pydantic config."""
-
-        extra = "forbid"
+    payload: dict[str, Any] = Field(default_factory=dict, description="Task arguments")
 
     @field_validator("task")
     @classmethod
-    def validate_task_name(cls, v: str) -> str:
-        """Ensure task name is non-empty."""
-        if not v or not v.strip():
+    def validate_task_name(cls, value: str) -> str:
+        """Ensure task names are not empty or whitespace-only."""
+        if not value or not value.strip():
             raise ValueError("task name must be non-empty")
-        return v.strip()
+        return value.strip()
 
 
 class JobResponse(BaseModel):
-    """Represents a job execution response.
+    """Represents a job execution response."""
 
-    Attributes:
-        status: Execution status (success or error).
-        task: Name of the executed task.
-        result: Task result if successful, None otherwise.
-        error: Error message if failed, None otherwise.
-        metadata: Execution metadata (timing, etc).
-    """
+    model_config = ConfigDict(extra="forbid")
 
-    status: Literal["success", "error"] = Field(
-        ..., description="Execution status"
-    )
+    status: Literal["success", "error"] = Field(..., description="Execution status")
     task: str = Field(..., description="Name of the executed task")
-    result: Any | None = Field(
-        default=None, description="Task result (if successful)"
-    )
-    error: str | None = Field(
-        default=None, description="Error message (if failed)"
-    )
-    metadata: dict[str, Any] = Field(
-        default_factory=dict, description="Execution metadata"
-    )
+    result: Any | None = Field(default=None, description="Task result (if successful)")
+    error: str | None = Field(default=None, description="Error message (if failed)")
+    metadata: dict[str, Any] = Field(default_factory=dict, description="Execution metadata")
 
-    class Config:
-        """Pydantic config."""
-
-        extra = "forbid"
-
-    @field_validator("status")
-    @classmethod
-    def validate_status(cls, v: str, info) -> str:
-        """Ensure result/error consistency."""
-        result = info.data.get("result")
-        error = info.data.get("error")
-
-        if v == "success" and error is not None:
-            raise ValueError(
-                "status is 'success' but error is set"
-            )
-        if v == "error" and error is None:
-            raise ValueError(
-                "status is 'error' but error is not set"
-            )
-
-        return v
+    @model_validator(mode="after")
+    def validate_status_consistency(self) -> "JobResponse":
+        """Ensure success and error fields remain consistent."""
+        if self.status == "success" and self.error is not None:
+            raise ValueError("status is 'success' but error is set")
+        if self.status == "error" and self.error is None:
+            raise ValueError("status is 'error' but error is not set")
+        return self
 
     def to_dict(self) -> dict[str, Any]:
-        """Export response as dictionary (JSON-safe)."""
-        return self.model_dump()
+        """Export response as a dictionary."""
+        return self.model_dump(mode="json")
 
     def to_json(self) -> str:
-        """Export response as JSON string."""
+        """Export response as a JSON string."""
         return self.model_dump_json()

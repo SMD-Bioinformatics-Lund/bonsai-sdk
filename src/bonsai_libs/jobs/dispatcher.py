@@ -1,8 +1,14 @@
 """Job dispatcher for executing registered tasks."""
 
+from __future__ import annotations
+
 import json
 import time
+from collections.abc import Mapping
+from dataclasses import asdict, is_dataclass
 from typing import Any
+
+from pydantic import BaseModel, ValidationError
 
 from .exceptions import InvalidJobRequestError, TaskNotFoundError
 from .models import JobRequest, JobResponse
@@ -10,161 +16,126 @@ from .registry import TaskRegistry
 
 
 def make_json_serializable(obj: Any) -> Any:
-    """Convert object to JSON-serializable form.
-
-    Recursively processes objects to ensure JSON compatibility:
-    - dict, list, str, int, float, bool, None → unchanged
-    - Other objects → converted to string
-
-    Args:
-        obj: Object to convert.
-
-    Returns:
-        JSON-serializable equivalent.
-    """
-    # Handle primitive types
+    """Convert objects into a JSON-safe structure."""
     if obj is None or isinstance(obj, (bool, int, float, str)):
         return obj
 
-    # Handle dict
     if isinstance(obj, dict):
-        return {k: make_json_serializable(v) for k, v in obj.items()}
+        return {str(k): make_json_serializable(v) for k, v in obj.items()}
 
-    # Handle list/tuple
-    if isinstance(obj, (list, tuple)):
+    if isinstance(obj, (list, tuple, set)):
         return [make_json_serializable(item) for item in obj]
 
-    # Handle Pydantic models
-    if hasattr(obj, "model_dump"):
-        return make_json_serializable(obj.model_dump())
+    if isinstance(obj, BaseModel):
+        return make_json_serializable(obj.model_dump(mode="json"))
 
-    # Handle dataclasses
-    if hasattr(obj, "__dataclass_fields__"):
-        return make_json_serializable(obj.__dict__)
+    if is_dataclass(obj):
+        return make_json_serializable(asdict(obj))
 
-    # Fallback: convert to string
+    if isinstance(obj, bytes):
+        return obj.decode("utf-8", errors="replace")
+
+    if isinstance(obj, Mapping):
+        return {str(k): make_json_serializable(v) for k, v in obj.items()}
+
+    if hasattr(obj, "__dict__") and not isinstance(obj, type):
+        return f"<{obj.__class__.__module__}.{obj.__class__.__name__} object>"
+
     return str(obj)
+
+
+def _safe_error_message(exc: Exception) -> str:
+    """Return a concise, non-sensitive error message."""
+    message = str(exc).strip()
+    if not message:
+        return exc.__class__.__name__
+    if message.startswith("Traceback"):
+        return exc.__class__.__name__
+    return message
 
 
 def dispatch_job(
     registry: TaskRegistry,
     request: dict[str, Any] | JobRequest,
 ) -> JobResponse:
-    """Execute a job and return structured response.
-
-    This is the main entry point for job execution. It:
-    1. Validates the request
-    2. Resolves the task from the registry
-    3. Executes the task safely
-    4. Captures all exceptions
-    5. Ensures JSON-serializable output
-    6. Returns structured response
-
-    Args:
-        registry: TaskRegistry instance containing registered tasks.
-        request: JobRequest dict or instance with 'task' and 'payload'.
-
-    Returns:
-        JobResponse with execution result or error.
-
-    Example:
-        registry = TaskRegistry()
-
-        @registry.register("greet")
-        def greet(name: str) -> dict:
-            return {"message": f"Hello, {name}!"}
-
-        response = dispatch_job(registry, {
-            "task": "greet",
-            "payload": {"name": "Alice"}
-        })
-
-        assert response.status == "success"
-        assert response.result["message"] == "Hello, Alice!"
-    """
-    start_time = time.time()
-    task_name = None
+    """Execute a registered task and return a structured JobResponse."""
+    start_time = time.perf_counter()
+    task_name: str | None = None
 
     try:
-        # Step 1: Validate request
-        if isinstance(request, dict):
-            job_request = JobRequest(**request)
-        else:
+        if isinstance(request, JobRequest):
             job_request = request
+        elif isinstance(request, dict):
+            job_request = JobRequest.model_validate(request)
+        else:
+            raise InvalidJobRequestError("request must be a mapping or JobRequest")
 
         task_name = job_request.task
 
-        # Step 2: Resolve task
         if not registry.exists(task_name):
-            raise TaskNotFoundError(
-                f"Task '{task_name}' not found in registry"
-            )
+            raise TaskNotFoundError(f"Task '{task_name}' not found in registry")
 
         task_func = registry.get(task_name)
+        input_schema = registry.get_input_schema(task_name)
 
-        # Step 3: Execute task
-        result = task_func(**job_request.payload)
+        payload = job_request.payload
+        if input_schema is not None:
+            try:
+                validated_payload = input_schema.model_validate(payload)
+            except ValidationError as exc:
+                raise InvalidJobRequestError(
+                    f"Invalid payload for task '{task_name}': {exc}"
+                ) from exc
+            payload = validated_payload.model_dump(mode="json")
 
-        # Step 4: Ensure JSON serializable
+        result = task_func(**payload)
         result = make_json_serializable(result)
+        json.dumps(result)
 
-        # Step 5: Validate JSON serializability
-        try:
-            json.dumps(result)
-        except (TypeError, ValueError) as e:
-            # Fallback if JSON serialization still fails
-            result = str(result)
-
-        execution_time = time.time() - start_time
-
+        execution_time = time.perf_counter() - start_time
         return JobResponse(
             status="success",
             task=task_name,
             result=result,
             error=None,
-            metadata={
-                "execution_time_seconds": execution_time,
-            },
+            metadata={"execution_time_seconds": round(execution_time, 6)},
         )
 
-    except InvalidJobRequestError as e:
-        execution_time = time.time() - start_time
+    except InvalidJobRequestError as exc:
+        execution_time = time.perf_counter() - start_time
         return JobResponse(
             status="error",
             task=task_name or "unknown",
             result=None,
-            error=f"Invalid request: {str(e)}",
+            error=f"Invalid request: {_safe_error_message(exc)}",
             metadata={
-                "execution_time_seconds": execution_time,
+                "execution_time_seconds": round(execution_time, 6),
                 "error_type": "InvalidJobRequestError",
             },
         )
 
-    except TaskNotFoundError as e:
-        execution_time = time.time() - start_time
+    except TaskNotFoundError as exc:
+        execution_time = time.perf_counter() - start_time
         return JobResponse(
             status="error",
             task=task_name or "unknown",
             result=None,
-            error=str(e),
+            error=_safe_error_message(exc),
             metadata={
-                "execution_time_seconds": execution_time,
+                "execution_time_seconds": round(execution_time, 6),
                 "error_type": "TaskNotFoundError",
             },
         )
 
-    except Exception as e:
-        # Catch all other exceptions safely
-        execution_time = time.time() - start_time
-        error_msg = f"{type(e).__name__}: {str(e)}"
-
+    except Exception as exc:  # pragma: no cover - defensive path
+        execution_time = time.perf_counter() - start_time
         return JobResponse(
             status="error",
             task=task_name or "unknown",
             result=None,
-            error=error_msg,
+            error=_safe_error_message(exc),
             metadata={
-                "execution_time_seconds": execution_time,
-                "error_type": type(e).__name__,
+                "execution_time_seconds": round(execution_time, 6),
+                "error_type": type(exc).__name__,
             },
         )

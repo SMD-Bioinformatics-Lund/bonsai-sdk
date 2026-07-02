@@ -1,112 +1,90 @@
 """Task registry for job execution framework."""
 
+from __future__ import annotations
+
 from typing import Any, Callable
+
+from pydantic import BaseModel
 
 from .exceptions import TaskNotFoundError, TaskValidationError
 
 
 class TaskRegistry:
-    """Registry for managing task definitions.
+    """Registry for managing callable task definitions.
 
-    A lightweight registry that stores and manages callable task definitions.
     Tasks must be explicitly registered before they can be executed.
-
-    Example:
-        registry = TaskRegistry()
-
-        @registry.register("my_task")
-        def my_task(x: int) -> int:
-            return x * 2
-
-        task_fn = registry.get("my_task")
-        result = task_fn(x=5)
     """
 
     def __init__(self) -> None:
-        """Initialize empty task registry."""
-        self._tasks: dict[str, Callable[..., Any]] = {}
+        """Initialize an empty task registry."""
 
-    def register(self, task_name: str) -> Callable:
-        """Decorator to register a task.
+        # tasks are stored as a mapping with task name as key and a tuple as value
+        # the tuple contains the callable function and a optionaly Pydantic input schema for payload validation
+        self._tasks: dict[str, tuple[Callable[..., Any], type[BaseModel] | None]] = {}
+
+    def register(
+        self,
+        task_name: str,
+        *,
+        input_schema: type[BaseModel] | None = None,
+    ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
+        """Register a callable task using a decorator.
 
         Args:
             task_name: Unique name for the task.
+            input_schema: Optional Pydantic schema used to validate payloads.
 
         Returns:
             Decorator function.
 
         Raises:
-            TaskValidationError: If task name is invalid or already registered.
+            TaskValidationError: If the task name is invalid or already registered.
         """
+        self._validate_task_name(task_name)
 
         def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
-            self._validate_task_name(task_name)
             if task_name in self._tasks:
-                raise TaskValidationError(
-                    f"Task '{task_name}' is already registered"
-                )
+                raise TaskValidationError(f"Task '{task_name}' is already registered")
             if not callable(func):
+                raise TaskValidationError(f"Task '{task_name}' must be callable")
+            if input_schema is not None and not (
+                isinstance(input_schema, type) and issubclass(input_schema, BaseModel)
+            ):
                 raise TaskValidationError(
-                    f"Task '{task_name}' must be callable"
+                    f"Task '{task_name}' input schema must be a Pydantic model"
                 )
 
-            self._tasks[task_name] = func
+            self._tasks[task_name] = (func, input_schema)
             return func
 
         return decorator
 
     def get(self, task_name: str) -> Callable[..., Any]:
-        """Retrieve a registered task.
-
-        Args:
-            task_name: Name of the task.
-
-        Returns:
-            The callable task function.
-
-        Raises:
-            TaskNotFoundError: If task is not registered.
-        """
+        """Retrieve a registered task callable."""
         if task_name not in self._tasks:
-            raise TaskNotFoundError(
-                f"Task '{task_name}' not found in registry"
-            )
-        return self._tasks[task_name]
+            raise TaskNotFoundError(f"Task '{task_name}' not found in registry")
+        return self._tasks[task_name][0]
+
+    def get_input_schema(self, task_name: str) -> type[BaseModel] | None:
+        """Return the optional input schema associated with a task."""
+        if task_name not in self._tasks:
+            raise TaskNotFoundError(f"Task '{task_name}' not found in registry")
+        return self._tasks[task_name][1]
 
     def list(self) -> list[str]:
-        """List all registered task names.
-
-        Returns:
-            Sorted list of registered task names.
-        """
+        """List all registered task names in sorted order."""
         return sorted(self._tasks.keys())
 
     def exists(self, task_name: str) -> bool:
-        """Check if a task is registered.
-
-        Args:
-            task_name: Name of the task.
-
-        Returns:
-            True if registered, False otherwise.
-        """
+        """Check whether a task name is already registered."""
         return task_name in self._tasks
 
     @staticmethod
     def _validate_task_name(task_name: str) -> None:
-        """Validate task name format.
-
-        Args:
-            task_name: Name to validate.
-
-        Raises:
-            TaskValidationError: If name is invalid.
-        """
-        if not task_name:
-            raise TaskValidationError("Task name cannot be empty")
+        """Validate task name format."""
         if not isinstance(task_name, str):
             raise TaskValidationError("Task name must be a string")
         if not task_name.strip():
-            raise TaskValidationError("Task name cannot be whitespace-only")
+            raise TaskValidationError("Task name cannot be empty")
         if len(task_name) > 255:
             raise TaskValidationError("Task name too long (max 255 chars)")
