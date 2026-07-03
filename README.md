@@ -45,17 +45,20 @@ The job framework in `bonsai_libs.jobs` provides a lightweight foundation for di
 
 ### Task registration
 
-All registered tasks **must** accept an `ExecutionContext` parameter. This ensures every task has access to request tracing, service identity, and retry metadata.
+All registered tasks **must** accept a `TaskContext` parameter. This ensures every task has access to request tracing, service identity, logging, and retry metadata.
 
 ```python
-from bonsai_libs.jobs import TaskRegistry, ExecutionContext, dispatch_job
+from bonsai_libs.jobs import TaskRegistry, TaskContext, dispatch_job
 
 registry = TaskRegistry()
 
 @registry.register("add_signature")
-def add_signature(sample_id: str, context: ExecutionContext) -> dict[str, str]:
-    # context contains request_id, trace_id, service, attempt, timestamp, etc.
-    print(f"Request: {context.request_id}")
+def add_signature(sample_id: str, context: TaskContext) -> dict[str, str]:
+    # context.execution contains request_id, trace_id, service, attempt, timestamp, etc.
+    # context.logger provides structured logging
+    # context.tracer provides distributed tracing with spans
+    if context.logger:
+        context.logger.info("processing_sample", sample_id=sample_id)
     return {"status": "added", "id": sample_id}
 
 response = dispatch_job(registry, {
@@ -66,10 +69,10 @@ response = dispatch_job(registry, {
 
 ### Execution context and tracing
 
-Every task receives an `ExecutionContext` that enables end-to-end request tracing:
+Every task receives a `TaskContext` that combines execution metadata with optional logging and tracing tools:
 
 ```python
-from bonsai_libs.jobs import build_execution_context
+from bonsai_libs.jobs import build_execution_context, StandardLogger, dispatch_job
 
 context = build_execution_context(
     request_id="req-123",
@@ -78,53 +81,94 @@ context = build_execution_context(
     attempt=1,
 )
 
+logger = StandardLogger(name="my-service")
+
 response = dispatch_job(
     registry,
     {"task": "add_signature", "payload": {"sample_id": "123"}},
     context=context,
+    logger=logger,  # Optional: logger is passed to task via TaskContext
 )
 ```
 
-### Structured logging
+### Structured logging and tracing
 
-The framework uses a `LoggerProtocol` for structured logging, decoupled from implementation:
+The framework uses a `LoggerProtocol` for structured logging, and `TracerProtocol` for distributed tracing:
 
 ```python
 from bonsai_libs.jobs import ExecutionHooks, StandardLogger
 
 logger = StandardLogger(name="my-service")
-hooks = ExecutionHooks(logger=logger)
 
-dispatch_job(registry, request, hooks=hooks)
+# Optional: Create explicit tracer
+from bonsai_libs.jobs import SimpleTracer
+tracer = SimpleTracer(logger=logger)
+
+response = dispatch_job(
+    registry,
+    request,
+    logger=logger,
+    tracer=tracer,  # Optional: if provided, passed to task via TaskContext
+)
 # Logs: task.start, task.success, or task.error with structured fields
 ```
+
+#### Tracing with spans
+
+Tasks can use the tracer from context to create execution spans:
+
+```python
+@registry.register("process_sample")
+def process_sample(sample_id: str, context: TaskContext) -> dict[str, object]:
+    if context.tracer:
+        with context.tracer.start_span("validate_sample", sample_id=sample_id):
+            # Validation logic...
+            pass
+        
+        with context.tracer.start_span("run_analysis"):
+            # Analysis logic...
+            pass
+    
+    return {"status": "complete"}
+```
+
+Span events are logged as structured messages:
+- `span.start`: When entering a span (metadata included)
+- `span.end`: When exiting a span (duration_seconds included)
+- `span.error`: If an exception occurs (error_type, error_message, duration_seconds included)
+
 
 ### Lifecycle hooks
 
 Optional hooks allow services to integrate observability and business logic:
 
 ```python
-def before_task(context: ExecutionContext, payload: dict) -> None:
+def before_task(context: TaskContext, payload: dict) -> None:
     # Prepare execution context or validate preconditions
-    pass
+    # Can access logger and tracer if provided
+    if context.logger:
+        context.logger.debug("task_starting", task_id=context.execution.request_id)
 
-def after_task(context: ExecutionContext, payload: dict) -> None:
+def after_task(context: TaskContext, payload: dict) -> None:
     # Record success, update cache, etc.
-    pass
+    if context.logger:
+        context.logger.info("task_completed")
 
-def on_error(context: ExecutionContext, exc: Exception) -> None:
+def on_error(context: TaskContext, exc: Exception) -> None:
     # Record failure, create alert, etc.
-    pass
+    if context.logger:
+        context.logger.error("task_failed", error=str(exc))
 
 hooks = ExecutionHooks(
-    logger=logger,
     before_task=before_task,
     after_task=after_task,
     on_error=on_error,
 )
 
-dispatch_job(registry, request, hooks=hooks)
+dispatch_job(registry, request, hooks=hooks, logger=logger)
 ```
+
+Note: ExecutionHooks no longer has `logger` or `tracer` fields. Instead, pass them separately to `dispatch_job()` and they become available to hooks via the `TaskContext.logger` and `TaskContext.tracer` attributes.
 
 ### JSON contract
 
@@ -147,4 +191,4 @@ The framework avoids arbitrary code execution:
 
 ### Extension points
 
-New tasks are added by registering them with required `ExecutionContext` parameter. Payload schemas can evolve using Pydantic models, while the dispatcher enforces the shared contract. Custom loggers can be injected via the hook system.
+New tasks are added by registering them with required `TaskContext` parameter. Payload schemas can evolve using Pydantic models, while the dispatcher enforces the shared contract. Custom loggers and tracers can be injected via `dispatch_job()` parameters.
