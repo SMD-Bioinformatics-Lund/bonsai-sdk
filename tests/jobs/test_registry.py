@@ -3,7 +3,7 @@
 import pytest
 from pydantic import BaseModel
 
-from bonsai_libs.jobs import ExecutionContext, TaskRegistry
+from bonsai_libs.jobs import TaskContext, TaskRegistry
 from bonsai_libs.jobs.exceptions import TaskValidationError
 
 
@@ -12,11 +12,11 @@ class SamplePayload(BaseModel):
 
 
 def test_registry_registers_and_lists_tasks() -> None:
-    """Registry can register tasks that accept context."""
+    """Registry can register tasks that accept TaskContext."""
     registry = TaskRegistry()
 
     @registry.register("echo")
-    def echo(value: str, context: ExecutionContext) -> dict[str, str]:
+    def echo(value: str, context: TaskContext) -> dict[str, str]:
         return {"value": value}
 
     assert registry.get("echo") is echo
@@ -39,13 +39,13 @@ def test_registry_rejects_duplicate_or_invalid_tasks() -> None:
     registry = TaskRegistry()
 
     @registry.register("sample")
-    def sample(context: ExecutionContext) -> str:
+    def sample(context: TaskContext) -> str:
         return "ok"
 
     with pytest.raises(TaskValidationError, match="already registered"):
 
         @registry.register("sample")
-        def duplicate(context: ExecutionContext) -> str:
+        def duplicate(context: TaskContext) -> str:
             return "no"
 
     with pytest.raises(TaskValidationError, match="empty"):
@@ -60,7 +60,7 @@ def test_registry_accepts_input_schema() -> None:
     registry = TaskRegistry()
 
     @registry.register("validate", input_schema=SamplePayload)
-    def validate(value: str, context: ExecutionContext) -> dict[str, str]:
+    def validate(value: str, context: TaskContext) -> dict[str, str]:
         return {"value": value}
 
     assert registry.get_input_schema("validate") is SamplePayload
@@ -73,7 +73,7 @@ def test_registry_rejects_invalid_schema() -> None:
     with pytest.raises(TaskValidationError, match="Pydantic model"):
 
         @registry.register("bad_schema", input_schema=dict)  # type: ignore
-        def bad_schema(context: ExecutionContext) -> None:
+        def bad_schema(context: TaskContext) -> None:
             pass
 
 
@@ -82,7 +82,7 @@ def test_registry_exists_check() -> None:
     registry = TaskRegistry()
 
     @registry.register("exists")
-    def exists(context: ExecutionContext) -> None:
+    def exists(context: TaskContext) -> None:
         pass
 
     assert registry.exists("exists")

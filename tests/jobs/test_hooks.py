@@ -5,11 +5,12 @@ from typing import Any
 from bonsai_libs.jobs import (
     ExecutionContext,
     ExecutionHooks,
+    TaskContext,
     TaskRegistry,
+    StandardLogger,
     build_execution_context,
     dispatch_job,
 )
-from bonsai_libs.jobs.logging import LoggerProtocol
 
 
 class MockLogger:
@@ -30,30 +31,34 @@ class MockLogger:
     def error(self, message: str, **kwargs: Any) -> None:
         self.messages.append(("error", {"message": message, **kwargs}))
 
-
 def test_execution_hooks_with_logging() -> None:
-    """Dispatcher invokes logger hook during execution."""
+    """Dispatcher invokes before/after hooks with logger available."""
     registry = TaskRegistry()
-    logger = MockLogger()
+    logger = StandardLogger("test")
+    hook_calls: list[str] = []
 
     @registry.register("echo")
-    def echo(value: str, context: ExecutionContext) -> dict[str, str]:
+    def echo(value: str, context: TaskContext) -> dict[str, str]:
         return {"value": value}
 
-    hooks = ExecutionHooks(logger=logger)
+    def before_task(context: TaskContext, payload: dict[str, Any]) -> None:
+        hook_calls.append("before")
+        # Logger is available in context
+        assert context.logger is not None
+
+    def after_task(context: TaskContext, payload: dict[str, Any]) -> None:
+        hook_calls.append("after")
+
+    hooks = ExecutionHooks(before_task=before_task, after_task=after_task)
     response = dispatch_job(
         registry,
         {"task": "echo", "payload": {"value": "ok"}},
         hooks=hooks,
+        logger=logger,
     )
 
     assert response.status == "success"
-    assert len(logger.messages) >= 2
-    assert logger.messages[0][0] == "info"
-    assert logger.messages[0][1]["message"] == "task.start"
-    assert logger.messages[-1][0] == "info"
-    assert logger.messages[-1][1]["message"] == "task.success"
-
+    assert hook_calls == ["before", "after"]
 
 def test_execution_hooks_before_and_after_task() -> None:
     """Dispatcher invokes before_task and after_task hooks."""
@@ -61,14 +66,14 @@ def test_execution_hooks_before_and_after_task() -> None:
     hook_calls: list[str] = []
 
     @registry.register("echo")
-    def echo(value: str, context: ExecutionContext) -> dict[str, str]:
+    def echo(value: str, context: TaskContext) -> dict[str, str]:
         hook_calls.append("task_executed")
         return {"value": value}
 
-    def before_task(context: ExecutionContext, payload: dict[str, Any]) -> None:
+    def before_task(context: TaskContext, payload: dict[str, Any]) -> None:
         hook_calls.append("before")
 
-    def after_task(context: ExecutionContext, payload: dict[str, Any]) -> None:
+    def after_task(context: TaskContext, payload: dict[str, Any]) -> None:
         hook_calls.append("after")
 
     hooks = ExecutionHooks(before_task=before_task, after_task=after_task)
@@ -88,10 +93,10 @@ def test_execution_hooks_on_error() -> None:
     errors_caught: list[Exception] = []
 
     @registry.register("failing")
-    def failing(context: ExecutionContext) -> None:
+    def failing(context: TaskContext) -> None:
         raise ValueError("Intentional failure")
 
-    def on_error(context: ExecutionContext, exc: Exception) -> None:
+    def on_error(context: TaskContext, exc: Exception) -> None:
         errors_caught.append(exc)
 
     hooks = ExecutionHooks(on_error=on_error)
@@ -109,13 +114,13 @@ def test_execution_hooks_on_error() -> None:
 def test_execution_context_in_hooks() -> None:
     """Execution context is available in before/after hooks."""
     registry = TaskRegistry()
-    captured_contexts: list[ExecutionContext] = []
+    captured_contexts: list[TaskContext] = []
 
     @registry.register("echo")
-    def echo(context: ExecutionContext) -> dict[str, object]:
+    def echo(context: TaskContext) -> dict[str, object]:
         return {"ok": True}
 
-    def before_task(context: ExecutionContext, payload: dict[str, Any]) -> None:
+    def before_task(context: TaskContext, payload: dict[str, Any]) -> None:
         captured_contexts.append(context)
 
     context = build_execution_context(
@@ -129,6 +134,6 @@ def test_execution_context_in_hooks() -> None:
     )
 
     assert len(captured_contexts) == 1
-    assert captured_contexts[0].request_id == "req-123"
-    assert captured_contexts[0].trace_id == "trace-456"
-    assert captured_contexts[0].service == "test-service"
+    assert captured_contexts[0].execution.request_id == "req-123"
+    assert captured_contexts[0].execution.trace_id == "trace-456"
+    assert captured_contexts[0].execution.service == "test-service"

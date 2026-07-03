@@ -4,7 +4,7 @@ import pytest
 from pydantic import BaseModel
 
 from bonsai_libs.jobs import (
-    ExecutionContext,
+    TaskContext,
     JobRequest,
     JobResponse,
     TaskRegistry,
@@ -23,8 +23,8 @@ def test_dispatch_job_returns_structured_success_response() -> None:
     registry = TaskRegistry()
 
     @registry.register("echo")
-    def echo(value: str, context: ExecutionContext) -> dict[str, str]:
-        return {"value": value, "request_id": context.request_id or "none"}
+    def echo(value: str, context: TaskContext) -> dict[str, str]:
+        return {"value": value, "request_id": context.execution.request_id or "none"}
 
     response = dispatch_job(
         registry, {"task": "echo", "payload": {"value": "ok"}}
@@ -39,15 +39,15 @@ def test_dispatch_job_returns_structured_success_response() -> None:
 
 
 def test_dispatch_job_passes_context_to_task() -> None:
-    """Dispatcher passes execution context to task."""
+    """Dispatcher passes task context to task."""
     registry = TaskRegistry()
 
     @registry.register("echo_context")
-    def echo_context(context: ExecutionContext) -> dict[str, object]:
+    def echo_context(context: TaskContext) -> dict[str, object]:
         return {
-            "request_id": context.request_id,
-            "trace_id": context.trace_id,
-            "service": context.service,
+            "request_id": context.execution.request_id,
+            "trace_id": context.execution.trace_id,
+            "service": context.execution.service,
         }
 
     context = build_execution_context(
@@ -81,7 +81,7 @@ def test_dispatch_job_handles_non_serializable_results() -> None:
     registry = TaskRegistry()
 
     @registry.register("custom_object")
-    def custom_object(context: ExecutionContext) -> object:
+    def custom_object(context: TaskContext) -> object:
         return type("Thing", (), {"value": "test"})()
 
     response = dispatch_job(registry, {"task": "custom_object", "payload": {}})
@@ -96,7 +96,7 @@ def test_dispatch_job_validates_input_schema() -> None:
     registry = TaskRegistry()
 
     @registry.register("validate", input_schema=ExamplePayload)
-    def validate(value: str, context: ExecutionContext) -> dict[str, str]:
+    def validate(value: str, context: TaskContext) -> dict[str, str]:
         return {"value": value}
 
     # Invalid payload (missing required field)
@@ -113,9 +113,8 @@ def test_dispatch_job_handles_task_exceptions() -> None:
     registry = TaskRegistry()
 
     @registry.register("failing")
-    def failing(context: ExecutionContext) -> None:
+    def failing(context: TaskContext) -> None:
         raise ValueError("Task failed intentionally")
-
     response = dispatch_job(registry, {"task": "failing", "payload": {}})
 
     assert response.status == "error"
