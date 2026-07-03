@@ -1,11 +1,16 @@
-"""Pydantic models for job execution framework."""
+"""Task execution context and related models."""
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Literal
+from typing import TYPE_CHECKING, Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+
+if TYPE_CHECKING:
+    from .logging import LoggerProtocol
+    from .tracing import TracerProtocol
 
 
 class ExecutionContext(BaseModel):
@@ -23,6 +28,15 @@ class ExecutionContext(BaseModel):
         description="Execution context timestamp",
     )
     metadata: dict[str, Any] = Field(default_factory=dict, description="Additional context data")
+
+
+@dataclass
+class TaskContext:
+    """Context passed to task functions with execution data and tools."""
+
+    execution: ExecutionContext
+    logger: LoggerProtocol | None = None
+    tracer: TracerProtocol | None = None
 
 
 def build_execution_context(

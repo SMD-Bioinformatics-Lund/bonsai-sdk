@@ -11,21 +11,19 @@ from typing import Any
 from pydantic import BaseModel, ValidationError
 
 from .exceptions import InvalidJobRequestError, TaskNotFoundError
-from .models import ExecutionContext, JobRequest, JobResponse, build_execution_context
-from .registry import TaskRegistry
 from .logging import LoggerProtocol
+from .models import ExecutionContext, JobRequest, JobResponse, TaskContext, build_execution_context
+from .registry import TaskRegistry
+from .tracing import SimpleTracer, TracerProtocol
 
 
 @dataclass
 class ExecutionHooks:
     """Optional hooks invoked around task execution."""
 
-    logger: LoggerProtocol | None = None
-    tracer: Callable[[str, dict[str, Any]], None] | None = None
-
-    before_task: Callable[[ExecutionContext, dict[str, Any]], None] | None = None
-    after_task: Callable[[ExecutionContext, dict[str, Any]], None] | None = None
-    on_error: Callable[[ExecutionContext, Exception], None] | None = None
+    before_task: Callable[[TaskContext, dict[str, Any]], None] | None = None
+    after_task: Callable[[TaskContext, dict[str, Any]], None] | None = None
+    on_error: Callable[[TaskContext, Exception], None] | None = None
 
 
 def make_json_serializable(obj: Any) -> Any:
@@ -72,12 +70,15 @@ def dispatch_job(
     request: dict[str, Any] | JobRequest,
     *,
     hooks: ExecutionHooks | None = None,
+    logger: LoggerProtocol | None = None,
+    tracer: TracerProtocol | None = None,
     context: ExecutionContext | dict[str, Any] | None = None,
 ) -> JobResponse:
     """Execute a registered task and return a structured JobResponse."""
     start_time = time.perf_counter()
     task_name: str | None = None
     execution_context: ExecutionContext | None = None
+    task_context: TaskContext | None = None
 
     try:
         if isinstance(request, JobRequest):
@@ -94,9 +95,21 @@ def dispatch_job(
         elif isinstance(execution_context, dict):
             execution_context = ExecutionContext(**execution_context)
         
+        # Initialize tracer with logger if provided
+        active_tracer: TracerProtocol | None = tracer
+        if tracer is None and logger is not None:
+            active_tracer = SimpleTracer(logger=logger)
+        
+        # Build task context
+        task_context = TaskContext(
+            execution=execution_context,
+            logger=logger,
+            tracer=active_tracer,
+        )
+        
         # Logging start
-        if hooks and hooks.logger:
-            hooks.logger.info(
+        if logger:
+            logger.info(
                 "task.start",
                 task=task_name,
                 context=execution_context.model_dump(mode="json"),
@@ -121,15 +134,15 @@ def dispatch_job(
 
         # Execute before_task hook if provided
         if hooks and hooks.before_task:
-            hooks.before_task(execution_context, payload)
+            hooks.before_task(task_context, payload)
 
         # Execute the main task
-        result = task_func(**payload, context=execution_context)
+        result = task_func(**payload, context=task_context)
         result = make_json_serializable(result)
         json.dumps(result)
 
         if hooks and hooks.after_task:
-            hooks.after_task(execution_context, payload)
+            hooks.after_task(task_context, payload)
 
         execution_time = time.perf_counter() - start_time
         metadata = {
@@ -139,8 +152,8 @@ def dispatch_job(
         if job_request.metadata:
             metadata["request_metadata"] = job_request.metadata
         
-        if hooks and hooks.logger:
-            hooks.logger.info(
+        if logger:
+            logger.info(
                 "task.success",
                 task=task_name,
                 duration=metadata["execution_time_seconds"],
@@ -157,17 +170,16 @@ def dispatch_job(
     except InvalidJobRequestError as exc:
         execution_time = time.perf_counter() - start_time
 
-        if hooks and hooks.logger:
-            hooks.logger.error(
+        if logger:
+            logger.error(
                 "task.error",
                 task=task_name,
                 error_type=type(exc).__name__,
                 message=str(exc),
             )
 
-
-        if hooks is not None and hooks.on_error is not None and execution_context is not None:
-            hooks.on_error(execution_context, exc)
+        if hooks and hooks.on_error and task_context:
+            hooks.on_error(task_context, exc)
 
         return JobResponse(
             status="error",
@@ -183,8 +195,8 @@ def dispatch_job(
 
     except TaskNotFoundError as exc:
         execution_time = time.perf_counter() - start_time
-        if hooks is not None and hooks.on_error is not None and execution_context is not None:
-            hooks.on_error(execution_context, exc)
+        if hooks and hooks.on_error and task_context:
+            hooks.on_error(task_context, exc)
         return JobResponse(
             status="error",
             task=task_name or "unknown",
@@ -199,8 +211,8 @@ def dispatch_job(
 
     except Exception as exc:  # pragma: no cover - defensive path
         execution_time = time.perf_counter() - start_time
-        if hooks is not None and hooks.on_error is not None and execution_context is not None:
-            hooks.on_error(execution_context, exc)
+        if hooks and hooks.on_error and task_context:
+            hooks.on_error(task_context, exc)
         return JobResponse(
             status="error",
             task=task_name or "unknown",

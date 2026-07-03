@@ -9,15 +9,23 @@ from .exceptions import (
     UnauthorizedJobExecutionError,
 )
 from .logging import LoggerProtocol, StandardLogger
-from .models import ExecutionContext, JobRequest, JobResponse, build_execution_context
+from .models import ExecutionContext, JobRequest, JobResponse, TaskContext, build_execution_context
 from .registry import TaskRegistry
+from .tracing import SimpleTracer, TracerProtocol
 from .worker import SecureWorker, build_queue_config, build_worker_config, configure_queue, configure_worker
 
 __all__ = [
     "ExecutionContext",
     "ExecutionHooks",
+    "JobRequest",
+    "JobResponse",
     "LoggerProtocol",
+    "SimpleTracer",
     "StandardLogger",
+    "TaskContext",
+    "TaskRegistry",
+    "TracerProtocol",
+    "UnauthorizedJobExecutionError",
     "build_execution_context",
     "build_queue_config",
     "build_worker_config",
@@ -26,11 +34,8 @@ __all__ = [
     "dispatch_job",
     "InvalidJobRequestError",
     "JobExecutionError",
-    "JobRequest",
-    "JobResponse",
     "SecureWorker",
-    "TaskRegistry",
     "TaskNotFoundError",
     "TaskValidationError",
-    "UnauthorizedJobExecutionError",
 ]
+
