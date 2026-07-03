@@ -4,15 +4,28 @@ from __future__ import annotations
 
 import json
 import time
-from collections.abc import Mapping
-from dataclasses import asdict, is_dataclass
+from collections.abc import Callable, Mapping
+from dataclasses import asdict, dataclass, is_dataclass
 from typing import Any
 
 from pydantic import BaseModel, ValidationError
 
 from .exceptions import InvalidJobRequestError, TaskNotFoundError
-from .models import JobRequest, JobResponse
+from .models import ExecutionContext, JobRequest, JobResponse, build_execution_context
 from .registry import TaskRegistry
+from .logging import LoggerProtocol
+
+
+@dataclass
+class ExecutionHooks:
+    """Optional hooks invoked around task execution."""
+
+    logger: LoggerProtocol | None = None
+    tracer: Callable[[str, dict[str, Any]], None] | None = None
+
+    before_task: Callable[[ExecutionContext, dict[str, Any]], None] | None = None
+    after_task: Callable[[ExecutionContext, dict[str, Any]], None] | None = None
+    on_error: Callable[[ExecutionContext, Exception], None] | None = None
 
 
 def make_json_serializable(obj: Any) -> Any:
@@ -57,10 +70,14 @@ def _safe_error_message(exc: Exception) -> str:
 def dispatch_job(
     registry: TaskRegistry,
     request: dict[str, Any] | JobRequest,
+    *,
+    hooks: ExecutionHooks | None = None,
+    context: ExecutionContext | dict[str, Any] | None = None,
 ) -> JobResponse:
     """Execute a registered task and return a structured JobResponse."""
     start_time = time.perf_counter()
     task_name: str | None = None
+    execution_context: ExecutionContext | None = None
 
     try:
         if isinstance(request, JobRequest):
@@ -71,7 +88,21 @@ def dispatch_job(
             raise InvalidJobRequestError("request must be a mapping or JobRequest")
 
         task_name = job_request.task
-
+        execution_context = job_request.context or context
+        if execution_context is None:
+            execution_context = build_execution_context()
+        elif isinstance(execution_context, dict):
+            execution_context = ExecutionContext(**execution_context)
+        
+        # Logging start
+        if hooks and hooks.logger:
+            hooks.logger.info(
+                "task.start",
+                task=task_name,
+                context=execution_context.model_dump(mode="json"),
+            )
+        
+        # Validate task existence
         if not registry.exists(task_name):
             raise TaskNotFoundError(f"Task '{task_name}' not found in registry")
 
@@ -88,21 +119,56 @@ def dispatch_job(
                 ) from exc
             payload = validated_payload.model_dump(mode="json")
 
-        result = task_func(**payload)
+        # Execute before_task hook if provided
+        if hooks and hooks.before_task:
+            hooks.before_task(execution_context, payload)
+
+        # Execute the main task
+        result = task_func(**payload, context=execution_context)
         result = make_json_serializable(result)
         json.dumps(result)
 
+        if hooks and hooks.after_task:
+            hooks.after_task(execution_context, payload)
+
         execution_time = time.perf_counter() - start_time
+        metadata = {
+            "execution_time_seconds": round(execution_time, 6),
+            "context": execution_context.model_dump(mode="json"),
+        }
+        if job_request.metadata:
+            metadata["request_metadata"] = job_request.metadata
+        
+        if hooks and hooks.logger:
+            hooks.logger.info(
+                "task.success",
+                task=task_name,
+                duration=metadata["execution_time_seconds"],
+            )
+
         return JobResponse(
             status="success",
             task=task_name,
             result=result,
             error=None,
-            metadata={"execution_time_seconds": round(execution_time, 6)},
+            metadata=metadata,
         )
 
     except InvalidJobRequestError as exc:
         execution_time = time.perf_counter() - start_time
+
+        if hooks and hooks.logger:
+            hooks.logger.error(
+                "task.error",
+                task=task_name,
+                error_type=type(exc).__name__,
+                message=str(exc),
+            )
+
+
+        if hooks is not None and hooks.on_error is not None and execution_context is not None:
+            hooks.on_error(execution_context, exc)
+
         return JobResponse(
             status="error",
             task=task_name or "unknown",
@@ -111,11 +177,14 @@ def dispatch_job(
             metadata={
                 "execution_time_seconds": round(execution_time, 6),
                 "error_type": "InvalidJobRequestError",
+                "context": execution_context.model_dump(mode="json") if execution_context is not None else None,
             },
         )
 
     except TaskNotFoundError as exc:
         execution_time = time.perf_counter() - start_time
+        if hooks is not None and hooks.on_error is not None and execution_context is not None:
+            hooks.on_error(execution_context, exc)
         return JobResponse(
             status="error",
             task=task_name or "unknown",
@@ -124,11 +193,14 @@ def dispatch_job(
             metadata={
                 "execution_time_seconds": round(execution_time, 6),
                 "error_type": "TaskNotFoundError",
+                "context": execution_context.model_dump(mode="json") if execution_context is not None else None,
             },
         )
 
     except Exception as exc:  # pragma: no cover - defensive path
         execution_time = time.perf_counter() - start_time
+        if hooks is not None and hooks.on_error is not None and execution_context is not None:
+            hooks.on_error(execution_context, exc)
         return JobResponse(
             status="error",
             task=task_name or "unknown",
@@ -137,5 +209,6 @@ def dispatch_job(
             metadata={
                 "execution_time_seconds": round(execution_time, 6),
                 "error_type": type(exc).__name__,
+                "context": execution_context.model_dump(mode="json") if execution_context is not None else None,
             },
         )

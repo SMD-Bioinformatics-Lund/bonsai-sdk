@@ -1,8 +1,48 @@
 """Pydantic models for job execution framework."""
 
+from __future__ import annotations
+
+from datetime import datetime, timezone
 from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+
+
+class ExecutionContext(BaseModel):
+    """Standardized execution context attached to job requests and responses."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    request_id: str | None = Field(default=None, description="Unique request identifier")
+    trace_id: str | None = Field(default=None, description="Distributed tracing identifier")
+    span_id: str | None = Field(default=None, description="Current span identifier")
+    service: str | None = Field(default=None, description="Name of the emitting service")
+    attempt: int = Field(default=1, ge=1, description="Current execution attempt")
+    timestamp: str = Field(
+        default_factory=lambda: datetime.now(timezone.utc).isoformat(),
+        description="Execution context timestamp",
+    )
+    metadata: dict[str, Any] = Field(default_factory=dict, description="Additional context data")
+
+
+def build_execution_context(
+    *,
+    request_id: str | None = None,
+    trace_id: str | None = None,
+    span_id: str | None = None,
+    service: str | None = None,
+    attempt: int = 1,
+    metadata: dict[str, Any] | None = None,
+) -> ExecutionContext:
+    """Create a standardized execution context payload."""
+    return ExecutionContext(
+        request_id=request_id,
+        trace_id=trace_id,
+        span_id=span_id,
+        service=service,
+        attempt=attempt,
+        metadata=metadata or {},
+    )
 
 
 class JobRequest(BaseModel):
@@ -12,6 +52,8 @@ class JobRequest(BaseModel):
 
     task: str = Field(..., description="Name of the registered task to execute")
     payload: dict[str, Any] = Field(default_factory=dict, description="Task arguments")
+    context: ExecutionContext | None = Field(default=None, description="Execution context")
+    metadata: dict[str, Any] = Field(default_factory=dict, description="Additional request metadata")
 
     @field_validator("task")
     @classmethod
@@ -20,6 +62,16 @@ class JobRequest(BaseModel):
         if not value or not value.strip():
             raise ValueError("task name must be non-empty")
         return value.strip()
+
+    @field_validator("context", mode="before")
+    @classmethod
+    def normalize_context(cls, value: Any) -> Any:
+        """Normalize a mapping-like context into an ExecutionContext instance."""
+        if value is None or isinstance(value, ExecutionContext):
+            return value
+        if isinstance(value, dict):
+            return ExecutionContext(**value)
+        raise TypeError("context must be an ExecutionContext or mapping")
 
 
 class JobResponse(BaseModel):

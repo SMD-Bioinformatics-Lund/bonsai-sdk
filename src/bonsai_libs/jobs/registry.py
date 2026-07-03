@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import inspect
 from typing import Any, Callable
 
 from pydantic import BaseModel
@@ -45,14 +46,17 @@ class TaskRegistry:
         def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
             if task_name in self._tasks:
                 raise TaskValidationError(f"Task '{task_name}' is already registered")
-            if not callable(func):
-                raise TaskValidationError(f"Task '{task_name}' must be callable")
+
             if input_schema is not None and not (
                 isinstance(input_schema, type) and issubclass(input_schema, BaseModel)
             ):
                 raise TaskValidationError(
                     f"Task '{task_name}' input schema must be a Pydantic model"
                 )
+
+            # verify decorated function
+            self._verify_callable(func)
+            self._verify_task_signature(func)
 
             self._tasks[task_name] = (func, input_schema)
             return func
@@ -88,3 +92,17 @@ class TaskRegistry:
             raise TaskValidationError("Task name cannot be empty")
         if len(task_name) > 255:
             raise TaskValidationError("Task name too long (max 255 chars)")
+        
+    @staticmethod
+    def _verify_callable(func: Any) -> None:
+        """Ensure the provided object is callable."""
+        if not callable(func):
+            raise TaskValidationError("Registered task must be callable")
+    
+    @staticmethod
+    def _verify_task_signature(func: Callable[..., Any]) -> None:
+        """Ensure the callable has a valid signature."""
+        sig = inspect.signature(func)
+
+        if "context" not in sig.parameters:
+            raise TaskValidationError("Registered task must accept a 'context' parameter")
