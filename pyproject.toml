@@ -16,7 +16,7 @@ dependencies = [
     "packaging>=25",
     "pydantic>=2.6",
     "requests>=2.28",
-    "scipy>=1.17.1"
+    "scipy>=1.17.1",
 ]
 
 [project.optional-dependencies]

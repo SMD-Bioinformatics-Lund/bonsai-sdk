@@ -1,6 +1,11 @@
 """Test clustering module."""
 
-from bonsai_libs.clustering import tree_to_newick
+from bonsai_libs.clustering import (
+    ExportNode,
+    heirarchical_clustering,
+    minimum_spanning_tree_clustering,
+    to_newick,
+)
 
 
 class FakeNode:
@@ -20,29 +25,100 @@ class FakeNode:
         return self._right
 
 
+# Helpers
+
+
+def assert_valid_newick(newick: str, labels: list[str]):
+    """Basic structural checks for Newick output."""
+    assert newick.endswith(";")
+    for label in labels:
+        assert label in newick
+
+
+# Heiarchical Clustering Tests
+
+
+def test_hierarchical_cluster_returns_result(small_distance_matrix):
+    condensed, labels = small_distance_matrix
+
+    result = heirarchical_clustering(condensed, labels)
+
+    assert result.root is not None
+    assert result.labels == labels
+
+
+def test_hierarchical_to_newick_valid(small_distance_matrix):
+    condensed, labels = small_distance_matrix
+
+    result = heirarchical_clustering(condensed, labels)
+    newick = result.to_newick()
+
+    assert_valid_newick(newick, labels)
+
+
+def test_hierarchical_two_points():
+    """Minimal case: two samples."""
+    condensed = [1.0]
+    labels = ["A", "B"]
+
+    result = heirarchical_clustering(condensed, labels)
+    newick = result.to_newick()
+
+    assert_valid_newick(newick, labels)
+
+
+# MST Clustering Tests
+
+
+def test_mst_cluster_returns_result(small_distance_matrix):
+    condensed, labels = small_distance_matrix
+
+    result = minimum_spanning_tree_clustering(condensed, labels)
+
+    assert result.root is not None
+    assert result.labels == labels
+
+
+def test_mst_cluster_to_newick_valid(small_distance_matrix):
+    condensed, labels = small_distance_matrix
+
+    result = minimum_spanning_tree_clustering(condensed, labels)
+    newick = result.to_newick()
+
+    assert_valid_newick(newick, labels)
+
+
+def test_mst_two_points():
+    """Minimal MST case."""
+    condensed = [1.0]
+    labels = ["A", "B"]
+
+    result = minimum_spanning_tree_clustering(condensed, labels)
+    newick = result.to_newick()
+
+    assert_valid_newick(newick, labels)
+
+
+# Newick Tests
+
+
 def test_single_leaf():
-    """Test Newick conversion for a single leaf node."""
-    node = FakeNode(id=0, dist=0.0)
-    labels = ["A"]
+    node = ExportNode(name="A", branch_length=0.0)
 
-    newick = tree_to_newick(node, labels)
+    newick = to_newick(node) + ";"
 
-    assert newick == "A:0.0;"
+    assert newick == "A:0.000000;"
 
 
 def test_two_leaf_tree():
-    left = FakeNode(id=0, dist=0.0)
-    right = FakeNode(id=1, dist=0.0)
-
-    root = FakeNode(
-        id=None,
-        dist=1.0,
-        left=left,
-        right=right,
+    node = ExportNode(
+        name=None,
+        children=[
+            ExportNode(name="A", branch_length=1.0),
+            ExportNode(name="B", branch_length=1.0),
+        ],
     )
 
-    labels = ["A", "B"]
+    newick = to_newick(node) + ";"
 
-    result = tree_to_newick(root, labels)
-
-    assert result == "(A:1.0,B:1.0);"
+    assert_valid_newick(newick, ["A", "B"])

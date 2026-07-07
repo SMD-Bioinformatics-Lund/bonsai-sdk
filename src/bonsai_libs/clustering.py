@@ -2,15 +2,44 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from collections import defaultdict
+from dataclasses import dataclass, field
 from enum import StrEnum
-from typing import Any, Sequence
+from typing import Sequence
 
-import networkx as nx
 from scipy.cluster import hierarchy
+from scipy.sparse import csr_array
+from scipy.sparse.csgraph import minimum_spanning_tree
+from scipy.spatial.distance import squareform
+
+# Data structures
+
+@dataclass(frozen=True)
+class Edge:
+    target: int
+    weight: float
 
 
-TreeNode = Any
+Graph = dict[int, list[Edge]]
+
+
+@dataclass
+class ExportNode:
+    """
+    Unified rooted tree node for all clustering outputs.
+
+    This is the only structure used for downstream consumption
+    """
+
+    name: str | None = None
+    branch_length: float = 0.0
+    children: list["ExportNode"] = field(default_factory=list)
+
+    def is_leaf(self) -> bool:
+        return not self.children
+
+
+# Public API types
 
 
 class LinkageMethod(StrEnum):
@@ -27,12 +56,15 @@ class LinkageMethod(StrEnum):
 class ClusterResult:
     """Result of a clustering operation."""
 
-    tree: TreeNode
+    root: ExportNode
     labels: Sequence[str]
 
     def to_newick(self) -> str:
         """Convert the clustering result to Newick format."""
-        return tree_to_newick(self.tree, self.labels)
+        return to_newick(self.root) + ";"
+
+
+# Hierarchical clustering
 
 
 def heirarchical_clustering(
@@ -41,81 +73,144 @@ def heirarchical_clustering(
     *,
     method: LinkageMethod = LinkageMethod.SINGLE,
 ) -> ClusterResult:
-    """Perform hierarchial clustering on a condensed distance matrix."""
-    tree = hierarchy.linkage(condensed_distance_matrix, method=method.value)
-    return ClusterResult(tree=tree, labels=labels)
+    """Perform hierarchial clustering on a condensed distance matrix.
 
-
-def tree_to_newick(tree: TreeNode, labels: Sequence[str]) -> str:
-    """Convert a hierarchical clustering tree to Newick format."""
-    newick = _to_newick_recursive(tree, "", tree.dist, labels)
-    if not newick.endswith(";"):
-        newick += ";"
-    return newick
-
-
-def _to_newick_recursive(
-    node: TreeNode, newick: str, parent_dist: float, labels: Sequence[str]
-) -> str:
-    """Recursively convert a hierarchical clustering tree to Newick format."""
-
-    if node.is_leaf():
-        return f"{labels[node.id]}:{parent_dist - node.dist}{newick}"
-
-    if newick:
-        newick = f"):{parent_dist - node.dist}{newick}"
-    else:
-        newick = ");"
-
-    newick = _to_newick_recursive(node.get_right(), newick, node.dist, labels)
-    newick = _to_newick_recursive(node.get_left(), f",{newick}", node.dist, labels)
-
-    return f"({newick}"
-
-
-def minimum_spanning_tree(
-    condensed_distance_matrix: Sequence[float],
-    labels: Sequence[str],
-) -> nx.Graph:
-    """Generate a minimum spanning tree for the given distance matrix."""
-    # Create a graph from the distance matrix
-    G = nx.from_edgelist(
-        [(i, j, d) for i in range(len(labels)) for j in range(i + 1, len(labels))],
-        create_using=nx.Graph,
+    Output is converted into ExportNode for consistency with MST results.
+    """
+    linkage = hierarchy.linkage(condensed_distance_matrix, method=method.value)
+    scipy_tree = hierarchy.to_tree(linkage, False)
+    root = _convert_scipy_tree(
+        scipy_tree,
+        labels=labels,
+        parent_dist=float(scipy_tree.dist),
     )
 
-    # Add edge weights to the graph
-    for (i, j), d in zip(G.edges(), condensed_distance_matrix):
-        G[i][j]['weight'] = d
-
-    # Find the minimum spanning tree
-    mst = nx.minimum_spanning_tree(G)
-
-    return mst
+    return ClusterResult(root=root, labels=labels)
 
 
-def mst_to_newick(mst: nx.Graph, labels: Sequence[str]) -> str:
-    """Convert a minimum spanning tree to Newick format."""
-    newick = _mst_to_newick_recursive(mst, "", 0, labels)
-    if not newick.endswith(";"):
-        newick += ";"
-    return newick
+def _convert_scipy_tree(
+    node,
+    *,
+    labels: Sequence[str],
+    parent_dist: float,
+) -> ExportNode:
+    """Convert SciPy cluster tree into ExportNode."""
+    branch_length = float(parent_dist - node.dist)
+
+    if node.is_leaf():
+        return ExportNode(
+            name=labels[node.id],
+            branch_length=branch_length,
+        )
+
+    left = _convert_scipy_tree(node.get_left(), labels=labels, parent_dist=node.dist)
+    right = _convert_scipy_tree(node.get_right(), labels=labels, parent_dist=node.dist)
+
+    return ExportNode(
+        name=None,
+        branch_length=branch_length,
+        children=[left, right],
+    )
 
 
-def _mst_to_newick_recursive(
-    mst: nx.Graph, newick: str, parent_dist: float, labels: Sequence[str]
-) -> str:
-    """Recursively convert a minimum spanning tree to Newick format."""
+# MST clustering
 
-    if len(mst.nodes()) == 1:
-        return f"{labels[list(mst.nodes())[0]}:{parent_dist}{newick}"
 
-    for node in mst.nodes():
-        neighbors = list(mst.neighbors(node))
-        if len(neighbors) == 1:
-            child_node = neighbors[0]
-            edge_weight = mst[node][child_node]['weight']
-            newick = f"{labels[child_node]}:{parent_dist + edge_weight}{newick}"
-            return _mst_to_newick_recursive(mst.subgraph([node, child_node]), newick, parent_dist + edge_weight, labels)
+def minimum_spanning_tree_clustering(
+    condensed_distance_matrix: Sequence[float],
+    labels: Sequence[str],
+    *,
+    root_index: int = 0,
+) -> ClusterResult:
+    """
+    Perform MST clustering and convert to rooted export tree.
 
-    raise ValueError("Invalid minimum spanning tree")
+    Suitable for GrapeTree-like visualisation.
+    """
+    if not labels:
+        raise ValueError("labels must not be empty")
+
+    if not (0 <= root_index < len(labels)):
+        raise ValueError("root_index out of range")
+
+    graph = _build_mst_graph(condensed_distance_matrix, size=len(labels))
+    root = _root_graph(graph, labels, current=root_index)
+
+    return ClusterResult(root=root, labels=labels)
+
+
+def _build_mst_graph(
+    condensed_distance_matrix: Sequence[float],
+    *,
+    size: int,
+) -> Graph:
+    """Build undirected MST graph."""
+    matrix = csr_array(squareform(condensed_distance_matrix))
+    mst = minimum_spanning_tree(matrix)
+
+    # Make undirected
+    mst = mst + mst.T
+
+    graph: defaultdict[int, list[Edge]] = defaultdict(list)
+    coo = mst.tocoo()
+
+    for i, j, weight in zip(coo.row, coo.col, coo.data):
+        graph[i].append(Edge(target=j, weight=float(weight)))
+
+    # Ensure all nodes exist (defensive)
+    for i in range(size):
+        graph.setdefault(i, [])
+
+    return dict(graph)
+
+
+def _root_graph(
+    graph: Graph,
+    labels: Sequence[str],
+    current: int,
+    parent: int | None = None,
+    branch_length: float = 0.0,
+) -> ExportNode:
+    """Convert graph into rooted tree."""
+    node = ExportNode(name=labels[current], branch_length=branch_length)
+
+    for edge in graph.get(current, []):
+        # Prevent traversing back to parent
+        if edge.target == parent:
+            continue
+
+        child = _root_graph(
+            graph,
+            labels,
+            current=edge.target,
+            parent=current,
+            branch_length=edge.weight,
+        )
+        node.children.append(child)
+
+    return node
+
+
+# Newick export
+
+
+def to_newick(node: ExportNode) -> str:
+    """Convert ExportNode tree to Newick format."""
+
+    if node.is_leaf():
+        if node.name is None:
+            raise ValueError("Leaf node missing name")
+        return f"{node.name}:{node.branch_length:.6f}"
+
+    children_str = ",".join(to_newick(child) for child in node.children)
+
+    # Internal node naming is optional
+    if node.name:
+        if node.branch_length > 0:
+            return f"({children_str}){node.name}:{node.branch_length:.6f}"
+        return f"({children_str}){node.name}"
+
+    if node.branch_length > 0:
+        return f"({children_str}):{node.branch_length:.6f}"
+
+    return f"({children_str})"

@@ -19,3 +19,18 @@ def clear_registry_before_each_test():
     yield
     _PARSER_REGISTRY.clear()
     _RESULT_MODEL_REGISTRY.clear()
+
+
+@pytest.fixture()
+def small_distance_matrix() -> tuple[list[float], list[str]]:
+    """
+    Create a simple 3-sample condensed distance matrix.
+
+    Distances:
+        A-B = 1
+        A-C = 2
+        B-C = 3
+    """
+    labels = ["A", "B", "C"]
+    condensed = [1.0, 2.0, 3.0]
+    return condensed, labels
