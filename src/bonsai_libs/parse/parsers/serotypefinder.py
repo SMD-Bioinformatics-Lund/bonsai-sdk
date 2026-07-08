@@ -2,14 +2,15 @@
 
 from typing import Any
 
-from bonsai_libs.parse.core.base import BaseParser
-from bonsai_libs.parse.core.envelope import envelope_absent, run_as_envelope
-from bonsai_libs.parse.core.registry import register_parser
-from bonsai_libs.parse.exceptions import InvalidDataFormat, ParserError
 from bonsai_libs.parse.io.delimited import is_nullish
 from bonsai_libs.parse.io.json import read_json
 from bonsai_libs.parse.io.types import StreamOrPath
-from bonsai_libs.parse.models.base import GeneBase, ParseImplOut
+from bonsai_libs.parse.core.base import BaseParser
+from bonsai_libs.parse.models.base import ParseImplOut
+from bonsai_libs.parse.core.envelope import envelope_absent, run_as_envelope
+from bonsai_libs.parse.core.registry import register_parser
+from bonsai_libs.parse.exceptions import InvalidDataFormat, ParserError
+from bonsai_libs.parse.models.base import GeneBase
 from bonsai_libs.parse.models.enums import (
     AnalysisSoftware,
     AnalysisType,
@@ -138,7 +139,9 @@ class SerotypeFinderParser(BaseParser):
                 hits = pred_res.get(ANALYSIS_TYPE_FIELDS[analysis_type])
                 # Value might be a string if there is no hit
                 if _is_no_hit(hits):
-                    out[analysis_type] = envelope_absent(f"No {analysis_type} hit", meta=base_meta)
+                    out[analysis_type] = envelope_absent(
+                        f"No {analysis_type} hit", meta=base_meta
+                    )
                     continue
 
                 # verify data
@@ -153,7 +156,9 @@ class SerotypeFinderParser(BaseParser):
                 # there can be several hits for a given serotype, pick the best
                 hit = pick_best_hit(hits)
                 if hit is None:
-                    out[analysis_type] = envelope_absent(f"No {analysis_type} hit", meta=base_meta)
+                    out[analysis_type] = envelope_absent(
+                        f"No {analysis_type} hit", meta=base_meta
+                    )
 
                 out[analysis_type] = run_as_envelope(
                     analysis_name=analysis_type,

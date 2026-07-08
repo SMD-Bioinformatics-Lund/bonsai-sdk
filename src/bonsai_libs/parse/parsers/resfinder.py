@@ -4,16 +4,16 @@ import logging
 from itertools import chain
 from typing import Any
 
-from bonsai_libs.parse.core.base import BaseParser
+from bonsai_libs.parse.io.json import read_json, require_mapping
+from bonsai_libs.parse.io.types import StreamOrPath
+from bonsai_libs.parse.core.base import BaseParser 
+from bonsai_libs.parse.models.base import ParseImplOut
 from bonsai_libs.parse.core.envelope import run_as_envelope
 from bonsai_libs.parse.core.registry import register_parser
 from bonsai_libs.parse.exceptions import InvalidDataFormat
-from bonsai_libs.parse.io.json import read_json, require_mapping
-from bonsai_libs.parse.io.types import StreamOrPath
 from bonsai_libs.parse.models.base import (
     ElementTypeResult,
     GeneBase,
-    ParseImplOut,
     PhenotypeInfo,
     VariantBase,
 )
@@ -174,7 +174,9 @@ def lookup_antibiotic_class(antibiotic: str) -> str:
         "quinupristin": "streptogramin b",
         "pristinamycin ia": "streptogramin b",
         "virginiamycin s": "streptogramin b",
-        "unknown synthetic" "derivative of nicotinamide": "synthetic derivative" " of nicotinamide",
+        "unknown synthetic"
+        "derivative of nicotinamide": "synthetic derivative"
+        " of nicotinamide",
         "pyrazinamide": "synthetic derivative of nicotinamide",
         "unknown tetracycline": "tetracycline",
         "tetracycline": "tetracycline",
@@ -310,7 +312,9 @@ def parse_resfinder_variants(
     seq_regions = resfinder_result.get("seq_regions") or {}
     results: list[VariantBase] = []
 
-    for var_id, info in enumerate((resfinder_result.get("seq_variations") or {}).values(), start=1):
+    for var_id, info in enumerate(
+        (resfinder_result.get("seq_variations") or {}).values(), start=1
+    ):
         phenos = info.get("phenotypes") or []
         if limit_to is not None and not (set(phenos) & set(limit_to)):
             continue
@@ -375,7 +379,10 @@ def get_resfinder_amr_sr_profie(resfinder_result, limit_to_phenotypes=None):
     resistant = set()
     for phenotype in resfinder_result["phenotypes"].values():
         # skip phenotype if its not part of the desired category
-        if limit_to_phenotypes is not None and phenotype["key"] not in limit_to_phenotypes:
+        if (
+            limit_to_phenotypes is not None
+            and phenotype["key"] not in limit_to_phenotypes
+        ):
             continue
 
         if "amr_resistant" in phenotype.keys():

@@ -1,37 +1,34 @@
 """Tests for parser and result-model registry behavior."""
 
-from typing import Any
-
 import pytest
 from packaging.version import Version
+from typing import Any
 from pydantic import BaseModel
 
+from bonsai_libs.parse.exceptions import InvalidDataFormat, UnsupportedVersionError
 from bonsai_libs.parse.core.registry import (
-    _PARSER_REGISTRY,
-    _RESULT_MODEL_REGISTRY,
     VersionRange,
     _normalize_version,
+    register_parser,
+    register_result_model,
+    register_result_element_models,
+    _PARSER_REGISTRY,
+    _RESULT_MODEL_REGISTRY,
     get_parser,
     get_result_model,
     hydrate_result,
-    register_parser,
-    register_result_element_models,
-    register_result_model,
 )
-from bonsai_libs.parse.exceptions import InvalidDataFormat, UnsupportedVersionError
+
 
 # ---------------------------------------------------------------------------
 # Dummy Classes
 # ---------------------------------------------------------------------------
 
-
 class DummyParser:
     pass
 
-
 class DummyParser2:
     pass
-
 
 class DummyModel:
     pass
@@ -40,7 +37,6 @@ class DummyModel:
 # ---------------------------------------------------------------------------
 # Version Normalization
 # ---------------------------------------------------------------------------
-
 
 def test_normalize_version_happy_path():
     """Version normalization accepts strings and Version objects."""
@@ -63,7 +59,6 @@ def test_normalize_version_invalid_inputs():
 # ---------------------------------------------------------------------------
 # Parser Registration — Version Range Safety
 # ---------------------------------------------------------------------------
-
 
 def assert_registers(software, min_v, max_v, cls):
     """Helper to register and retrieve stored version ranges."""
@@ -99,7 +94,7 @@ def test_non_overlapping_ranges_allowed():
         (("1.0.0", "5.0.0"), ("2.0.0", "3.0.0")),  # containment
         (("1.0.0", "2.0.0"), ("1.0.0", "2.0.0")),  # exact match
         (("1.0.0", "2.0.0"), ("2.0.0", "3.0.0")),  # touching edge (inclusive overlap)
-    ],
+    ]
 )
 def test_overlapping_ranges_rejected(existing, new):
     """All forms of overlap should raise ValueError."""
@@ -123,7 +118,6 @@ def test_mixed_version_types_still_overlap():
 # Parser Retrieval
 # ---------------------------------------------------------------------------
 
-
 @pytest.mark.parametrize("version", ["1.0.0", "1.2.0", "1.5.0"])
 def test_get_supported_parser(version):
     """get_parser returns the expected parser for supported versions."""
@@ -146,7 +140,6 @@ def test_get_unsupported_parser(version):
 # Result Model Registration
 # ---------------------------------------------------------------------------
 
-
 def test_register_result_model():
     """Result models register correctly under (software, analysis)."""
     register_result_model("soft", "analysis")(DummyModel)
@@ -166,7 +159,7 @@ def test_reregister_result_model_throws_error():
     [
         (("soft", "analysis"), True),
         (("soft", "missing"), False),
-    ],
+    ]
 )
 def test_get_result_model(key, exists):
     """get_result_model returns model only when registered."""

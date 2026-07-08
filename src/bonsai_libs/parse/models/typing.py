@@ -5,8 +5,7 @@ from typing import Any, TypeAlias
 from pydantic import BaseModel, TypeAdapter
 
 from bonsai_libs.parse.core.registry import register_result_model
-from bonsai_libs.types.common import Model as RWModel
-
+from .base import RWModel
 from .enums import AnalysisSoftware, AnalysisType
 
 
@@ -59,9 +58,7 @@ class LineageInformation(RWModel):
 
 
 LineageResults: TypeAlias = list[LineageInformation]
-register_result_model(AnalysisSoftware.TBPROFILER, AnalysisType.LINEAGE)(
-    TypeAdapter(LineageResults)
-)
+register_result_model(AnalysisSoftware.TBPROFILER, AnalysisType.LINEAGE)(TypeAdapter(LineageResults))
 
 
 @register_result_model(AnalysisSoftware.MYKROBE, AnalysisType.LINEAGE)
@@ -101,18 +98,3 @@ class TypingResultSpatyper(RWModel):
     sequence_name: str | None
     repeats: str | None
     type: str | None
-
-
-@register_result_model(AnalysisSoftware.SHIGAPASS, AnalysisType.SHIGATYPE)
-class TypingResultShiga(RWModel):
-    """Container for shigatype gene information"""
-
-    rfb: str | None = None
-    rfb_hits: float | None = None
-    mlst: str | None = None
-    flic: str | None = None
-    crispr: str | None = None
-    ipah: str
-    predicted_serotype: str
-    predicted_flex_serotype: str | None = None
-    comments: str | None = None

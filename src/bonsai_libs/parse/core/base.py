@@ -5,6 +5,8 @@ from collections.abc import Callable, Iterator
 from logging import Logger, getLogger
 from typing import Any, Mapping, Type, TypeVar
 
+from bonsai_libs.parse.io.delimited import read_delimited, validate_fields
+from bonsai_libs.parse.io.types import DelimiterRow, StreamOrPath
 from bonsai_libs.parse.core.envelope import (
     default_empty_predicate,
     envelope_absent,
@@ -12,8 +14,6 @@ from bonsai_libs.parse.core.envelope import (
     run_as_envelope,
 )
 from bonsai_libs.parse.exceptions import UnsupportedAnalysisTypeError
-from bonsai_libs.parse.io.delimited import read_delimited, validate_fields
-from bonsai_libs.parse.io.types import DelimiterRow, StreamOrPath
 from bonsai_libs.parse.models.enums import AnalysisType, ResultStatus
 
 T = TypeVar("T")
@@ -91,7 +91,9 @@ class BaseParser(ABC):
         out.results.update(results)
         return out
 
-    def _normalize_want(self, want: set[AnalysisType] | AnalysisType | None) -> set[AnalysisType]:
+    def _normalize_want(
+        self, want: set[AnalysisType] | AnalysisType | None
+    ) -> set[AnalysisType]:
         """Normalize the want parameter to a set of AnalysisType."""
 
         want = want or set(self.produces)
@@ -174,11 +176,13 @@ class BaseParser(ABC):
     ) -> Mapping[str, Any] | None:
         """Convenience: read, validate and normalize a single delimited row.
 
-        ``column_map`` is passed through to :func:`bonsai_libs.io.delimited.normalize_row`.
+        ``column_map`` is passed through to :func:`prp.io.delimited.normalize_row`.
         If the source is empty this returns ``None``.  Extra rows are consumed up
         to ``max_consume`` and a warning emitted via :meth:`log_warning`.
         """
-        first, rows = self._read_rows(source, required=required, strict_columns=strict_columns)
+        first, rows = self._read_rows(
+            source, required=required, strict_columns=strict_columns
+        )
         if first is None:
             return None
         # normalization is a very common pattern; import lazily to avoid a
@@ -213,10 +217,18 @@ class BaseParser(ABC):
 class SingleAnalysisParser(BaseParser):
     """Abtracted parser class for softwares that produces exactly one AnalysisType"""
 
+    subcommand: str | None = None
+    """Optional subcommand identifier used when one software binary produces
+    multiple distinct output formats (e.g. 'coverage' and 'stats' for samtools).
+    The registry uses (software, subcommand) as a composite key so each output
+    type can have its own parser class."""
+
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         if not hasattr(cls, "produces") or len(cls.produces) != 1:
-            raise TypeError(f"{cls.__name__}.produces must contain exactly one AnalysisType")
+            raise TypeError(
+                f"{cls.__name__}.produces must contain exactly one AnalysisType"
+            )
 
     @property
     def analysis_type(self) -> AnalysisType:

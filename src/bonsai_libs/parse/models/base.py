@@ -2,12 +2,11 @@
 
 from typing import Any, Collection, Mapping, Self, TypeAlias
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from bonsai_libs.parse.core.registry import register_result_model
 from bonsai_libs.parse.exceptions import AbsentResultError, ParserError
 from bonsai_libs.parse.models.enums import AnalysisSoftware
-from bonsai_libs.types.common import Model as RWModel
 
 from .enums import (
     AnalysisType,
@@ -24,6 +23,15 @@ from .enums import (
 )
 
 ParseImplOut: TypeAlias = Mapping[AnalysisType, Any]
+
+
+class RWModel(BaseModel):  # pylint: disable=too-few-public-methods
+    """Base model for read/write operations."""
+
+    model_config = ConfigDict(
+        populate_by_name=True,
+        use_enum_values=True,
+    )
 
 
 class ResultEnvelope(BaseModel):
@@ -110,14 +118,18 @@ class PhenotypeInfo(RWModel):
 
     name: str
     group: str | None = Field(None, description="Name of the group a trait belongs to.")
-    type: ElementType = Field(..., description="Trait category, for example AMR, STRESS etc.")
+    type: ElementType = Field(
+        ..., description="Trait category, for example AMR, STRESS etc."
+    )
     # annotation of the expected resistance level
     resistance_level: str | None = None
     # how was the annotation made
     annotation_type: AnnotationType = Field(..., description="Annotation type")
     annotation_author: str | None = Field(None, description="Annotation author")
     # what information substansiate the annotation
-    reference: list[str] = Field(default_factory=list, description="References supporting trait")
+    reference: list[str] = Field(
+        default_factory=list, description="References supporting trait"
+    )
     note: str | None = Field(None, description="Note, can be used for confidence score")
     source: str | None = Field(None, description="Source of variant")
 
@@ -136,9 +148,14 @@ class GeneBase(RWModel):
     gene_symbol: str | None = None
     accession: str | None = None
     sequence_name: str | None = Field(None, description="Reference sequence name")
-    element_type: ElementType = Field(description="The predominant function of the gene.")
+    element_type: ElementType = Field(
+        description="The predominant function of the gene."
+    )
     element_subtype: (
-        ElementStressSubtype | ElementAmrSubtype | ElementVirulenceSubtype | ElementSerotypeSubtype
+        ElementStressSubtype
+        | ElementAmrSubtype
+        | ElementVirulenceSubtype
+        | ElementSerotypeSubtype
     ) = Field(description="Further functional categorization of the genes.")
     # position
     ref_start_pos: int | None = Field(None, description="Alignment start in reference")
@@ -152,7 +169,9 @@ class GeneBase(RWModel):
     method: str | None = Field(None, description="Method used to predict gene")
     identity: float | None = Field(None, description="Identity to reference sequence")
     coverage: float | None = Field(None, description="Ratio reference sequence covered")
-    depth: float | None = Field(None, description="Amount of sequence data supporting the gene.")
+    depth: float | None = Field(
+        None, description="Amount of sequence data supporting the gene."
+    )
 
 
 class GeneWithReference(GeneBase, DatabaseReferenceMixin):
@@ -192,7 +211,9 @@ class VariantBase(RWModel):
     depth: float | None = Field(None, description="Total depth, ref + alt.")
     frequency: float | None = Field(None, description="Alt allele frequency.")
     confidence: float | None = Field(None, description="Genotype confidence.")
-    method: str | None = Field(None, description="Prediction method used to call variant")
+    method: str | None = Field(
+        None, description="Prediction method used to call variant"
+    )
     passed_qc: bool | None = Field(
         None, description="Describe if variant has passed the tool qc check"
     )

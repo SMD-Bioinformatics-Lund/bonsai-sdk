@@ -66,7 +66,7 @@ def convert_rel_to_abs_path(path: str, validation_info: ValidationInfo) -> Path:
     """Validate that file exist and resolve realtive directories.
 
     if a path is relative, convert to absolute from the configs parent directory
-    i.e.  path = ./results/sample_name.json --> /path/to/sample_name.json
+    i.e.  prp_path = ./results/sample_name.json --> /path/to/sample_name.json
           given, cnf_path = /data/samples/cnf.yml
     relative paths are used when bootstraping a test database
     """

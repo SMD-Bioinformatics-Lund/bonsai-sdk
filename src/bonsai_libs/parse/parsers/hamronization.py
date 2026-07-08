@@ -7,14 +7,9 @@ import logging
 from itertools import chain
 from typing import Any, Literal, TypeAlias
 
+from bonsai_libs.parse.io.delimited import DelimiterRow, is_nullish, normalize_row, read_delimited
 from bonsai_libs.parse.core.base import SingleAnalysisParser, StreamOrPath
 from bonsai_libs.parse.core.registry import register_parser
-from bonsai_libs.parse.io.delimited import (
-    DelimiterRow,
-    is_nullish,
-    normalize_row,
-    read_delimited,
-)
 from bonsai_libs.parse.models.base import SoupVersion
 from bonsai_libs.parse.models.enums import AnalysisSoftware, AnalysisType, SoupType
 from bonsai_libs.parse.models.hamronization import (
@@ -73,7 +68,9 @@ OPTIONAL_COLUMNS = {
 }
 
 
-def _get_gene_pos(d: dict[str, Any], prefix: Literal["input", "reference"]) -> BaseSequenceRecord:
+def _get_gene_pos(
+    d: dict[str, Any], prefix: Literal["input", "reference"]
+) -> BaseSequenceRecord:
     """Get base sequence record info."""
     return BaseSequenceRecord(
         gene_start=safe_int(d.get(f"{prefix}_gene_start")),
@@ -89,7 +86,9 @@ def _to_qc_row(row: dict[str, Any]) -> HamronizationEntry:
         sequence_id=row.get("input_sequence_id"),
         **_get_gene_pos(row, "input").model_dump(mode="json"),
     )
-    accnr = row.get("reference_accession") if row.get("reference_accession") else "unknown"
+    accnr = (
+        row.get("reference_accession") if row.get("reference_accession") else "unknown"
+    )
     ref_seq = ReferenceSequence(
         accession=accnr,
         reference_db_id=row.get("reference_database_name"),

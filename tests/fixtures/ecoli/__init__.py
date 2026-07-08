@@ -1,8 +1,6 @@
 """Ecoli input data fixutres."""
 
-import json
 from pathlib import Path
-from typing import Any
 
 import pytest
 
@@ -41,6 +39,12 @@ def ecoli_gambitcore_path(data_path: Path) -> Path:
 def ecoli_amrfinder_path(data_path: Path) -> Path:
     """Get path for ecoli amrfinder file"""
     return data_path.joinpath("ecoli", "amrfinder.out")
+
+
+@pytest.fixture()
+def ecoli_amrfinder_v4_stx_path(data_path: Path) -> Path:
+    """Get path for ecoli amrfinder v4 file containing an STX_TYPE (stx operon) hit"""
+    return data_path.joinpath("ecoli", "amrfinder.v4.stx.tsv")
 
 
 @pytest.fixture()
@@ -92,12 +96,6 @@ def ecoli_serotypefinder_meta_path(data_path: Path) -> Path:
 
 
 @pytest.fixture()
-def ecoli_shigapass_path(data_path: Path) -> Path:
-    """Get path for Shigapass results for ecoli."""
-    return data_path.joinpath("ecoli", "shigapass.csv")
-
-
-@pytest.fixture()
 def ecoli_mlst_path(data_path: Path) -> Path:
     """Get path for ecoli mlst file"""
     return data_path.joinpath("ecoli", "mlst.json")
@@ -113,14 +111,6 @@ def ecoli_chewbbaca_path(data_path: Path) -> Path:
 def ecoli_bracken_path(data_path: Path) -> Path:
     """Get path for ecoli bracken file"""
     return data_path.joinpath("ecoli", "bracken.out")
-
-
-@pytest.fixture()
-def ecoli_cdm_input(data_path: Path) -> list[dict[str, Any]]:
-    """Get path for ecoli cdm file"""
-    path = data_path.joinpath("ecoli", "cdm_input.json")
-    with open(path, "rb") as inpt:
-        return json.load(inpt)
 
 
 @pytest.fixture()

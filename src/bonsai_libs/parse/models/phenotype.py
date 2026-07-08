@@ -2,8 +2,8 @@
 
 from pydantic import Field
 
-from bonsai_libs.parse.core.registry import register_result_element_models
 from bonsai_libs.parse.models.enums import AnalysisSoftware, AnalysisType
+from bonsai_libs.parse.core.registry import register_result_element_models
 
 from .base import DatabaseReferenceMixin, GeneBase, PhenotypeModelMixin, VariantBase
 from .enums import SequenceStrand
@@ -13,7 +13,9 @@ class AmrFinderGene(GeneBase):
     """Container for Resfinder gene prediction information"""
 
     contig_id: str
-    query_start_pos: int | None = Field(None, description="Start position on the assembly")
+    query_start_pos: int | None = Field(
+        None, description="Start position on the assembly"
+    )
     query_end_pos: int | None = Field(None, description="End position on the assembly")
     strand: SequenceStrand | None
 
@@ -46,9 +48,12 @@ class TbProfilerVariant(VariantBase):
     """Container for TbProfiler variant information"""
 
     variant_effect: str | None = None
-    hgvs_nt_change: str | None = Field(default=None, description="DNA change in HGVS format")
-    hgvs_aa_change: str | None = Field(default=None, description="Protein change in HGVS format")
-
+    hgvs_nt_change: str | None = Field(
+        default=None, description="DNA change in HGVS format"
+    )
+    hgvs_aa_change: str | None = Field(
+        default=None, description="Protein change in HGVS format"
+    )
 
 # ---------------------------------------------------------------------------
 # Register phenotype models

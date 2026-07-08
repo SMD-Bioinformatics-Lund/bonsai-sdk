@@ -2,14 +2,11 @@
 
 from typing import Any
 
+from bonsai_libs.parse.io.delimited import read_delimited
 from bonsai_libs.parse.core.base import SingleAnalysisParser, StreamOrPath
 from bonsai_libs.parse.core.registry import register_parser
 from bonsai_libs.parse.exceptions import ParserError
-from bonsai_libs.parse.io.delimited import read_delimited
-from bonsai_libs.parse.models.bracken import (
-    BrackenSpeciesPrediction,
-    BrackenSpeciesPredictions,
-)
+from bonsai_libs.parse.models.bracken import BrackenSpeciesPrediction, BrackenSpeciesPredictions
 from bonsai_libs.parse.models.enums import AnalysisSoftware, AnalysisType, TaxLevel
 
 from .utils import safe_float, safe_int
@@ -75,7 +72,9 @@ class BrackenParser(SingleAnalysisParser):
             return {AnalysisType.SPECIES: []}
 
         # Validate the columns in the first row
-        self.validate_columns(first_row, required=REQUIRED_COLUMNS, strict=strict_columns)
+        self.validate_columns(
+            first_row, required=REQUIRED_COLUMNS, strict=strict_columns
+        )
 
         results: BrackenSpeciesPredictions = []
         # append first row
@@ -110,7 +109,11 @@ class BrackenParser(SingleAnalysisParser):
             scientific_name=row["name"],
             taxonomy_id=row["taxonomy_id"],
             taxonomy_lvl=tax_level,
-            kraken_assigned_reads=safe_int(row["kraken_assigned_reads"], logger=self.logger),
+            kraken_assigned_reads=safe_int(
+                row["kraken_assigned_reads"], logger=self.logger
+            ),
             added_reads=safe_int(row["added_reads"], logger=self.logger),
-            fraction_total_reads=safe_float(row["fraction_total_reads"], logger=self.logger),
+            fraction_total_reads=safe_float(
+                row["fraction_total_reads"], logger=self.logger
+            ),
         )

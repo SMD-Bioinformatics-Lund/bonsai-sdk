@@ -175,7 +175,8 @@ class HamronizationEntry(RWModel):
     resistance_mechanism: str | None = Field(
         default=None,
         description=(
-            "Cellular processes in a pathogen that result in antimicrobial" " drug resistance."
+            "Cellular processes in a pathogen that result in antimicrobial"
+            " drug resistance."
         ),
         examples=["target alteration"],
     )

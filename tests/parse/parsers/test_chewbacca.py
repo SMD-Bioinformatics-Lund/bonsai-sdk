@@ -20,7 +20,9 @@ cgmlst_test_not_include_novel = [
     ("INF-1", "INF-1"),
     ("INF-99", "INF-99"),
 ]  # inferred alleles
-cgmlst_test_replace_errors = [(err.value, None) for err in ChewbbacaErrors]  # errors to strip
+cgmlst_test_replace_errors = [
+    (err.value, None) for err in ChewbbacaErrors
+]  # errors to strip
 cgmlst_test_not_replace_errors = [
     (err.value, err.value) for err in ChewbbacaErrors
 ]  # errors to strip
@@ -37,7 +39,9 @@ cgmlst_test_not_replace_errors = [
 def test_replace_cgmlst_errors_not_include_novel(called_allele, expected):
     """Test function that process Chewbbaca allele calling."""
 
-    res = replace_cgmlst_errors(called_allele, include_novel_alleles=False, correct_alleles=False)
+    res = replace_cgmlst_errors(
+        called_allele, include_novel_alleles=False, correct_alleles=False
+    )
     assert res == expected
 
 
@@ -48,7 +52,9 @@ def test_replace_cgmlst_errors_not_include_novel(called_allele, expected):
 def test_replace_cgmlst_errors_include_novel(called_allele, expected):
     """Test function that process Chewbbaca allele calling."""
 
-    res = replace_cgmlst_errors(called_allele, include_novel_alleles=True, correct_alleles=False)
+    res = replace_cgmlst_errors(
+        called_allele, include_novel_alleles=True, correct_alleles=False
+    )
     assert res == expected
 
 
@@ -56,10 +62,14 @@ def test_replace_cgmlst_errors_include_novel(called_allele, expected):
     "called_allele,expected",
     [*cgmlst_test_base, *cgmlst_test_include_novel, *cgmlst_test_replace_errors],
 )
-def test_replace_cgmlst_errors_include_novel_and_correct_allels(called_allele, expected):
+def test_replace_cgmlst_errors_include_novel_and_correct_allels(
+    called_allele, expected
+):
     """Test function that process Chewbbaca allele calling."""
 
-    res = replace_cgmlst_errors(called_allele, include_novel_alleles=True, correct_alleles=True)
+    res = replace_cgmlst_errors(
+        called_allele, include_novel_alleles=True, correct_alleles=True
+    )
     assert res == expected
 
 

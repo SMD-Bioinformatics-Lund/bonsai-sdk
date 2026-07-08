@@ -2,11 +2,11 @@
 
 from typing import Any
 
+from bonsai_libs.parse.io.delimited import is_nullish
+from bonsai_libs.parse.io.json import read_json
 from bonsai_libs.parse.core.base import SingleAnalysisParser
 from bonsai_libs.parse.core.registry import register_parser
 from bonsai_libs.parse.exceptions import AbsentResultError
-from bonsai_libs.parse.io.delimited import is_nullish
-from bonsai_libs.parse.io.json import read_json
 from bonsai_libs.parse.models.enums import AnalysisSoftware, AnalysisType
 from bonsai_libs.parse.models.typing import TypingResultMlst
 
@@ -41,7 +41,9 @@ def _to_typing_result(data: dict[str, Any]) -> TypingResultMlst:
     if raw_alleles is None:
         raise AbsentResultError("No MLST typing result in file.")
 
-    alleles = {gene: _process_allele_call(allele) for gene, allele in raw_alleles.items()}
+    alleles = {
+        gene: _process_allele_call(allele) for gene, allele in raw_alleles.items()
+    }
 
     return TypingResultMlst(scheme=data["scheme"], sequence_type=st, alleles=alleles)
 

@@ -4,7 +4,7 @@ import pytest
 
 from bonsai_libs.parse.models.base import ParserOutput, ResultEnvelope
 from bonsai_libs.parse.models.bracken import BrackenSpeciesPrediction
-from bonsai_libs.parse.models.enums import AnalysisType, TaxLevel
+from bonsai_libs.parse.models.enums import TaxLevel, AnalysisType
 from bonsai_libs.parse.parsers.bracken import BrackenParser, to_taxlevel
 
 EXPECTED_PARSER_RESULT = [
@@ -37,7 +37,9 @@ def test_bracken_cutoff(fixture_name, expected, request):
     assert len(spp.value) == n_hits
 
 
-@pytest.mark.parametrize("raw_tax_level,exp_level", [("S", TaxLevel.S), ("g", TaxLevel.G)])
+@pytest.mark.parametrize(
+    "raw_tax_level,exp_level", [("S", TaxLevel.S), ("g", TaxLevel.G)]
+)
 def test_to_taxlevel(raw_tax_level, exp_level):
     """Test converting taxonomy level to TaxLevel enum."""
 
