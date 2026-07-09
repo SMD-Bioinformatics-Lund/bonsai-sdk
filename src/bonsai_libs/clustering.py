@@ -70,7 +70,7 @@ class ClusterResult:
 # Hierarchical clustering
 
 
-def heirarchical_clustering(
+def hierarchical_clustering(
     condensed_distance_matrix: Sequence[float],
     labels: Sequence[str],
     *,

@@ -2,7 +2,7 @@
 
 from bonsai_libs.clustering import (
     ExportNode,
-    heirarchical_clustering,
+    hierarchical_clustering,
     minimum_spanning_tree_clustering,
     to_newick,
 )
@@ -41,7 +41,7 @@ def assert_valid_newick(newick: str, labels: list[str]):
 def test_hierarchical_cluster_returns_result(small_distance_matrix):
     condensed, labels = small_distance_matrix
 
-    result = heirarchical_clustering(condensed, labels)
+    result = hierarchical_clustering(condensed, labels)
 
     assert result.root is not None
     assert result.labels == labels
@@ -50,7 +50,7 @@ def test_hierarchical_cluster_returns_result(small_distance_matrix):
 def test_hierarchical_to_newick_valid(small_distance_matrix):
     condensed, labels = small_distance_matrix
 
-    result = heirarchical_clustering(condensed, labels)
+    result = hierarchical_clustering(condensed, labels)
     newick = result.to_newick()
 
     assert_valid_newick(newick, labels)
@@ -61,7 +61,7 @@ def test_hierarchical_two_points():
     condensed = [1.0]
     labels = ["A", "B"]
 
-    result = heirarchical_clustering(condensed, labels)
+    result = hierarchical_clustering(condensed, labels)
     newick = result.to_newick()
 
     assert_valid_newick(newick, labels)
