@@ -87,6 +87,19 @@ def test_mst_cluster_to_newick_valid(small_distance_matrix):
 
     assert_valid_newick(newick, labels)
 
+    assert newick == "(A:0.000000,B:1.000000,C:2.000000);"
+
+
+def test_mst_cluster_to_newick_valid_medium(medium_distance_matrix):
+    condensed, labels = medium_distance_matrix
+
+    result = minimum_spanning_tree_clustering(condensed, labels)
+    newick = result.to_newick()
+
+    assert_valid_newick(newick, labels)
+
+    assert newick == "(A:0.000000,B:3.000000,C:4.000000,D:5.000000,E:13.000000);"
+
 
 def test_mst_two_points():
     """Minimal MST case."""
