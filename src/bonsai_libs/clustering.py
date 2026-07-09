@@ -16,6 +16,8 @@ from scipy.spatial.distance import squareform
 
 @dataclass(frozen=True)
 class Edge:
+    """A graph edge connecting nodes."""
+
     target: int
     weight: float
 
@@ -36,6 +38,7 @@ class ExportNode:
     children: list["ExportNode"] = field(default_factory=list)
 
     def is_leaf(self) -> bool:
+        """Return true if node is a leaf node."""
         return not self.children
 
 
@@ -134,7 +137,7 @@ def minimum_spanning_tree_clustering(
         raise ValueError("root_index out of range")
 
     graph = _build_mst_graph(condensed_distance_matrix, size=len(labels))
-    root = _root_graph(graph, labels, current=root_index)
+    root = _root_graph(graph, labels, root_index=root_index)
 
     return ClusterResult(root=root, labels=labels)
 
@@ -167,14 +170,27 @@ def _build_mst_graph(
 def _root_graph(
     graph: Graph,
     labels: Sequence[str],
-    current: int,
+    root_index: int | None = None,
     parent: int | None = None,
     branch_length: float = 0.0,
 ) -> ExportNode:
     """Convert graph into rooted tree."""
-    node = ExportNode(name=labels[current], branch_length=branch_length)
 
-    for edge in graph.get(current, []):
+    if not root_index:
+        # Use synthetic root
+        root_index = 0
+        root = ExportNode(name=None, branch_length=0.0)
+        root.children.append(
+            ExportNode(
+                name=labels[root_index],
+                branch_length=0.0,
+            )
+        )
+    else:
+        root = ExportNode(name=labels[root_index], branch_length=branch_length)
+
+    # Build graph
+    for edge in graph.get(root_index, []):
         # Prevent traversing back to parent
         if edge.target == parent:
             continue
@@ -182,13 +198,13 @@ def _root_graph(
         child = _root_graph(
             graph,
             labels,
-            current=edge.target,
-            parent=current,
+            root_index=edge.target,
+            parent=root_index,
             branch_length=edge.weight,
         )
-        node.children.append(child)
+        root.children.append(child)
 
-    return node
+    return root
 
 
 # Newick export
@@ -212,5 +228,5 @@ def to_newick(node: ExportNode) -> str:
 
     if node.branch_length > 0:
         return f"({children_str}):{node.branch_length:.6f}"
-
+    
     return f"({children_str})"
