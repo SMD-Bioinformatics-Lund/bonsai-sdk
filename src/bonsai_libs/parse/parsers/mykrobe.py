@@ -5,9 +5,6 @@ import re
 from dataclasses import asdict
 from typing import Any, Callable, TypeAlias
 
-from bonsai_libs.parse.core.base import BaseParser
-from bonsai_libs.parse.core.envelope import run_as_envelope
-from bonsai_libs.parse.core.registry import register_parser
 from bonsai_libs.parse.io.delimited import (
     DelimiterRow,
     canonical_header,
@@ -16,9 +13,12 @@ from bonsai_libs.parse.io.delimited import (
     read_delimited,
 )
 from bonsai_libs.parse.io.types import StreamOrPath
+from bonsai_libs.parse.core.base import BaseParser
+from bonsai_libs.parse.models.base import ParseImplOut
+from bonsai_libs.parse.core.envelope import run_as_envelope
+from bonsai_libs.parse.core.registry import register_parser
 from bonsai_libs.parse.models.base import (
     ElementTypeResult,
-    ParseImplOut,
     PhenotypeInfo,
     SoupVersion,
     VariantBase,
@@ -32,11 +32,7 @@ from bonsai_libs.parse.models.enums import (
     VariantSubType,
     VariantType,
 )
-from bonsai_libs.parse.models.mykrobe import (
-    MykrobeSpeciesPrediction,
-    MykrobeSpeciesPredictions,
-    SRProfile,
-)
+from bonsai_libs.parse.models.mykrobe import MykrobeSpeciesPredictions, MykrobeSpeciesPrediction, SRProfile
 from bonsai_libs.parse.models.typing import ResultLineageBase
 
 from .utils import get_nt_change, safe_float, safe_int
@@ -163,7 +159,9 @@ def _parse_amr_variants(rows: TableRows, *, log_warning) -> list[VariantBase]:
         for var_id, token in enumerate(tokens, start=1):
             match = VARIANT_RE.match(token)
             if not match:
-                log_warning("Bad variant token in Mykrobe result", row=row_no, token=token)
+                log_warning(
+                    "Bad variant token in Mykrobe result", row=row_no, token=token
+                )
                 continue
 
             gd = match.groupdict()
@@ -312,7 +310,9 @@ class MykrobeParser(BaseParser):
             self.log_info("Mykrobe input is empty")
 
         first_row = _normalize_mykrobe_row(first_row)
-        self.validate_columns(first_row, required=REQUIRED_COLUMNS, strict=strict_columns)
+        self.validate_columns(
+            first_row, required=REQUIRED_COLUMNS, strict=strict_columns
+        )
 
         rows = [first_row] + [_normalize_mykrobe_row(r) for r in rows_iter]
 

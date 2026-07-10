@@ -3,24 +3,15 @@
 import re
 from typing import Any
 
-from bonsai_libs.parse.core.base import (
-    SingleAnalysisParser,
-    StreamOrPath,
-    warn_if_extra_rows,
-)
+from bonsai_libs.parse.io.delimited import DelimiterRow, is_nullish, normalize_row, read_delimited
+from bonsai_libs.parse.core.base import SingleAnalysisParser, StreamOrPath, warn_if_extra_rows
 from bonsai_libs.parse.core.registry import register_parser
-from bonsai_libs.parse.io.delimited import (
-    DelimiterRow,
-    is_nullish,
-    normalize_row,
-    read_delimited,
-)
 from bonsai_libs.parse.models.enums import AnalysisSoftware, AnalysisType, GambitQcFlag
 from bonsai_libs.parse.models.qc import GambitcoreQcResult
 
 from .utils import safe_int, safe_percent
 
-GAMBIT = AnalysisSoftware.GAMBIT
+GAMBITCORE = AnalysisSoftware.GAMBITCORE
 
 COLUMN_MAP = {
     "Species": "scientific_name",
@@ -72,11 +63,11 @@ def _to_qc_result(row: dict[str, Any]) -> GambitcoreQcResult:
     )
 
 
-@register_parser(GAMBIT)
+@register_parser(GAMBITCORE)
 class GambitCoreParser(SingleAnalysisParser):
     """Gambit core parser."""
 
-    software = GAMBIT
+    software = GAMBITCORE
     parser_name = "GambitCoreParser"
     parser_version = 1
     schema_version = 1
@@ -103,6 +94,8 @@ class GambitCoreParser(SingleAnalysisParser):
         required_cols = set(COLUMN_MAP)
         self.validate_columns(first_raw, required=required_cols, strict=strict)
         first = _normalize_gambit_row(first_raw)
-        warn_if_extra_rows(rows, self.log_warning, context=f"{self.software} file", max_consume=10)
+        warn_if_extra_rows(
+            rows, self.log_warning, context=f"{self.software} file", max_consume=10
+        )
 
         return _to_qc_result(first)

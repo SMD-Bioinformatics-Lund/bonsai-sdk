@@ -3,9 +3,9 @@
 import logging
 from typing import Any
 
+from bonsai_libs.parse.io.delimited import read_delimited
 from bonsai_libs.parse.core.base import SingleAnalysisParser, StreamOrPath
 from bonsai_libs.parse.core.registry import register_parser
-from bonsai_libs.parse.io.delimited import read_delimited
 from bonsai_libs.parse.models.enums import AnalysisSoftware, AnalysisType
 from bonsai_libs.parse.models.typing import TypingResultEmm
 
@@ -26,7 +26,9 @@ EMM_FIELDS = [
 def _parse_emmtyper_results(info: dict[str, Any]) -> TypingResultEmm:
     """Parse emm gene prediction results."""
     emm_like_alleles = (
-        info["emm_like_alleles"].split(";") if not is_nullish(info["emm_like_alleles"]) else None
+        info["emm_like_alleles"].split(";")
+        if not is_nullish(info["emm_like_alleles"])
+        else None
     )
     return TypingResultEmm(
         cluster_count=int(info["cluster_count"]),

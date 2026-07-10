@@ -23,7 +23,7 @@ from bonsai_libs.parse.parsers.kleborate import (
 
 
 def test_convert_hamronization_to_amr_record(hamronization_entry: HamronizationEntry):
-    """Test converting kleborate hAMRonization a bonsai_libs resistance record."""
+    """Test converting kleborate hAMRonization a PRP resistance record."""
 
     res = _parse_amr([hamronization_entry], warn=lambda x: x)
 
@@ -80,7 +80,9 @@ def test_get_hamr_phenotype(hamronization_entry: HamronizationEntry):
         ),
         (
             "p.Lys28fs",
-            ParsedVariant(ref="Lys", start=28, residue="protein", type=VariantSubType.FRAME_SHIFT),
+            ParsedVariant(
+                ref="Lys", start=28, residue="protein", type=VariantSubType.FRAME_SHIFT
+            ),
             None,
         ),
         (
@@ -98,7 +100,9 @@ def test_get_hamr_phenotype(hamronization_entry: HamronizationEntry):
         (None, None, None),
     ],
 )
-def test_parse_variant_str(variant: str, expected: ParsedVariant, warn_msg: str | None, caplog):
+def test_parse_variant_str(
+    variant: str, expected: ParsedVariant, warn_msg: str | None, caplog
+):
     """Test parsing of HGVS-like string."""
 
     with caplog.at_level(logging.WARNING):
@@ -159,7 +163,9 @@ def test_kleborate_parser_results_w_hamronization(
     """Test that the KleborateParser produces the expected result and data types."""
 
     parser = KleborateParser()
-    result = parser.parse(kp_kleborate_path, hamronization_source=kp_kleborate_hamronization_path)
+    result = parser.parse(
+        kp_kleborate_path, hamronization_source=kp_kleborate_hamronization_path
+    )
 
     # test that result is method index
     assert isinstance(result, ParserOutput)

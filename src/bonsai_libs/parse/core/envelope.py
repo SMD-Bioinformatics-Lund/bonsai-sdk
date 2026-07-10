@@ -31,21 +31,22 @@ def envelope_from_value(
 
     status = ResultStatus.EMPTY if empty_predicate(value) else ResultStatus.PARSED
     from bonsai_libs.parse.models.base import ResultEnvelope
-
     return ResultEnvelope(status=status, value=value, reason=reason, meta=meta or {})
 
 
-def envelope_error(reason: str, *, meta: dict[str, Any] | None = None) -> "ResultEnvelope":
+def envelope_error(
+    reason: str, *, meta: dict[str, Any] | None = None
+) -> "ResultEnvelope":
     """Create an envelope that signifies that an error occured."""
     from bonsai_libs.parse.models.base import ResultEnvelope
-
     return ResultEnvelope(status=ResultStatus.ERROR, reason=reason, meta=meta or {})
 
 
-def envelope_absent(reason: str, *, meta: dict[str, Any] | None = None) -> "ResultEnvelope":
+def envelope_absent(
+    reason: str, *, meta: dict[str, Any] | None = None
+) -> "ResultEnvelope":
     """Create an envelope that for result being absent in the input file."""
     from bonsai_libs.parse.models.base import ResultEnvelope
-
     return ResultEnvelope(status=ResultStatus.ABSENT, reason=reason, meta=meta or {})
 
 
@@ -54,7 +55,6 @@ def envelope_skipped(
 ) -> "ResultEnvelope":
     """Create an envelope that signifies that the result was skipped by the user."""
     from bonsai_libs.parse.models.base import ResultEnvelope
-
     return ResultEnvelope(status=ResultStatus.SKIPPED, reason=reason, meta=meta or {})
 
 
@@ -75,7 +75,9 @@ def run_as_envelope(
         value = fn()
     except AbsentResultError as exc:
         if logger:
-            logger.info("result absent", extra={"context": {**base_meta, "error": str(exc)}})
+            logger.info(
+                "result absent", extra={"context": {**base_meta, "error": str(exc)}}
+            )
         return envelope_absent(reason=reason_if_absent or str(exc), meta=base_meta)
 
     except ParserError as exc:
@@ -93,7 +95,9 @@ def run_as_envelope(
 
     except Exception as exc:
         if logger:
-            logger.exception("Step failed", extra={"context": {**base_meta, "error": str(exc)}})
+            logger.exception(
+                "Step failed", extra={"context": {**base_meta, "error": str(exc)}}
+            )
         err_meta = {**base_meta, "exception": type(exc).__name__}
         return envelope_error(reason=str(exc), meta=err_meta)
 
@@ -112,5 +116,4 @@ def run_as_envelope(
         reason = reason_if_empty or None
 
     from bonsai_libs.parse.models.base import ResultEnvelope
-
     return ResultEnvelope(status=status, value=value, reason=reason, meta=base_meta)

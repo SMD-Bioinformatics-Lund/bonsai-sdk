@@ -2,8 +2,6 @@
 
 from typing import Any, Mapping
 
-from bonsai_libs.parse.core.base import SingleAnalysisParser, warn_if_extra_rows
-from bonsai_libs.parse.core.registry import register_parser
 from bonsai_libs.parse.io.delimited import (
     DelimiterRow,
     canonical_header,
@@ -11,11 +9,9 @@ from bonsai_libs.parse.io.delimited import (
     normalize_row,
     read_delimited,
 )
-from bonsai_libs.parse.models.enums import (
-    AnalysisSoftware,
-    AnalysisType,
-    ChewbbacaErrors,
-)
+from bonsai_libs.parse.core.base import SingleAnalysisParser, warn_if_extra_rows
+from bonsai_libs.parse.core.registry import register_parser
+from bonsai_libs.parse.models.enums import AnalysisSoftware, AnalysisType, ChewbbacaErrors
 from bonsai_libs.parse.models.typing import TypingResultCgMlst
 
 from .utils import safe_int
@@ -94,7 +90,9 @@ def replace_cgmlst_errors(
     return allele
 
 
-def _to_typing_result(row: Mapping[str, Any], *, log_warn: Any | None = None) -> TypingResultCgMlst:
+def _to_typing_result(
+    row: Mapping[str, Any], *, log_warn: Any | None = None
+) -> TypingResultCgMlst:
     """Cast result to TypingResultCgMlst."""
 
     # remove file column
@@ -146,7 +144,9 @@ class ChewbbacaParser(SingleAnalysisParser):
 
         # Normalize keys
         first = _normalize_row(first_raw)
-        warn_if_extra_rows(rows, self.log_warning, context=f"{self.software} file", max_consume=11)
+        warn_if_extra_rows(
+            rows, self.log_warning, context=f"{self.software} file", max_consume=11
+        )
 
         # to envelope
         return _to_typing_result(first, log_warn=self.log_warning)

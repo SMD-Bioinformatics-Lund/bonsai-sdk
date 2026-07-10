@@ -1,13 +1,12 @@
 """Bracken specific data models."""
 
 from typing import TypeAlias
-
 from pydantic import Field, TypeAdapter
 
 from bonsai_libs.parse.core.registry import register_result_model
 
 from .base import BaseSpeciesPrediction
-from .enums import AnalysisSoftware, AnalysisType, TaxLevel
+from .enums import TaxLevel, AnalysisSoftware, AnalysisType
 
 
 class BrackenSpeciesPrediction(BaseSpeciesPrediction):
@@ -17,7 +16,6 @@ class BrackenSpeciesPrediction(BaseSpeciesPrediction):
     kraken_assigned_reads: int = Field(..., alias="krakenAssignedReads")
     added_reads: int = Field(..., alias="addedReads")
     fraction_total_reads: float = Field(..., alias="fractionTotalReads")
-
 
 BrackenSpeciesPredictions: TypeAlias = list[BrackenSpeciesPrediction]
 

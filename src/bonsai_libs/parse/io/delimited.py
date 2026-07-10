@@ -127,7 +127,9 @@ def validate_fields(
     extra = (cols - allowed) if strict else set()
 
     if missing:
-        raise ValueError(f"Missing required columns: {sorted(missing)}; got: {sorted(cols)}")
+        raise ValueError(
+            f"Missing required columns: {sorted(missing)}; got: {sorted(cols)}"
+        )
     if strict and extra:
         raise ValueError(f"Unexpected extra columns: {sorted(extra)}")
 

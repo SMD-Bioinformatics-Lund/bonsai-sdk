@@ -49,7 +49,9 @@ def is_prediction_result_empty(result: ElementTypeResult) -> bool:
 # helpers used by many parsers -------------------------------------------------
 
 
-def normalize_delimited_row(row: DelimiterRow, column_map: dict[str, str]) -> DelimiterRow:
+def normalize_delimited_row(
+    row: DelimiterRow, column_map: dict[str, str]
+) -> DelimiterRow:
     """Common normalization of a single delimited input row.
 
     This mirrors the pattern used in many of the parsers:

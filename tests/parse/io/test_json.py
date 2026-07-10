@@ -1,16 +1,17 @@
 """Test reading json files."""
 
+
 import io
-import json
 from pathlib import Path
 
+import json
 from bonsai_libs.parse.io.json import read_json
 
 
 def test_json_all_inputs(tmp_path: Path):
     """Test reading JSON from all supported input types."""
 
-    payload = {"x": 1, "y": [2, 3]}
+    payload = {"x": 1, "y": [2,3]}
     raw = json.dumps(payload)
 
     # path
