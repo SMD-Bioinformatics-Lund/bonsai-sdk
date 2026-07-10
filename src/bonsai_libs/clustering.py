@@ -55,6 +55,13 @@ class LinkageMethod(StrEnum):
     CENTROID = "centroid"
 
 
+class ClusteringAlgorithm(StrEnum):
+    """Supported clustering strategies."""
+
+    HIERARCHICAL = "hierarchical"
+    MST = "mst"
+
+
 @dataclass(frozen=True)
 class ClusterResult:
     """Result of a clustering operation."""
