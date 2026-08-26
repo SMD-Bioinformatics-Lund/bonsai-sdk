@@ -158,9 +158,7 @@ class VirulenceFinderParser(BaseParser):
                 raise
             return {}
         except InvalidDataFormat as exc:
-            self.log_error(
-                "Failed to read/validate VirulenceFinder JSON", error=str(exc)
-            )
+            self.log_error("Failed to read/validate VirulenceFinder JSON", error=str(exc))
             if strict:
                 raise
             return {}

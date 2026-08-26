@@ -139,9 +139,7 @@ class SerotypeFinderParser(BaseParser):
                 hits = pred_res.get(ANALYSIS_TYPE_FIELDS[analysis_type])
                 # Value might be a string if there is no hit
                 if _is_no_hit(hits):
-                    out[analysis_type] = envelope_absent(
-                        f"No {analysis_type} hit", meta=base_meta
-                    )
+                    out[analysis_type] = envelope_absent(f"No {analysis_type} hit", meta=base_meta)
                     continue
 
                 # verify data
@@ -156,9 +154,7 @@ class SerotypeFinderParser(BaseParser):
                 # there can be several hits for a given serotype, pick the best
                 hit = pick_best_hit(hits)
                 if hit is None:
-                    out[analysis_type] = envelope_absent(
-                        f"No {analysis_type} hit", meta=base_meta
-                    )
+                    out[analysis_type] = envelope_absent(f"No {analysis_type} hit", meta=base_meta)
 
                 out[analysis_type] = run_as_envelope(
                     analysis_name=analysis_type,

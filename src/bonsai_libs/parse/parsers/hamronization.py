@@ -68,9 +68,7 @@ OPTIONAL_COLUMNS = {
 }
 
 
-def _get_gene_pos(
-    d: dict[str, Any], prefix: Literal["input", "reference"]
-) -> BaseSequenceRecord:
+def _get_gene_pos(d: dict[str, Any], prefix: Literal["input", "reference"]) -> BaseSequenceRecord:
     """Get base sequence record info."""
     return BaseSequenceRecord(
         gene_start=safe_int(d.get(f"{prefix}_gene_start")),
@@ -86,9 +84,7 @@ def _to_qc_row(row: dict[str, Any]) -> HamronizationEntry:
         sequence_id=row.get("input_sequence_id"),
         **_get_gene_pos(row, "input").model_dump(mode="json"),
     )
-    accnr = (
-        row.get("reference_accession") if row.get("reference_accession") else "unknown"
-    )
+    accnr = row.get("reference_accession") if row.get("reference_accession") else "unknown"
     ref_seq = ReferenceSequence(
         accession=accnr,
         reference_db_id=row.get("reference_database_name"),

@@ -35,7 +35,7 @@ software_info:
 kraken: ./bracken.out
 quast: ./quast.tsv
 resfinder: ./resfinder.json
-samtools_bedcov: /path/to/bedcov.txt                                          
+samtools_bedcov: /path/to/bedcov.txt
 samtools_stats: /path/to/stats.txt
 virulencefinder: ./virulencefinder.json
 amrfinder: ./amrfinder.out

@@ -29,9 +29,7 @@ from .utils import classify_variant_type, safe_float, safe_int, safe_strand
 
 LOG = logging.getLogger(__name__)
 
-AmrFinderGeneT: TypeAlias = (
-    AmrFinderGene | AmrFinderVirulenceGene | AmrFinderVirulenceGene
-)
+AmrFinderGeneT: TypeAlias = AmrFinderGene | AmrFinderVirulenceGene | AmrFinderVirulenceGene
 AmrFinderGenes: TypeAlias = list[AmrFinderGeneT]
 AmrFinderVariants: TypeAlias = list[AmrFinderVariant]
 
@@ -101,9 +99,7 @@ def _normalize_row(
     - rename columns to internal names
     - convert empty strings to null values
     """
-    raw = {
-        col_name: val for col_name, val in raw.items() if col_name not in drop_columns
-    }
+    raw = {col_name: val for col_name, val in raw.items() if col_name not in drop_columns}
     raw = normalize_nulls(raw)
 
     normalized: dict[str, Any] = {}
@@ -116,9 +112,7 @@ def _normalize_row(
     return normalized
 
 
-def _phenotypes_from_hit(
-    hit: dict[str, Any], *, element_type: ElementType
-) -> list[PhenotypeInfo]:
+def _phenotypes_from_hit(hit: dict[str, Any], *, element_type: ElementType) -> list[PhenotypeInfo]:
     """
     Extract phenotype annotations from 'Class' and 'Subclass'.
     Returns an empty list if information is missing.
@@ -156,9 +150,7 @@ def _gene_model_for_element_type(element_type: ElementType):
 
 def _parse_gene(hit: dict[str, Any]) -> AmrFinderGeneT:
     """Build a gene model from a normalized hit dict."""
-    element_type = (
-        ElementType(hit["element_type"]) if hit.get("element_type") else ElementType.AMR
-    )
+    element_type = ElementType(hit["element_type"]) if hit.get("element_type") else ElementType.AMR
     gene_cls = _gene_model_for_element_type(element_type)
 
     gene = gene_cls(
@@ -190,9 +182,7 @@ def _parse_variant(hit: dict[str, Any], variant_no: int) -> AmrFinderVariant:
     try:
         gene_name, variant = gene_symbol.split("_", 1)
     except ValueError as exc:
-        raise ValueError(
-            f"Unrecognized gene_symbol format for variant: {gene_symbol}"
-        ) from exc
+        raise ValueError(f"Unrecognized gene_symbol format for variant: {gene_symbol}") from exc
 
     match = VARIANT_PATTERN.match(variant)
     if not match:
@@ -320,12 +310,8 @@ class _AmrFinderParserBase(BaseParser):
     _column_map: dict[str, str]
     _drop_columns: frozenset[str]
 
-    def _parse_impl(
-        self, source: StreamOrPath, *, want: set[AnalysisType], **_
-    ) -> ParseImplOut:
-        genes, variants = read_amrfinder_results(
-            source, self._column_map, self._drop_columns
-        )
+    def _parse_impl(self, source: StreamOrPath, *, want: set[AnalysisType], **_) -> ParseImplOut:
+        genes, variants = read_amrfinder_results(source, self._column_map, self._drop_columns)
 
         base_meta = {"parser": self.parser_name, "software": self.software}
 

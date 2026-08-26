@@ -17,6 +17,7 @@ class BrackenSpeciesPrediction(BaseSpeciesPrediction):
     added_reads: int = Field(..., alias="addedReads")
     fraction_total_reads: float = Field(..., alias="fractionTotalReads")
 
+
 BrackenSpeciesPredictions: TypeAlias = list[BrackenSpeciesPrediction]
 
 register_result_model(

@@ -91,9 +91,7 @@ class BaseParser(ABC):
         out.results.update(results)
         return out
 
-    def _normalize_want(
-        self, want: set[AnalysisType] | AnalysisType | None
-    ) -> set[AnalysisType]:
+    def _normalize_want(self, want: set[AnalysisType] | AnalysisType | None) -> set[AnalysisType]:
         """Normalize the want parameter to a set of AnalysisType."""
 
         want = want or set(self.produces)
@@ -176,13 +174,11 @@ class BaseParser(ABC):
     ) -> Mapping[str, Any] | None:
         """Convenience: read, validate and normalize a single delimited row.
 
-        ``column_map`` is passed through to :func:`prp.io.delimited.normalize_row`.
+        ``column_map`` is passed through to :func:`bonsai_libs.parse.io.delimited.normalize_row`.
         If the source is empty this returns ``None``.  Extra rows are consumed up
         to ``max_consume`` and a warning emitted via :meth:`log_warning`.
         """
-        first, rows = self._read_rows(
-            source, required=required, strict_columns=strict_columns
-        )
+        first, rows = self._read_rows(source, required=required, strict_columns=strict_columns)
         if first is None:
             return None
         # normalization is a very common pattern; import lazily to avoid a
@@ -226,9 +222,7 @@ class SingleAnalysisParser(BaseParser):
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         if not hasattr(cls, "produces") or len(cls.produces) != 1:
-            raise TypeError(
-                f"{cls.__name__}.produces must contain exactly one AnalysisType"
-            )
+            raise TypeError(f"{cls.__name__}.produces must contain exactly one AnalysisType")
 
     @property
     def analysis_type(self) -> AnalysisType:

@@ -41,9 +41,7 @@ def _to_typing_result(data: dict[str, Any]) -> TypingResultMlst:
     if raw_alleles is None:
         raise AbsentResultError("No MLST typing result in file.")
 
-    alleles = {
-        gene: _process_allele_call(allele) for gene, allele in raw_alleles.items()
-    }
+    alleles = {gene: _process_allele_call(allele) for gene, allele in raw_alleles.items()}
 
     return TypingResultMlst(scheme=data["scheme"], sequence_type=st, alleles=alleles)
 

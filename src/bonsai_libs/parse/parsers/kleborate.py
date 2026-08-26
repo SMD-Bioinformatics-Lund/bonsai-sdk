@@ -101,12 +101,8 @@ _VARIANT_PATTERNS: dict[tuple[str, Any], re.Pattern[str]] = {
     ("protein", VariantSubType.INSERTION): _compile(
         r"\w\.(?P<start>\d+)_(?P<end>\d+)ins(?P<alt>[A-Z]+)"
     ),
-    ("protein", VariantSubType.FRAME_SHIFT): _compile(
-        r"\w\.(?P<ref>[A-Z]+)(?P<start>\d+)fs"
-    ),
-    ("protein", VariantSubType.DELETION): _compile(
-        r"\w\.(?P<ref>[A-Z]+)(?P<pos>\d+)del"
-    ),
+    ("protein", VariantSubType.FRAME_SHIFT): _compile(r"\w\.(?P<ref>[A-Z]+)(?P<start>\d+)fs"),
+    ("protein", VariantSubType.DELETION): _compile(r"\w\.(?P<ref>[A-Z]+)(?P<pos>\d+)del"),
     ("nucleotide", VariantSubType.SUBSTITUTION): _compile(
         r"\w\.(?P<ref>[ACGTURYSWKMBDHVN]+)(?P<start>\d+)(?P<alt>[ACGTURYSWKMBDHVN]+)"
     ),
@@ -194,9 +190,7 @@ def _parse_virulence(result: Mapping[str, Any]) -> KleborateEtScore | None:
     """Get virulence score from result."""
     preset = result.get("klebsiella_pneumo_complex")
     if not isinstance(preset, Mapping):
-        raise AbsentResultError(
-            "'klebsiella_pneumo_complex' specific analysis not in result."
-        )
+        raise AbsentResultError("'klebsiella_pneumo_complex' specific analysis not in result.")
 
     vir = preset.get("virulence_score")
     if not isinstance(vir, Mapping):
@@ -215,9 +209,7 @@ def _parse_kaptive(
 
     # Only available for KPSC
     if (data := result.get(PresetName.KPSC)) is None:
-        raise AbsentResultError(
-            "'klebsiella_pneumo_complex' specific analysis not in result."
-        )
+        raise AbsentResultError("'klebsiella_pneumo_complex' specific analysis not in result.")
 
     def _fmt_res(d: dict[str, Any], method: Literal["K", "O"]) -> KleborateKaptiveLocus:
         return KleborateKaptiveLocus(
@@ -246,9 +238,7 @@ def _parse_mlst_like(
 
     kleb = result.get("klebsiella")
     if not isinstance(kleb, Mapping):
-        raise AbsentResultError(
-            "'klebsiella_pneumo_complex' specific analysis not in result."
-        )
+        raise AbsentResultError("'klebsiella_pneumo_complex' specific analysis not in result.")
 
     for schema_name, schema_def in _MLST_LIKE_SCHEMAS.items():
         analysis_type = _MLST_TO_ANALYSISTYPE.get(schema_name)
@@ -268,9 +258,7 @@ def _parse_mlst_like(
             continue
 
         lineage_val = typing_result.get(lineage_key)
-        lineage = (
-            "; ".join(lineage_val) if isinstance(lineage_val, list) else lineage_val
-        )
+        lineage = "; ".join(lineage_val) if isinstance(lineage_val, list) else lineage_val
 
         st_val = typing_result.get(st_key)
         sequence_type: Any
@@ -377,9 +365,7 @@ def _parse_variant_str(
             raise ValueError(msg)
         return None
 
-    return ParsedVariant.model_validate(
-        {"residue": residue_type, "type": subtype, **m.groupdict()}
-    )
+    return ParsedVariant.model_validate({"residue": residue_type, "type": subtype, **m.groupdict()})
 
 
 def _hamr_phenotype(record: HamronizationEntry) -> PhenotypeInfo | None:
@@ -461,15 +447,11 @@ def _parse_amr(entries: HamronizationEntries, *, warn: WarnFn) -> ElementTypeRes
                     start=entry.reference.gene_start or 0,
                     end=entry.reference.gene_stop or 0,
                     identity=(
-                        entry.sequence_identity
-                        if entry.sequence_identity is not None
-                        else -1
+                        entry.sequence_identity if entry.sequence_identity is not None else -1
                     ),
                     depth=entry.coverage_depth,
                     coverage=(
-                        entry.coverage_percentage
-                        if entry.coverage_percentage is not None
-                        else -1
+                        entry.coverage_percentage if entry.coverage_percentage is not None else -1
                     ),
                     frequency=getattr(entry, "variant_frequency", None),
                     passed_qc=None,
@@ -666,9 +648,7 @@ class KleborateParser(BaseParser):
                 if hamronization_source is None:
                     m = "Cannot parse AMR since no hAMRonization results were provided."
                     self.log_error(m)
-                    out[AnalysisType.AMR] = envelope_error(
-                        m, meta={**base_meta, "step": "amr"}
-                    )
+                    out[AnalysisType.AMR] = envelope_error(m, meta={**base_meta, "step": "amr"})
                 else:
                     hparser = HAmrOnizationParser()
                     hres = hparser.parse(hamronization_source)

@@ -119,9 +119,7 @@ def _coverage_stats(
     quartile1 = _percentile(0.25)
     median_cov = _percentile(0.50)
     quartile3 = _percentile(0.75)
-    coverage_uniformity = (
-        (quartile3 - quartile1) / median_cov if median_cov else None
-    )
+    coverage_uniformity = (quartile3 - quartile1) / median_cov if median_cov else None
 
     # pct_above_x: % of genome positions with depth >= threshold
     def _pct_above(threshold: int) -> float:

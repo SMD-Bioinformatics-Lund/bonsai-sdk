@@ -14,12 +14,8 @@ from .enums import AnalysisType, AnalysisSoftware
 class MykrobeSpeciesPrediction(BaseSpeciesPrediction):
     """Mykrobe species prediction results."""
 
-    phylogenetic_group: str = Field(
-        ..., description="Group with phylogenetic related species."
-    )
-    phylogenetic_group_coverage: float = Field(
-        ..., description="Kmer converage for phylo group."
-    )
+    phylogenetic_group: str = Field(..., description="Group with phylogenetic related species.")
+    phylogenetic_group_coverage: float = Field(..., description="Kmer converage for phylo group.")
     species_coverage: float = Field(..., description="Species kmer converage.")
 
 
@@ -28,6 +24,7 @@ register_result_model(
     AnalysisSoftware.MYKROBE,
     AnalysisType.SPECIES,
 )(TypeAdapter(MykrobeSpeciesPredictions))
+
 
 @dataclass(frozen=True)
 class SRProfile:

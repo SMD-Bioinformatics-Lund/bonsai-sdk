@@ -72,9 +72,7 @@ class BrackenParser(SingleAnalysisParser):
             return {AnalysisType.SPECIES: []}
 
         # Validate the columns in the first row
-        self.validate_columns(
-            first_row, required=REQUIRED_COLUMNS, strict=strict_columns
-        )
+        self.validate_columns(first_row, required=REQUIRED_COLUMNS, strict=strict_columns)
 
         results: BrackenSpeciesPredictions = []
         # append first row
@@ -109,11 +107,7 @@ class BrackenParser(SingleAnalysisParser):
             scientific_name=row["name"],
             taxonomy_id=row["taxonomy_id"],
             taxonomy_lvl=tax_level,
-            kraken_assigned_reads=safe_int(
-                row["kraken_assigned_reads"], logger=self.logger
-            ),
+            kraken_assigned_reads=safe_int(row["kraken_assigned_reads"], logger=self.logger),
             added_reads=safe_int(row["added_reads"], logger=self.logger),
-            fraction_total_reads=safe_float(
-                row["fraction_total_reads"], logger=self.logger
-            ),
+            fraction_total_reads=safe_float(row["fraction_total_reads"], logger=self.logger),
         )

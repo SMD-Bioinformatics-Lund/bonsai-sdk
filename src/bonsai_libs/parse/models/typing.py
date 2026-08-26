@@ -58,7 +58,9 @@ class LineageInformation(RWModel):
 
 
 LineageResults: TypeAlias = list[LineageInformation]
-register_result_model(AnalysisSoftware.TBPROFILER, AnalysisType.LINEAGE)(TypeAdapter(LineageResults))
+register_result_model(AnalysisSoftware.TBPROFILER, AnalysisType.LINEAGE)(
+    TypeAdapter(LineageResults)
+)
 
 
 @register_result_model(AnalysisSoftware.MYKROBE, AnalysisType.LINEAGE)

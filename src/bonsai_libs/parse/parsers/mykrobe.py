@@ -32,7 +32,11 @@ from bonsai_libs.parse.models.enums import (
     VariantSubType,
     VariantType,
 )
-from bonsai_libs.parse.models.mykrobe import MykrobeSpeciesPredictions, MykrobeSpeciesPrediction, SRProfile
+from bonsai_libs.parse.models.mykrobe import (
+    MykrobeSpeciesPredictions,
+    MykrobeSpeciesPrediction,
+    SRProfile,
+)
 from bonsai_libs.parse.models.typing import ResultLineageBase
 
 from .utils import get_nt_change, safe_float, safe_int
@@ -159,9 +163,7 @@ def _parse_amr_variants(rows: TableRows, *, log_warning) -> list[VariantBase]:
         for var_id, token in enumerate(tokens, start=1):
             match = VARIANT_RE.match(token)
             if not match:
-                log_warning(
-                    "Bad variant token in Mykrobe result", row=row_no, token=token
-                )
+                log_warning("Bad variant token in Mykrobe result", row=row_no, token=token)
                 continue
 
             gd = match.groupdict()
@@ -310,9 +312,7 @@ class MykrobeParser(BaseParser):
             self.log_info("Mykrobe input is empty")
 
         first_row = _normalize_mykrobe_row(first_row)
-        self.validate_columns(
-            first_row, required=REQUIRED_COLUMNS, strict=strict_columns
-        )
+        self.validate_columns(first_row, required=REQUIRED_COLUMNS, strict=strict_columns)
 
         rows = [first_row] + [_normalize_mykrobe_row(r) for r in rows_iter]
 

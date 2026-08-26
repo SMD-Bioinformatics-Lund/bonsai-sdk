@@ -94,8 +94,6 @@ class GambitCoreParser(SingleAnalysisParser):
         required_cols = set(COLUMN_MAP)
         self.validate_columns(first_raw, required=required_cols, strict=strict)
         first = _normalize_gambit_row(first_raw)
-        warn_if_extra_rows(
-            rows, self.log_warning, context=f"{self.software} file", max_consume=10
-        )
+        warn_if_extra_rows(rows, self.log_warning, context=f"{self.software} file", max_consume=10)
 
         return _to_qc_result(first)

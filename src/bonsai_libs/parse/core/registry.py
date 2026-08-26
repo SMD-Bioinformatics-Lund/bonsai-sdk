@@ -127,9 +127,7 @@ def get_parser(
             return span.entry
 
     # Return the correct error.
-    raise UnsupportedVersionError(
-        f"No parser available for software '{key}' version {v}"
-    )
+    raise UnsupportedVersionError(f"No parser available for software '{key}' version {v}")
 
 
 def registered_softwares() -> list[str]:
@@ -259,7 +257,9 @@ def _hydrate_raw_value(model_cls: ModelClass | TypeAdapter, raw_value: Any) -> A
     raise TypeError(f"Unsupported nested element model type: {type(model_cls).__name__}")
 
 
-def _hydrate_nested_fields(result_obj: BaseModel, field_models: dict[str, ModelClass | TypeAdapter]) -> BaseModel:
+def _hydrate_nested_fields(
+    result_obj: BaseModel, field_models: dict[str, ModelClass | TypeAdapter]
+) -> BaseModel:
     updates: dict[str, Any] = {}
 
     for field_name, model_cls in field_models.items():

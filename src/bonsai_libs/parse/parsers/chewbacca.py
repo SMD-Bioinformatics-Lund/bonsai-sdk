@@ -90,9 +90,7 @@ def replace_cgmlst_errors(
     return allele
 
 
-def _to_typing_result(
-    row: Mapping[str, Any], *, log_warn: Any | None = None
-) -> TypingResultCgMlst:
+def _to_typing_result(row: Mapping[str, Any], *, log_warn: Any | None = None) -> TypingResultCgMlst:
     """Cast result to TypingResultCgMlst."""
 
     # remove file column
@@ -144,9 +142,7 @@ class ChewbbacaParser(SingleAnalysisParser):
 
         # Normalize keys
         first = _normalize_row(first_raw)
-        warn_if_extra_rows(
-            rows, self.log_warning, context=f"{self.software} file", max_consume=11
-        )
+        warn_if_extra_rows(rows, self.log_warning, context=f"{self.software} file", max_consume=11)
 
         # to envelope
         return _to_typing_result(first, log_warn=self.log_warning)
