@@ -2,7 +2,7 @@
 
 from typing import Any, TypeAlias
 
-from pydantic import BaseModel, TypeAdapter
+from pydantic import BaseModel, Field, TypeAdapter
 
 from bonsai_libs.parse.core.registry import register_result_model
 from .base import RWModel
@@ -98,3 +98,20 @@ class TypingResultSpatyper(RWModel):
     sequence_name: str | None
     repeats: str | None
     type: str | None
+
+
+class ShigatyperHit(BaseModel):
+    """A single k-mer/gene hit supporting a ShigaTyper prediction."""
+
+    name: str
+    n_reads: int
+
+
+@register_result_model(AnalysisSoftware.SHIGATYPER, AnalysisType.SHIGATYPE)
+class TypingResultShigatyper(RWModel):
+    """ShigaTyper species/pathotype prediction results"""
+
+    prediction: str
+    ipaB: str | None = None
+    notes: str | None = None
+    hits: list[ShigatyperHit] = Field(default_factory=list)

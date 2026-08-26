@@ -114,6 +114,18 @@ def ecoli_bracken_path(data_path: Path) -> Path:
 
 
 @pytest.fixture()
+def ecoli_shigatyper_path(data_path: Path) -> Path:
+    """Get path for ecoli shigatyper file"""
+    return data_path.joinpath("ecoli", "shigatyper.tsv")
+
+
+@pytest.fixture()
+def ecoli_shigatyper_hits_path(data_path: Path) -> Path:
+    """Get path for ecoli shigatyper hits file"""
+    return data_path.joinpath("ecoli", "shigatyper-hits.tsv")
+
+
+@pytest.fixture()
 def ecoli_kleborate_path(data_path: Path) -> Path:
     """Get path for kleborate result file"""
     return data_path.joinpath("ecoli", "kleborate_v3_escherichia_output.txt")
