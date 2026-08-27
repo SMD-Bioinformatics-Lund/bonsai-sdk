@@ -3,24 +3,15 @@
 import re
 from typing import Any
 
-from bonsai_libs.parse.core.base import (
-    SingleAnalysisParser,
-    StreamOrPath,
-    warn_if_extra_rows,
-)
+from bonsai_libs.parse.io.delimited import DelimiterRow, is_nullish, normalize_row, read_delimited
+from bonsai_libs.parse.core.base import SingleAnalysisParser, StreamOrPath, warn_if_extra_rows
 from bonsai_libs.parse.core.registry import register_parser
-from bonsai_libs.parse.io.delimited import (
-    DelimiterRow,
-    is_nullish,
-    normalize_row,
-    read_delimited,
-)
 from bonsai_libs.parse.models.enums import AnalysisSoftware, AnalysisType, GambitQcFlag
 from bonsai_libs.parse.models.qc import GambitcoreQcResult
 
 from .utils import safe_int, safe_percent
 
-GAMBIT = AnalysisSoftware.GAMBIT
+GAMBITCORE = AnalysisSoftware.GAMBITCORE
 
 COLUMN_MAP = {
     "Species": "scientific_name",
@@ -72,11 +63,11 @@ def _to_qc_result(row: dict[str, Any]) -> GambitcoreQcResult:
     )
 
 
-@register_parser(GAMBIT)
+@register_parser(GAMBITCORE)
 class GambitCoreParser(SingleAnalysisParser):
     """Gambit core parser."""
 
-    software = GAMBIT
+    software = GAMBITCORE
     parser_name = "GambitCoreParser"
     parser_version = 1
     schema_version = 1

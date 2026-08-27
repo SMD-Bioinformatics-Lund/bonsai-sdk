@@ -4,15 +4,11 @@ import re
 from pathlib import Path
 from typing import Any, Literal
 
+from bonsai_libs.parse.io.utils import ensure_text_stream
 from bonsai_libs.parse.core.base import SingleAnalysisParser, StreamOrPath
 from bonsai_libs.parse.core.registry import register_parser
-from bonsai_libs.parse.io.utils import ensure_text_stream
 from bonsai_libs.parse.models.enums import AnalysisSoftware, AnalysisType
-from bonsai_libs.parse.models.qc import (
-    NanoPlotQcCutoff,
-    NanoPlotQcResult,
-    NanoPlotSummary,
-)
+from bonsai_libs.parse.models.qc import NanoPlotQcCutoff, NanoPlotQcResult, NanoPlotSummary
 
 from .utils import safe_float, safe_int, safe_percent
 
