@@ -1,3 +1,1 @@
-"""Manages version"""
-
-__version__ = "0.1.dev3+gf1ed3b43f.d20260218"
+__version__ = '0.2.1.dev34+g82cb47f5d.d20260701'
