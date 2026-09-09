@@ -108,6 +108,7 @@ class UploadAnalysisResultInput(BaseModel):
 
     # result
     software: str
+    subcommand: str | None = None
     software_version: str
     file: Path
 
