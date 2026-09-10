@@ -210,7 +210,7 @@ def _coverage_stats(
 
 @register_parser(SAMTOOLS, subcommand="stats")
 class SamtoolsQcParser(SingleAnalysisParser):
-    """Parse samtools stats (+ optional bedcov) into a PostAlignQcResult."""
+    """Parse samtools stats, with optional coverage and bedcov, into a PostAlignQcResult."""
 
     software = POSTALIGNQC
     subcommand = "stats"
@@ -264,7 +264,7 @@ class SamtoolsQcParser(SingleAnalysisParser):
         ins_size_dev = safe_float(sn.get(_SN_INS_SIZE_DEV))
         dup_pct = (n_dup_reads / n_reads * 100.0) if (n_dup_reads is not None and n_reads) else None
 
-        # --- coverage metrics (require bedcov for genome length) ---
+        # --- coverage metrics (require samtools coverage for reference length) ---
         mean_cov = None
         pct_above_x = None
         quartile1 = None
