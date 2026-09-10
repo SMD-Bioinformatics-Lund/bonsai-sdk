@@ -39,6 +39,14 @@ class PostAlignQcResult(BaseModel):
     quartile1: float | None = None
     median_cov: float | None = None
     quartile3: float | None = None
+    restricted_mean_cov: float | None = Field(
+        None,
+        description=(
+            "Mean depth restricted to the regions of the BED given to "
+            "`samtools bedcov` (e.g. TB core loci). Not comparable to mean_cov, "
+            "which is genome-wide."
+        ),
+    )
 
 
 class GenomeCompleteness(BaseModel):

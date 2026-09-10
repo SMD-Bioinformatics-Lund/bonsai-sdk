@@ -112,6 +112,9 @@ class UploadAnalysisResultInput(BaseModel):
     software_version: str
     file: Path
 
+    coverage_file: Path | None = None
+    bedcov_file: Path | None = None
+
 
 class UploadResultMeta(BaseModel):
     """Additional metadata about the uploaded result."""

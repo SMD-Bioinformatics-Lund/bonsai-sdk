@@ -2,6 +2,8 @@
 from typing import Any, BinaryIO
 import logging
 import mimetypes
+from contextlib import ExitStack
+from pathlib import Path
 from http import HTTPStatus
 
 from bonsai_libs.api_client.core.base import BaseClient
@@ -219,13 +221,25 @@ class SamplesMixin(BaseClient):
     ) -> UploadAnalysisResultResponse:
         """Upload a analysis results to a existing sample."""
 
-        data = result.model_dump(exclude={"file"})
+        data = result.model_dump(exclude={"file", "coverage_file", "bedcov_file"})
         data["force"] = force
 
-        mime = mimetypes.guess_type(result.file.name)[0] or "application/octet-stream"
+        def _part(path: Path):
+            mime = mimetypes.guess_type(path.name)[0] or "application/octet-stream"
+            return path, mime
 
-        with result.file.open("rb") as fh:
-            files = {"file": (result.file.name, fh, mime)}
+        aux = {
+            field: getattr(result, field)
+            for field in ("coverage_file", "bedcov_file")
+            if getattr(result, field) is not None
+        }
+
+        with ExitStack() as stack:
+            path, mime = _part(result.file)
+            files = {"file": (path.name, stack.enter_context(path.open("rb")), mime)}
+            for field, aux_path in aux.items():
+                apath, amime = _part(aux_path)
+                files[field] = (apath.name, stack.enter_context(apath.open("rb")), amime)
 
             try:
                 resp = self.request_multipart(
