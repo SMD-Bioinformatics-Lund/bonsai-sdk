@@ -6,7 +6,9 @@ from typing import Any, IO
 
 from bonsai_libs.parse.core.base import SingleAnalysisParser, StreamOrPath
 from bonsai_libs.parse.core.registry import register_parser
+from bonsai_libs.parse.exceptions import DataFormatError
 from bonsai_libs.parse.io.delimited import read_delimited
+from bonsai_libs.parse.io.json import read_json
 from bonsai_libs.parse.io.utils import ensure_text_stream
 from bonsai_libs.parse.models.enums import AnalysisSoftware, AnalysisType
 from bonsai_libs.parse.models.qc import PostAlignQcResult
@@ -322,6 +324,35 @@ class SamtoolsQcParser(SingleAnalysisParser):
 
         self.log_info(
             "Parsed SamtoolsQc",
+            n_reads=result.n_reads,
+            mean_cov=result.mean_cov,
+        )
+        return result
+
+
+@register_parser(POSTALIGNQC)
+class PostAlignQcParser(SingleAnalysisParser):
+    """Parse the legacy postalignqc JSON produced by older JASEN runs."""
+
+    software = POSTALIGNQC
+    parser_name = "PostAlignQcParser"
+    parser_version = 1
+    schema_version = 1
+
+    analysis_type = AnalysisType.QC
+    produces = {analysis_type}
+
+    def _parse_one(self, source: StreamOrPath, **kwargs: Any) -> PostAlignQcResult | None:
+        """Parse a legacy postalignqc result file."""
+        raw = read_json(source)
+        if not isinstance(raw, dict):
+            raise DataFormatError(
+                f"Expected postalignqc result to be a JSON object, got {type(raw)!r}"
+            )
+
+        result = PostAlignQcResult.model_validate(raw)
+        self.log_info(
+            "Parsed PostAlignQc",
             n_reads=result.n_reads,
             mean_cov=result.mean_cov,
         )

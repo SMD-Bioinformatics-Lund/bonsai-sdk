@@ -7,7 +7,7 @@ import pytest
 from bonsai_libs.parse.models.base import ParserOutput, ResultEnvelope
 from bonsai_libs.parse.models.enums import AnalysisType
 from bonsai_libs.parse.models.qc import PostAlignQcResult
-from bonsai_libs.parse.parsers.post_align_qc import SamtoolsQcParser
+from bonsai_libs.parse.parsers.post_align_qc import PostAlignQcParser, SamtoolsQcParser
 
 
 def test_samtools_qc_parser(
@@ -94,3 +94,21 @@ def test_samtools_qc_parser_no_bedcov(saureus_samtools_stats_path: Path):
     assert qc.median_cov is None
     assert qc.quartile3 is None
     assert qc.coverage_uniformity is None
+
+
+def test_legacy_postalignqc_parser(saureus_bwa_path: Path):
+    """The legacy postalignqc JSON from older JASEN runs is still parsed."""
+    parser = PostAlignQcParser()
+    result = parser.parse(saureus_bwa_path)
+
+    qc = result.results[AnalysisType.QC]
+    assert isinstance(result, ParserOutput)
+    assert isinstance(qc, ResultEnvelope)
+    assert qc.status == "parsed"
+
+    assert isinstance(qc.value, PostAlignQcResult)
+    assert qc.value.mean_cov == pytest.approx(95.1438, abs=1e-3)
+    assert qc.value.n_reads == 1211056
+    assert qc.value.median_cov == 80.0
+    assert qc.value.pct_above_x["30"] == pytest.approx(86.1267, abs=1e-3)
+    assert qc.value.restricted_mean_cov is None
