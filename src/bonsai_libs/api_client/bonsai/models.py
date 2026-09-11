@@ -108,8 +108,12 @@ class UploadAnalysisResultInput(BaseModel):
 
     # result
     software: str
+    subcommand: str | None = None
     software_version: str
     file: Path
+
+    coverage_file: Path | None = None
+    bedcov_file: Path | None = None
 
 
 class UploadResultMeta(BaseModel):
@@ -158,12 +162,21 @@ class PipelineRunConfig(BaseModel):
     configuration_files: list[str] = Field(default_factory=list)
 
 
+class DatabaseInfo(BaseModel):
+    """Describe a reference database used by the pipeline."""
+
+    name: str
+    version: str
+    type: str = "database"
+
+
 class PipelineInfo(BaseModel):
     """Full description of the pipeline and its execution."""
 
     definition: PipelineDefinition
     run_config: PipelineRunConfig
     artifacts: list[PipelineArtifact] = Field(default_factory=list)
+    databases: list[DatabaseInfo] = Field(default_factory=list)
 
 
 class PipelineRunInput(IgnoreExtraModelMixin):
@@ -298,7 +311,7 @@ class AnnotationTrack(Model):
 class GenomicResourceInput(Model):
     """Genomic resource input model."""
 
-    reference_genome_id: str
+    reference_genome_accession: str
     pipeline_run_id: str
     resource_data: list[AnnotationTrack] = Field(default_factory=list, min_length=1)
 
@@ -307,8 +320,16 @@ class CreateReferenceGenomeInput(Model):
     """Input to create-reference-genome"""
 
     name: str = Field(..., description="Human-readable name")
-    accession: str = Field(..., description="RefSeq accession")
+    accession: str = Field(..., description="RefSeq assembly accession, e.g. GCF_000012045.1")
     organism: str = Field(..., description="Scientific name")
+
+    sequence_accessions: list[str] = Field(
+        default_factory=list,
+        description=(
+            "Sequence (chromosome/plasmid) accessions in the FASTA, e.g. "
+            "['NC_002951.2']. Used by IGV to build loci; first entry is primary."
+        ),
+    )
 
     fasta_resource: str = Field(..., description="Path or URL to FASTA file")
     fasta_index_resource: str = Field(..., description="Path or URL to FASTA index.")

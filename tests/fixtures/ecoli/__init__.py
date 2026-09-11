@@ -1,8 +1,6 @@
 """Ecoli input data fixutres."""
 
-import json
 from pathlib import Path
-from typing import Any
 
 import pytest
 
@@ -44,6 +42,12 @@ def ecoli_amrfinder_path(data_path: Path) -> Path:
 
 
 @pytest.fixture()
+def ecoli_amrfinder_v4_stx_path(data_path: Path) -> Path:
+    """Get path for ecoli amrfinder v4 file containing an STX_TYPE (stx operon) hit"""
+    return data_path.joinpath("ecoli", "amrfinder.v4.stx.tsv")
+
+
+@pytest.fixture()
 def ecoli_resfinder_path(data_path: Path) -> Path:
     """Get path for ecoli resfinder file"""
     return data_path.joinpath("ecoli", "resfinder.json")
@@ -74,6 +78,18 @@ def ecoli_virulencefinder_stx_pred_no_stx_path(data_path: Path) -> Path:
 
 
 @pytest.fixture()
+def ecoli_virulencefinder_v2_stx_path(data_path: Path) -> Path:
+    """Get path for ecoli virulencefinder v2-format file with an stx hit"""
+    return data_path.joinpath("ecoli", "virulencefinder.v2.stx.json")
+
+
+@pytest.fixture()
+def ecoli_virulencefinder_v2_no_stx_path(data_path: Path) -> Path:
+    """Get path for ecoli virulencefinder v2-format file without an stx hit"""
+    return data_path.joinpath("ecoli", "virulencefinder.v2.no_stx.json")
+
+
+@pytest.fixture()
 def ecoli_virulencefinder_meta_path(data_path: Path) -> Path:
     """Get path for ecoli virulencefinder meta file"""
     return data_path.joinpath("ecoli", "virulencefinder_meta.json")
@@ -89,12 +105,6 @@ def ecoli_serotypefinder_path(data_path: Path) -> Path:
 def ecoli_serotypefinder_meta_path(data_path: Path) -> Path:
     """Get path for ecoli serotypefinder meta file"""
     return data_path.joinpath("ecoli", "serotypefinder_meta.json")
-
-
-@pytest.fixture()
-def ecoli_shigapass_path(data_path: Path) -> Path:
-    """Get path for Shigapass results for ecoli."""
-    return data_path.joinpath("ecoli", "shigapass.csv")
 
 
 @pytest.fixture()
@@ -116,11 +126,15 @@ def ecoli_bracken_path(data_path: Path) -> Path:
 
 
 @pytest.fixture()
-def ecoli_cdm_input(data_path: Path) -> list[dict[str, Any]]:
-    """Get path for ecoli cdm file"""
-    path = data_path.joinpath("ecoli", "cdm_input.json")
-    with open(path, "rb") as inpt:
-        return json.load(inpt)
+def ecoli_shigatyper_path(data_path: Path) -> Path:
+    """Get path for ecoli shigatyper file"""
+    return data_path.joinpath("ecoli", "shigatyper.tsv")
+
+
+@pytest.fixture()
+def ecoli_shigatyper_hits_path(data_path: Path) -> Path:
+    """Get path for ecoli shigatyper hits file"""
+    return data_path.joinpath("ecoli", "shigatyper-hits.tsv")
 
 
 @pytest.fixture()
