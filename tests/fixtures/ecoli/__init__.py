@@ -78,6 +78,18 @@ def ecoli_virulencefinder_stx_pred_no_stx_path(data_path: Path) -> Path:
 
 
 @pytest.fixture()
+def ecoli_virulencefinder_v2_stx_path(data_path: Path) -> Path:
+    """Get path for ecoli virulencefinder v2-format file with an stx hit"""
+    return data_path.joinpath("ecoli", "virulencefinder.v2.stx.json")
+
+
+@pytest.fixture()
+def ecoli_virulencefinder_v2_no_stx_path(data_path: Path) -> Path:
+    """Get path for ecoli virulencefinder v2-format file without an stx hit"""
+    return data_path.joinpath("ecoli", "virulencefinder.v2.no_stx.json")
+
+
+@pytest.fixture()
 def ecoli_virulencefinder_meta_path(data_path: Path) -> Path:
     """Get path for ecoli virulencefinder meta file"""
     return data_path.joinpath("ecoli", "virulencefinder_meta.json")

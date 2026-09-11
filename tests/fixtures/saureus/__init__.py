@@ -78,6 +78,12 @@ def saureus_virulencefinder_path(data_path: Path) -> Path:
 
 
 @pytest.fixture()
+def saureus_virulencefinder_v2_path(data_path: Path) -> Path:
+    """Get path for saureus virulencefinder v2-format file"""
+    return data_path.joinpath("saureus", "virulencefinder.v2.json")
+
+
+@pytest.fixture()
 def saureus_virulencefinder_meta_path(data_path: Path) -> Path:
     """Get path for saureus virulencefinder meta file"""
     return data_path.joinpath("saureus", "virulencefinder_meta.json")
