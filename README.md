@@ -15,7 +15,7 @@ Or use a git dependency in `pyproject.toml`:
 ```toml
 [project]
 dependencies = [
-  "bonsai-libs @ git+https://github.com/mhkc/bonsai-libs.git@v0.1.0",
+  "bonsai-libs @ git+https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk.git@v0.2.1",
 ]
 ```
 

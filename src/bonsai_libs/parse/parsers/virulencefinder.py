@@ -24,7 +24,6 @@ VIRFINDER = AnalysisSoftware.VIRULENCEFINDER
 
 REQUIRED_FIELDS = {"databases", "seq_regions", "software_executions"}
 
-# Name of the assay holding stx typing results in v2 output.
 STX_ASSAY = "stx"
 
 
@@ -189,10 +188,8 @@ def parse_virulence_block_v2(assays: dict[str, Any]) -> ElementTypeResult:
 
     vir_genes: list[GeneWithReference] = []
     for assay, hits in assays.items():
-        # stx is reported as a typing result, not as a virulence gene
         if assay == STX_ASSAY:
             continue
-        # assays without hits hold the string "No hit found"
         if not isinstance(hits, dict):
             continue
 
