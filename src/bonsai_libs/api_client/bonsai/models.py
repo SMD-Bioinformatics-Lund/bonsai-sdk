@@ -183,9 +183,11 @@ class GroupBase(BaseModel):
     description: str | None = None
 
 
-class CreateGroupInput(GroupBase):  # pylint: disable=too-few-public-methods
+class CreateGroupInput(BaseModel):  # pylint: disable=too-few-public-methods
     """Information required for creating groups."""
 
+    display_name: str
+    description: str | None = None
     invited_users: list[str] = Field(default_factory=list)
     allowed_columns: list[str] = Field(default_factory=list)
     default_preset_id: str | None = None
