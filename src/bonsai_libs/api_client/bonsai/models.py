@@ -196,9 +196,11 @@ class GroupBase(BaseModel):
     description: str | None = None
 
 
-class CreateGroupInput(GroupBase):  # pylint: disable=too-few-public-methods
+class CreateGroupInput(BaseModel):  # pylint: disable=too-few-public-methods
     """Information required for creating groups."""
 
+    display_name: str
+    description: str | None = None
     invited_users: list[str] = Field(default_factory=list)
     allowed_columns: list[str] = Field(default_factory=list)
     default_preset_id: str | None = None
@@ -286,10 +288,31 @@ class SampleSummaryManifest(Model):
     columns: list[dict[str, Any]] = Field(default_factory=list)
 
 
-class GroupColumnsResponse(Model):
-    """Valid columns for a group."""
+class GroupColumnResponse(Model):
+    """Effective table-column configuration returned for a group."""
 
-    columns: list[dict[str, Any]] = Field(default_factory=list)
+    id: str
+    type: Literal["string", "number", "integer", "date", "boolean", "object"]
+    source: Literal["static", "metadata"]
+    default_visible: bool
+    filterable: bool
+    sortable: bool
+    visible: bool
+    searchable: bool | None = None
+    order: int
+    locked: bool = False
+    label: str
+    overridden_fields: list[
+        Literal[
+            "visible",
+            "sortable",
+            "searchable",
+            "order",
+            "width",
+            "label",
+            "locked",
+        ]
+    ] = Field(default_factory=list)
 
 
 class ReferenceDataResponse(Model):
