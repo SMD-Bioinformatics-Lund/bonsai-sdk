@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 else:
     ApiRequestProtocol = object
 
-from .models import CreateGroupInput, GroupResponse, GroupColumnsResponse, OpHeaders
+from .models import CreateGroupInput, GroupColumnResponse, GroupResponse, OpHeaders
 
 LOG = logging.getLogger(__name__)
 
@@ -109,7 +109,7 @@ class GroupsMixin(ApiRequestProtocol):
         preset: str | None = None,
         include_invisible: bool | None = None,
         headers: OpHeaders = None,
-    ) -> GroupColumnsResponse:
+    ) -> list[GroupColumnResponse]:
         """Get valid columns for a group."""
         params = {}
         if preset is not None:
@@ -124,4 +124,6 @@ class GroupsMixin(ApiRequestProtocol):
             headers=headers,
             expected_status=(HTTPStatus.OK,),
         )
-        return GroupColumnsResponse.model_validate(resp.data or {})
+        return [
+            GroupColumnResponse.model_validate(column) for column in (resp.data or [])
+        ]
