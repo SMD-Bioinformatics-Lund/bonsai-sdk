@@ -2,6 +2,8 @@
 from typing import Any, BinaryIO
 import logging
 import mimetypes
+from contextlib import ExitStack
+from pathlib import Path
 from http import HTTPStatus
 
 from bonsai_libs.api_client.core.base import BaseClient
@@ -82,7 +84,7 @@ class SamplesMixin(BaseClient):
         self,
         sample_id: str,
         *,
-        reference_genome_id: str,
+        reference_genome_accession: str,
         headers: OpHeaders = None,
     ) -> dict[str, Any]:
         """Associate a reference genome with a sample.
@@ -93,7 +95,7 @@ class SamplesMixin(BaseClient):
                 "PUT",
                 f"samples/{sample_id}/reference-genome",
                 headers=headers,
-                json={"reference_genome_id": reference_genome_id},
+                json={"reference_genome_accession": reference_genome_accession},
                 expected_status=(HTTPStatus.OK, HTTPStatus.NOT_MODIFIED),
             )
         except UnauthorizedError:
@@ -101,24 +103,33 @@ class SamplesMixin(BaseClient):
             raise
         except NotModifiedError:
             LOG.warning(
-                "Sample %s already associated with genome id=%s",
+                "Sample %s already associated with genome accession=%s",
                 sample_id,
-                reference_genome_id,
+                reference_genome_accession,
             )
             raise
         except ClientError:
             LOG.error(
-                "Something went wrong when associating reference genome id=%s to sample=%s",
-                reference_genome_id,
+                "Something went wrong when associating reference genome accession=%s to sample=%s",
+                reference_genome_accession,
                 sample_id,
             )
             raise
         return resp.data
 
     def add_annotation_track_to_sample(
-        self, sample_id: str, *, track: GenomicResourceInput, headers: OpHeaders = None,
+        self,
+        sample_id: str,
+        *,
+        track: GenomicResourceInput,
+        force: bool = False,
+        headers: OpHeaders = None,
     ) -> dict[str, Any]:
-        """Add genomic resource to sample."""
+        """Add genomic resource to sample.
+
+        Raises ConflictError (409) if the sample already has resources for
+        this pipeline run and force=False.
+        """
         payload = track.model_dump(exclude_none=True)
         try:
             resp = self.request_json(
@@ -126,6 +137,7 @@ class SamplesMixin(BaseClient):
                 f"samples/{sample_id}/resources",
                 headers=headers,
                 json=payload,
+                params={"force": force},
             )
         except UnauthorizedError:
             LOG.error("Unauthorised when adding a reference genome for sample=%s", sample_id)
@@ -209,13 +221,25 @@ class SamplesMixin(BaseClient):
     ) -> UploadAnalysisResultResponse:
         """Upload a analysis results to a existing sample."""
 
-        data = result.model_dump(exclude={"file"})
+        data = result.model_dump(exclude={"file", "coverage_file", "bedcov_file"})
         data["force"] = force
 
-        mime = mimetypes.guess_type(result.file.name)[0] or "application/octet-stream"
+        def _part(path: Path):
+            mime = mimetypes.guess_type(path.name)[0] or "application/octet-stream"
+            return path, mime
 
-        with result.file.open("rb") as fh:
-            files = {"file": (result.file.name, fh, mime)}
+        aux = {
+            field: getattr(result, field)
+            for field in ("coverage_file", "bedcov_file")
+            if getattr(result, field) is not None
+        }
+
+        with ExitStack() as stack:
+            path, mime = _part(result.file)
+            files = {"file": (path.name, stack.enter_context(path.open("rb")), mime)}
+            for field, aux_path in aux.items():
+                apath, amime = _part(aux_path)
+                files[field] = (apath.name, stack.enter_context(apath.open("rb")), amime)
 
             try:
                 resp = self.request_multipart(
@@ -340,6 +364,21 @@ class SamplesMixin(BaseClient):
         resp = self.request_json(
             "GET",
             f"samples/{sample_id}",
+            headers=headers,
+            expected_status=(HTTPStatus.OK,),
+        )
+        return resp.data or {}
+
+    def get_sample_by_external_id(
+        self, external_sample_id: str, *, headers: OpHeaders = None
+    ) -> dict[str, Any]:
+        """Get a sample by the external id assigned by the calling system.
+
+        Raises NotFoundError (404) if no sample has this external_sample_id.
+        """
+        resp = self.request_json(
+            "GET",
+            f"samples/external/{external_sample_id}",
             headers=headers,
             expected_status=(HTTPStatus.OK,),
         )
