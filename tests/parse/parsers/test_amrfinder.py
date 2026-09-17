@@ -2,12 +2,17 @@
 
 import pytest
 
+from bonsai_libs.parse import hydrate_result
 from bonsai_libs.parse.models.base import (
     ElementTypeResult,
     ParserOutput,
     ResultEnvelope,
 )
-from bonsai_libs.parse.models.enums import AnalysisType
+from bonsai_libs.parse.models.enums import AnalysisSoftware, AnalysisType
+from bonsai_libs.parse.models.phenotype import (
+    AmrFinderResistanceGene,
+    AmrFinderVirulenceGene,
+)
 from bonsai_libs.parse.parsers.amrfinder import AmrFinderParser, AmrFinderV3Parser
 
 EXPECTED_RESULT = [
@@ -146,6 +151,44 @@ def test_amrfinder_parser_v4_format(saureus_amrfinder_path):
     assert mec_r1.query_start_pos == 3518
     assert mec_r1.query_end_pos == 4492
     assert mec_r1.close_seq_name == "beta-lactam sensor/signal transducer MecR1"
+
+
+@pytest.mark.parametrize(
+    ("analysis_type", "element_type", "element_subtype", "expected_model"),
+    [
+        (AnalysisType.AMR, "AMR", "AMR", AmrFinderResistanceGene),
+        (
+            AnalysisType.VIRULENCE,
+            "VIRULENCE",
+            "VIRULENCE",
+            AmrFinderVirulenceGene,
+        ),
+    ],
+)
+def test_hydrate_historical_amrfinder_gene_without_location(
+    analysis_type, element_type, element_subtype, expected_model
+):
+    """Historical results hydrate despite not retaining AMRFinder location fields."""
+    raw_result = {
+        "genes": [
+            {
+                "gene_symbol": "historical_gene",
+                "element_type": element_type,
+                "element_subtype": element_subtype,
+            }
+        ]
+    }
+
+    result = hydrate_result(
+        software=AnalysisSoftware.AMRFINDER,
+        analysis_type=analysis_type,
+        result=raw_result,
+    )
+
+    gene = result.genes[0]
+    assert isinstance(gene, expected_model)
+    assert gene.contig_id is None
+    assert gene.strand is None
 
 
 def test_amrfinder_parser_v4_stx_type_subtype(ecoli_amrfinder_v4_stx_path):

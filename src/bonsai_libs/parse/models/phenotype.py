@@ -12,10 +12,10 @@ from .enums import SequenceStrand
 class AmrFinderGene(GeneBase):
     """Container for AMRFinder gene prediction information."""
 
-    contig_id: str
+    contig_id: str | None = None
     query_start_pos: int | None = Field(None, description="Start position on the assembly")
     query_end_pos: int | None = Field(None, description="End position on the assembly")
-    strand: SequenceStrand | None
+    strand: SequenceStrand | None = None
     alignment_length: int | None = Field(None, description="Length of the sequence alignment")
     close_seq_name: str | None = Field(None, description="Name of the closest reference sequence")
 
