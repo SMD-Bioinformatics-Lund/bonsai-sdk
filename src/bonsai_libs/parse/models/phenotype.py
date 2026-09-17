@@ -10,19 +10,21 @@ from .enums import SequenceStrand
 
 
 class AmrFinderGene(GeneBase):
-    """Container for Resfinder gene prediction information"""
+    """Container for AMRFinder gene prediction information."""
 
     contig_id: str
     query_start_pos: int | None = Field(None, description="Start position on the assembly")
     query_end_pos: int | None = Field(None, description="End position on the assembly")
     strand: SequenceStrand | None
+    alignment_length: int | None = Field(None, description="Length of the sequence alignment")
+    close_seq_name: str | None = Field(None, description="Name of the closest reference sequence")
 
 
-class AmrFinderResistanceGene(GeneBase, PhenotypeModelMixin):
+class AmrFinderResistanceGene(AmrFinderGene, PhenotypeModelMixin):
     """For resistance predictions."""
 
 
-class AmrFinderVirulenceGene(GeneBase, DatabaseReferenceMixin):
+class AmrFinderVirulenceGene(AmrFinderGene, DatabaseReferenceMixin):
     """Container for virulence gene information"""
 
 
@@ -66,6 +68,12 @@ register_result_element_models(
     AnalysisSoftware.AMRFINDER,
     AnalysisType.VIRULENCE,
     field_models={"genes": AmrFinderVirulenceGene},
+)
+
+register_result_element_models(
+    AnalysisSoftware.AMRFINDER,
+    AnalysisType.STRESS,
+    field_models={"genes": AmrFinderGene},
 )
 
 register_result_element_models(

@@ -133,6 +133,20 @@ def test_amrfinder_parser_v4_format(saureus_amrfinder_path):
     assert len(amr.value.genes) == 8
     assert len(amr.value.variants) == 2
 
+    stress = result.results[AnalysisType.STRESS]
+    assert isinstance(stress, ResultEnvelope)
+    assert isinstance(stress.value, ElementTypeResult)
+    assert {gene.gene_symbol for gene in stress.value.genes} == {"cadD", "lmrS"}
+    assert stress.value.variants == []
+
+    mec_r1 = next(gene for gene in amr.value.genes if gene.gene_symbol == "mecR1")
+    assert mec_r1.identity == 100.0
+    assert mec_r1.coverage == 55.56
+    assert mec_r1.contig_id == "Contig_63_72.3063"
+    assert mec_r1.query_start_pos == 3518
+    assert mec_r1.query_end_pos == 4492
+    assert mec_r1.close_seq_name == "beta-lactam sensor/signal transducer MecR1"
+
 
 def test_amrfinder_parser_v4_stx_type_subtype(ecoli_amrfinder_v4_stx_path):
     """AMRFinder v4 rows with Subtype=STX_TYPE (stx operon calls) parse without error."""
