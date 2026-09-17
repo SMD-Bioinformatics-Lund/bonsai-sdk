@@ -2,8 +2,8 @@
 
 ### Fixed
 
-- Keep AMRFinder AMR and stress genes in their correct result categories and exclude AMR point variants from stress results. [#PR](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/PR)
-- Preserve AMRFinder contig coordinates, alignment lengths, and closest-reference names when parsing gene hits. [#PR](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/PR)
+- Keep AMRFinder AMR and stress genes in their correct result categories and exclude AMR point variants from stress results. [#11](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/11)
+- Preserve AMRFinder contig coordinates, alignment lengths, and closest-reference names when parsing gene hits. [#11](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/11)
 
 ## [v0.3.0]
 
