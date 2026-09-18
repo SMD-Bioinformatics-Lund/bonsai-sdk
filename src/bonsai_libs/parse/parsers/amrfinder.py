@@ -29,7 +29,7 @@ from .utils import classify_variant_type, safe_float, safe_int, safe_strand
 
 LOG = logging.getLogger(__name__)
 
-AmrFinderGeneT: TypeAlias = AmrFinderGene | AmrFinderVirulenceGene | AmrFinderVirulenceGene
+AmrFinderGeneT: TypeAlias = AmrFinderGene | AmrFinderResistanceGene | AmrFinderVirulenceGene
 AmrFinderGenes: TypeAlias = list[AmrFinderGeneT]
 AmrFinderVariants: TypeAlias = list[AmrFinderVariant]
 
@@ -165,6 +165,7 @@ def _parse_gene(hit: dict[str, Any]) -> AmrFinderGeneT:
         strand=safe_strand(hit["Strand"]),
         ref_gene_length=safe_int(hit["ref_seq_len"]),
         alignment_length=safe_int(hit["align_len"]),
+        close_seq_name=hit["close_seq_name"],
         method=hit["Method"],
         identity=safe_float(hit["ref_seq_identity"]),
         coverage=safe_float(hit["ref_seq_cov"]),
@@ -245,19 +246,19 @@ def read_amrfinder_results(
 def _analysis_to_element_type(analysis_type: AnalysisType) -> ElementType:
     """
     Map analysis types to ElementType categories for filtering genes.
-    AMR and STRESS are treated as AMR element type in the underlying AMRFinder output.
+    Each analysis result corresponds to the same-named AMRFinder element type.
     """
-    return (
-        ElementType.AMR
-        if analysis_type in (AnalysisType.AMR, AnalysisType.STRESS)
-        else ElementType.VIR
-    )
+    return {
+        AnalysisType.AMR: ElementType.AMR,
+        AnalysisType.STRESS: ElementType.STRESS,
+        AnalysisType.VIRULENCE: ElementType.VIR,
+    }[analysis_type]
 
 
 def _to_resistance_results(
     genes: AmrFinderGenes, variants: AmrFinderVariants, *, analysis_type: AnalysisType
 ) -> ElementTypeResult:
-    """Build AMR/STRES resistance blocks."""
+    """Build AMR/STRESS resistance blocks."""
 
     # filter genes on variants on AMR
     element_type = _analysis_to_element_type(analysis_type)
@@ -281,7 +282,7 @@ def _to_resistance_results(
     return ElementTypeResult(
         phenotypes=phenotypes,
         genes=filtered_genes,
-        variants=variants,
+        variants=variants if analysis_type == AnalysisType.AMR else [],
     )
 
 

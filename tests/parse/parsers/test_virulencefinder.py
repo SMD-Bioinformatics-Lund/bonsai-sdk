@@ -1,7 +1,5 @@
 """Virulencefinder parser test suite."""
 
-import importlib
-
 import pytest
 
 from bonsai_libs.parse.core.registry import get_parser
@@ -12,17 +10,10 @@ from bonsai_libs.parse.models.base import (
     ResultEnvelope,
 )
 from bonsai_libs.parse.models.enums import AnalysisType, ElementVirulenceSubtype
-from bonsai_libs.parse.parsers import virulencefinder
 from bonsai_libs.parse.parsers.virulencefinder import (
     VirulenceFinderParser,
     VirulenceFinderV2Parser,
 )
-
-
-@pytest.fixture()
-def registered_parsers():
-    """Re-register the parsers, which the autouse registry fixture clears."""
-    return importlib.reload(virulencefinder)
 
 
 def test_virulencefinder_parser(ecoli_virulencefinder_stx_pred_stx_path):
@@ -147,7 +138,7 @@ def test_virulencefinder_v2_parser_subtypes(saureus_virulencefinder_v2_path):
         ("3.2.0", "VirulenceFinderParser"),
     ],
 )
-def test_virulencefinder_version_dispatch(version, expected, registered_parsers):
+def test_virulencefinder_version_dispatch(version, expected):
     """The registry selects the parser matching the software version."""
 
     assert get_parser("virulencefinder", version=version).__name__ == expected

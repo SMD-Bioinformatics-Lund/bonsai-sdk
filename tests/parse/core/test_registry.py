@@ -13,11 +13,32 @@ from bonsai_libs.parse.core.registry import (
     register_result_model,
     register_result_element_models,
     _PARSER_REGISTRY,
+    _RESULT_ELEMENT_MODEL_REGISTRY,
     _RESULT_MODEL_REGISTRY,
     get_parser,
     get_result_model,
     hydrate_result,
 )
+
+
+@pytest.fixture(autouse=True)
+def isolate_registries():
+    """Give registry unit tests clean registries without removing app registrations."""
+    parser_registry = _PARSER_REGISTRY.copy()
+    result_model_registry = _RESULT_MODEL_REGISTRY.copy()
+    result_element_model_registry = _RESULT_ELEMENT_MODEL_REGISTRY.copy()
+
+    _PARSER_REGISTRY.clear()
+    _RESULT_MODEL_REGISTRY.clear()
+    _RESULT_ELEMENT_MODEL_REGISTRY.clear()
+    yield
+
+    _PARSER_REGISTRY.clear()
+    _PARSER_REGISTRY.update(parser_registry)
+    _RESULT_MODEL_REGISTRY.clear()
+    _RESULT_MODEL_REGISTRY.update(result_model_registry)
+    _RESULT_ELEMENT_MODEL_REGISTRY.clear()
+    _RESULT_ELEMENT_MODEL_REGISTRY.update(result_element_model_registry)
 
 # ---------------------------------------------------------------------------
 # Dummy Classes
