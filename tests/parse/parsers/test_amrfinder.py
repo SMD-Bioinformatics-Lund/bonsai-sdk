@@ -1,6 +1,7 @@
 """Virulencefinder parser test suite."""
 
 import pytest
+from pydantic import ValidationError
 
 from bonsai_libs.parse import hydrate_result
 from bonsai_libs.parse.models.base import (
@@ -165,16 +166,17 @@ def test_amrfinder_parser_v4_format(saureus_amrfinder_path):
         ),
     ],
 )
-def test_hydrate_historical_amrfinder_gene_without_location(
+def test_hydrate_historical_amrfinder_gene_without_optional_location(
     analysis_type, element_type, element_subtype, expected_model
 ):
-    """Historical results hydrate despite not retaining AMRFinder location fields."""
+    """Historical results hydrate despite not retaining optional location fields."""
     raw_result = {
         "genes": [
             {
                 "gene_symbol": "historical_gene",
                 "element_type": element_type,
                 "element_subtype": element_subtype,
+                "contig_id": "historical_contig",
             }
         ]
     }
@@ -187,8 +189,35 @@ def test_hydrate_historical_amrfinder_gene_without_location(
 
     gene = result.genes[0]
     assert isinstance(gene, expected_model)
-    assert gene.contig_id is None
+    assert gene.contig_id == "historical_contig"
     assert gene.strand is None
+
+
+@pytest.mark.parametrize(
+    ("analysis_type", "element_type"),
+    [
+        (AnalysisType.AMR, "AMR"),
+        (AnalysisType.VIRULENCE, "VIRULENCE"),
+    ],
+)
+def test_hydrate_amrfinder_gene_requires_contig_id(analysis_type, element_type):
+    """AMRFinder genes without a contig identifier are invalid."""
+    raw_result = {
+        "genes": [
+            {
+                "gene_symbol": "gene_without_contig",
+                "element_type": element_type,
+                "element_subtype": element_type,
+            }
+        ]
+    }
+
+    with pytest.raises(ValidationError, match="contig_id"):
+        hydrate_result(
+            software=AnalysisSoftware.AMRFINDER,
+            analysis_type=analysis_type,
+            result=raw_result,
+        )
 
 
 def test_amrfinder_parser_v4_stx_type_subtype(ecoli_amrfinder_v4_stx_path):
