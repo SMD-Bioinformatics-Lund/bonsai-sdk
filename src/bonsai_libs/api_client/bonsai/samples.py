@@ -559,4 +559,4 @@ class SamplesMixin(BaseClient):
             headers=headers,
             expected_status=(HTTPStatus.OK,),
         )
-        return resp.content
+        return resp.raw.content
