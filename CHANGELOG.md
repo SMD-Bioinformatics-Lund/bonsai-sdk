@@ -2,6 +2,7 @@
 
 ### Fixed
 
+- Return LIMS export bytes from the underlying HTTP response instead of accessing a nonexistent attribute on ApiResponse. [#12](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/12)
 - Keep AMRFinder AMR and stress genes in their correct result categories and exclude AMR point variants from stress results. [#11](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/11)
 - Preserve AMRFinder contig coordinates, alignment lengths, and closest-reference names when parsing gene hits. [#11](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/11)
 
