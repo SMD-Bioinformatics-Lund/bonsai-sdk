@@ -1,13 +1,19 @@
 """Virulencefinder parser test suite."""
 
 import pytest
+from pydantic import ValidationError
 
+from bonsai_libs.parse import hydrate_result
 from bonsai_libs.parse.models.base import (
     ElementTypeResult,
     ParserOutput,
     ResultEnvelope,
 )
-from bonsai_libs.parse.models.enums import AnalysisType
+from bonsai_libs.parse.models.enums import AnalysisSoftware, AnalysisType
+from bonsai_libs.parse.models.phenotype import (
+    AmrFinderResistanceGene,
+    AmrFinderVirulenceGene,
+)
 from bonsai_libs.parse.parsers.amrfinder import AmrFinderParser, AmrFinderV3Parser
 
 EXPECTED_RESULT = [
@@ -132,6 +138,86 @@ def test_amrfinder_parser_v4_format(saureus_amrfinder_path):
     assert isinstance(amr.value, ElementTypeResult)
     assert len(amr.value.genes) == 8
     assert len(amr.value.variants) == 2
+
+    stress = result.results[AnalysisType.STRESS]
+    assert isinstance(stress, ResultEnvelope)
+    assert isinstance(stress.value, ElementTypeResult)
+    assert {gene.gene_symbol for gene in stress.value.genes} == {"cadD", "lmrS"}
+    assert stress.value.variants == []
+
+    mec_r1 = next(gene for gene in amr.value.genes if gene.gene_symbol == "mecR1")
+    assert mec_r1.identity == 100.0
+    assert mec_r1.coverage == 55.56
+    assert mec_r1.contig_id == "Contig_63_72.3063"
+    assert mec_r1.query_start_pos == 3518
+    assert mec_r1.query_end_pos == 4492
+    assert mec_r1.close_seq_name == "beta-lactam sensor/signal transducer MecR1"
+
+
+@pytest.mark.parametrize(
+    ("analysis_type", "element_type", "element_subtype", "expected_model"),
+    [
+        (AnalysisType.AMR, "AMR", "AMR", AmrFinderResistanceGene),
+        (
+            AnalysisType.VIRULENCE,
+            "VIRULENCE",
+            "VIRULENCE",
+            AmrFinderVirulenceGene,
+        ),
+    ],
+)
+def test_hydrate_historical_amrfinder_gene_without_optional_location(
+    analysis_type, element_type, element_subtype, expected_model
+):
+    """Historical results hydrate despite not retaining optional location fields."""
+    raw_result = {
+        "genes": [
+            {
+                "gene_symbol": "historical_gene",
+                "element_type": element_type,
+                "element_subtype": element_subtype,
+                "contig_id": "historical_contig",
+            }
+        ]
+    }
+
+    result = hydrate_result(
+        software=AnalysisSoftware.AMRFINDER,
+        analysis_type=analysis_type,
+        result=raw_result,
+    )
+
+    gene = result.genes[0]
+    assert isinstance(gene, expected_model)
+    assert gene.contig_id == "historical_contig"
+    assert gene.strand is None
+
+
+@pytest.mark.parametrize(
+    ("analysis_type", "element_type"),
+    [
+        (AnalysisType.AMR, "AMR"),
+        (AnalysisType.VIRULENCE, "VIRULENCE"),
+    ],
+)
+def test_hydrate_amrfinder_gene_requires_contig_id(analysis_type, element_type):
+    """AMRFinder genes without a contig identifier are invalid."""
+    raw_result = {
+        "genes": [
+            {
+                "gene_symbol": "gene_without_contig",
+                "element_type": element_type,
+                "element_subtype": element_type,
+            }
+        ]
+    }
+
+    with pytest.raises(ValidationError, match="contig_id"):
+        hydrate_result(
+            software=AnalysisSoftware.AMRFINDER,
+            analysis_type=analysis_type,
+            result=raw_result,
+        )
 
 
 def test_amrfinder_parser_v4_stx_type_subtype(ecoli_amrfinder_v4_stx_path):
