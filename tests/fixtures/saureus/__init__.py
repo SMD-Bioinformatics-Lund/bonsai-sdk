@@ -18,9 +18,9 @@ def saureus_v2_result(data_path: Path) -> Path:
 
 
 @pytest.fixture()
-def saureus_sample_conf_path(data_path: Path) -> Path:
-    """Get path for saureus sample config file"""
-    return data_path.joinpath("saureus", "sample_1.cnf.yml")
+def saureus_sample_manifest_path(data_path: Path) -> Path:
+    """Get path for saureus sample manifest"""
+    return data_path.joinpath("saureus", "sample_1.manifest.yml")
 
 
 @pytest.fixture()

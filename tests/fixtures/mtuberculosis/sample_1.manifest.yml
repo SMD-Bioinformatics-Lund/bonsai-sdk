@@ -1,0 +1,49 @@
+sample_id: mtuberculosis_test_1
+sample_name: mtuberculosis_test_1
+lims_id: LIMS-mtuberculosis_test_1
+groups:
+- mtuberculosis
+metadata:
+- fieldname: isolation date
+  value: '2024-03-24'
+  type: datetime
+  category: general
+- fieldname: region
+  value: skane
+  type: string
+  category: general
+database_info:
+- name: tbdb
+  software: tbprofiler
+  version: 4907915526b52ac2f20f1324613f5d4dc951e0bd
+reference_genome_accession: GCF_000195955.2
+nextflow_run_info: ./analysis_meta.json
+ref_genome_sequence: ./genome.fasta
+ref_genome_annotation: ./annotation.gff
+igv_annotations:
+- name: Read coverage
+  type: alignment
+  uri: ./mapping.bam
+  index_uri: ./mapping.bam.bai
+- name: tbdb bed
+  type: bed
+  uri: ./converged_who_fohm_tbdb.bed.gz
+- name: Predicted variants
+  type: variant
+  uri: ./variants.vcf
+analysis_result:
+- software: gambitcore
+  software_version: 0.0.2
+  uri: ./gambitcore.tsv
+- software: bracken
+  software_version: '2.8'
+  uri: ./bracken.out
+- software: mykrobe
+  software_version: 0.12.2
+  uri: ./mykrobe.csv
+- software: quast
+  software_version: 5.2.0
+  uri: ./quast.tsv
+- software: tbprofiler
+  software_version: 6.3.0
+  uri: ./tbprofiler.json

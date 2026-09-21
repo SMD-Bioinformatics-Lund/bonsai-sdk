@@ -18,9 +18,9 @@ def kp_kleborate_hamronization_path(data_path: Path) -> Path:
 
 
 @pytest.fixture()
-def kp_sample_conf_path(data_path: Path) -> Path:
-    """Get path for klebsiella sample config file"""
-    return data_path.joinpath("kpneumoniae", "sample_1.cnf.yml")
+def kp_sample_manifest_path(data_path: Path) -> Path:
+    """Get path for klebsiella sample manifest"""
+    return data_path.joinpath("kpneumoniae", "sample_1.manifest.yml")
 
 
 @pytest.fixture()

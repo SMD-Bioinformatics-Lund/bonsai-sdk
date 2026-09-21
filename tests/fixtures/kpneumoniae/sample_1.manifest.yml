@@ -1,0 +1,26 @@
+sample_id: kp_test_1
+sample_name: kp_test_1
+lims_id: LIMS-kp_test_1
+groups:
+- kpneumoniae
+metadata:
+- fieldname: isolation date
+  value: '2024-03-24'
+  type: datetime
+  category: general
+- fieldname: region
+  value: skane
+  type: string
+  category: general
+nextflow_run_info: ./analysis_meta.json
+igv_annotations: []
+analysis_result:
+- software: kleborate
+  software_version: 3.2.4
+  uri: ./kleborate_v3_kpsc_output.txt
+- software: hAMRonization
+  software_version: 3.2.4
+  uri: ./kleborate_v3_kpsc_hamronization_output.txt
+- software: quast
+  software_version: 5.2.0
+  uri: ./quast.tsv
