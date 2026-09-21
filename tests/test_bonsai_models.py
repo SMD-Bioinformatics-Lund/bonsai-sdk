@@ -14,7 +14,7 @@ def test_sample_info_input_groups_default_empty():
     assert SampleInfoInput(sample_name="s1").groups == []
 
 
-def test_create_group_requires_a_slug():
+def test_create_group_requires_a_group_key():
     from pydantic import ValidationError
 
     from bonsai_libs.api_client.bonsai.models import CreateGroupInput

@@ -3,7 +3,7 @@
 ### Fixed
 
 - Send a sample's groups when creating it; they were dropped.
-- Carry a group's `group` slug, the stable key Bonsai uploads use to reference a group.
+- Carry a group's `group` key, the stable name Bonsai uploads use to reference a group.
 - Lower the scipy floor to 1.14 so older Linux systems can install a prebuilt wheel with `pip install --prefer-binary`.
 - Declare `email-validator`, which the API client models need.
 - Replace the stale sample configs in `tests/fixtures` with manifests in the current `jasentool create-yaml` format, and test that they point to existing files.
