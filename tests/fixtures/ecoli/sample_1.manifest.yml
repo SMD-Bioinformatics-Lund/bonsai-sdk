@@ -1,8 +1,8 @@
-sample_id: saureus_test_1
-sample_name: saureus_test_1
-lims_id: LIMS-saureus_test_1
+sample_id: ecoli_test_1
+sample_name: ecoli_test_1
+lims_id: LIMS-ecoli_test_1
 groups:
-- saureus
+- ecoli
 metadata:
 - fieldname: isolation date
   value: '2024-03-24'
@@ -11,10 +11,6 @@ metadata:
 - fieldname: region
   value: skane
   type: string
-  category: general
-- fieldname: MIC test
-  value: ./mic_values.csv
-  type: table
   category: general
 database_info:
 - name: resfinder
@@ -26,7 +22,10 @@ database_info:
 - name: virulencefinder
   software: virulencefinder
   version: 041b8b30ede055f92cbd8eaf3679ca7554857514
-reference_genome_accession: GCF_000012045.1
+- name: serotypefinder
+  software: serotypefinder
+  version: ada62c62a7fa74032448bb2273d1f7045c59fdda
+reference_genome_accession: GCF_000005845.2
 nextflow_run_info: ./analysis_meta.json
 ref_genome_sequence: ./genome.fasta
 ref_genome_annotation: ./annotation.gff
@@ -41,7 +40,7 @@ igv_annotations:
 analysis_result:
 - software: amrfinder
   software_version: 4.2.7
-  uri: ./amrfinder.v4.tsv
+  uri: ./amrfinder.v4.stx.tsv
 - software: chewbbaca
   software_version: 3.5.3
   uri: ./chewbbaca.out
@@ -54,35 +53,18 @@ analysis_result:
 - software: mlst
   software_version: 2.23.0
   uri: ./mlst.json
-- software: nanoplot
-  software_version: 1.46.2
-  uri: ./nanoplot.txt
 - software: quast
   software_version: 5.2.0
   uri: ./quast.tsv
 - software: resfinder
   software_version: 4.7.2
   uri: ./resfinder.json
-- software: samtools
-  subcommand: coverage
-  software_version: '1.17'
-  uri: ./samtools_coverage.txt
-- software: samtools
-  subcommand: bedcov
-  software_version: '1.17'
-  uri: ./samtools_bedcov.txt
-- software: samtools
-  subcommand: stats
-  software_version: '1.17'
-  uri: ./samtools_stats.txt
-- software: sccmectyper
-  software_version: 1.2.0
-  uri: ./sccmec.tsv
-- software: spatyper
-  software_version: 0.3.3
-  uri: ./spatyper.tsv
+- software: serotypefinder
+  software_version: 2.0.2
+  uri: ./serotypefinder.json
+- software: shigatyper
+  software_version: 2.0.5
+  uri: ./shigatyper.tsv
 - software: virulencefinder
   software_version: 3.2.0
   uri: ./virulencefinder.json
-index_artifacts:
-  sourmash_signature: ./sourmash.sig

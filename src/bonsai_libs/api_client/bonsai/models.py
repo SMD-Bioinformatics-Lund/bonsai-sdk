@@ -80,6 +80,8 @@ class SampleInfoInput(Model, IgnoreExtraModelMixin):  # pylint: disable=too-few-
     sample_name: str
     lims_id: str | None = None
 
+    groups: list[str] = Field(default_factory=list, description="Group ids")
+
     sequencing: SequencingInfo | None = None
     metadata: list[MetaEntryInput] = Field(default_factory=list)
 
@@ -192,6 +194,7 @@ class GroupBase(BaseModel):
     """Basic group data."""
 
     group_id: str
+    group: str | None = None
     display_name: str
     description: str | None = None
 
@@ -199,6 +202,7 @@ class GroupBase(BaseModel):
 class CreateGroupInput(BaseModel):  # pylint: disable=too-few-public-methods
     """Information required for creating groups."""
 
+    group: str = Field(..., description="Stable key used to reference the group, e.g. saureus")
     display_name: str
     description: str | None = None
     invited_users: list[str] = Field(default_factory=list)

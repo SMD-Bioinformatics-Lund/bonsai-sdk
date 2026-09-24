@@ -6,9 +6,9 @@ import pytest
 
 
 @pytest.fixture()
-def mtuberculosis_sample_conf_path(data_path: Path) -> Path:
-    """Get path for mtuberculosis sample config file"""
-    return data_path.joinpath("mtuberculosis", "sample_1.cnf.yml")
+def mtuberculosis_sample_manifest_path(data_path: Path) -> Path:
+    """Get path for mtuberculosis sample manifest"""
+    return data_path.joinpath("mtuberculosis", "sample_1.manifest.yml")
 
 
 @pytest.fixture()

@@ -6,9 +6,9 @@ import pytest
 
 
 @pytest.fixture()
-def ecoli_sample_conf_path(data_path: Path) -> Path:
-    """Get path for ecoli sample config file"""
-    return data_path.joinpath("ecoli", "sample_1.cnf.yml")
+def ecoli_sample_manifest_path(data_path: Path) -> Path:
+    """Get path for ecoli sample manifest"""
+    return data_path.joinpath("ecoli", "sample_1.manifest.yml")
 
 
 @pytest.fixture()
