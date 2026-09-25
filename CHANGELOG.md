@@ -1,13 +1,19 @@
 ## [Unreleased]
 
+## [v0.4.0]
+
+### Changed
+
+- `CreateGroupInput` requires a `group` key, the stable name Bonsai uploads use to reference a group. Callers that created groups without one need to supply it.
+- `contig_id` is mandatory on gene hits, so results without it no longer validate.
+
 ### Fixed
 
 - Send a sample's groups when creating it; they were dropped.
-- Carry a group's `group` key, the stable name Bonsai uploads use to reference a group.
+- Carry a group's `group` key on group responses.
 - Lower the scipy floor to 1.14 so older Linux systems can install a prebuilt wheel with `pip install --prefer-binary`.
 - Declare `email-validator`, which the API client models need.
 - Replace the stale sample configs in `tests/fixtures` with manifests in the current `jasentool create-yaml` format, and test that they point to existing files.
-
 - Return LIMS export bytes from the underlying HTTP response instead of accessing a nonexistent attribute on ApiResponse. [#12](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/12)
 - Keep AMRFinder AMR and stress genes in their correct result categories and exclude AMR point variants from stress results. [#11](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/11)
 - Preserve AMRFinder contig coordinates, alignment lengths, and closest-reference names when parsing gene hits. [#11](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/11)
