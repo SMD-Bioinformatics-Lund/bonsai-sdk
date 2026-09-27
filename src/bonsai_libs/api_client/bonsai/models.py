@@ -194,7 +194,7 @@ class GroupBase(BaseModel):
     """Basic group data."""
 
     group_id: str
-    group: str | None = None
+    group_key: str | None = None
     display_name: str
     description: str | None = None
 
@@ -202,7 +202,7 @@ class GroupBase(BaseModel):
 class CreateGroupInput(BaseModel):  # pylint: disable=too-few-public-methods
     """Information required for creating groups."""
 
-    group: str = Field(..., description="Stable key used to reference the group, e.g. saureus")
+    group_key: str = Field(..., description="Stable key used to reference the group, e.g. saureus")
     display_name: str
     description: str | None = None
     invited_users: list[str] = Field(default_factory=list)

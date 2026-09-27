@@ -21,5 +21,5 @@ def test_create_group_requires_a_group_key():
 
     with pytest.raises(ValidationError):
         CreateGroupInput.model_validate({"display_name": "S. aureus"})
-    group = CreateGroupInput.model_validate({"group": "saureus", "display_name": "S. aureus"})
-    assert group.model_dump(mode="json")["group"] == "saureus"
+    group = CreateGroupInput.model_validate({"group_key": "saureus", "display_name": "S. aureus"})
+    assert group.model_dump(mode="json")["group_key"] == "saureus"
