@@ -24,3 +24,8 @@ register_result_model(
     AnalysisSoftware.BRACKEN,
     AnalysisType.SPECIES,
 )(TypeAdapter(BrackenSpeciesPredictions))
+
+register_result_model(
+    AnalysisSoftware.KRAKEN,
+    AnalysisType.SPECIES,
+)(TypeAdapter(BrackenSpeciesPredictions))

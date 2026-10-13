@@ -2,6 +2,8 @@
 
 ### Added
 
+- Parse Kraken reports into species predictions in the Bracken format, keeping only species-level rows with reads.
+
 ### Changed
 
 ### Fixed
