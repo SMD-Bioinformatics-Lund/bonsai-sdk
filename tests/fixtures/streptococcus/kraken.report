@@ -1,0 +1,18 @@
+  0.92	27613	27613	U	0	unclassified
+ 99.08	2986581	9131	R	1	root
+ 98.69	2974705	66	R1	131567	  cellular organisms
+ 98.59	2971765	24686	D	2	    Bacteria
+ 96.18	2899065	332775	G	1301	                Streptococcus
+ 83.01	2501957	2494083	S	1314	                  Streptococcus pyogenes
+  0.04	1309	0	S1	342023	                    Streptococcus pyogenes serotype M12
+  0.04	1215	1215	S2	370551	                      Streptococcus pyogenes MGAS9429
+  1.15	34536	351	G1	119603	                  Streptococcus dysgalactiae group
+  0.99	29708	12906	S	1334	                    Streptococcus dysgalactiae
+  0.43	13039	11231	S1	119602	                      Streptococcus dysgalactiae subsp. equisimilis
+  0.30	8934	8934	S	1329	                  Streptococcus canis
+  0.00	8	0	S	257758	                  Streptococcus pseudopneumoniae
+  0.00	8	8	S1	1054460	                    Streptococcus pseudopneumoniae IS7493
+  0.00	1	1	S	1319	                    Streptococcus sp. 'group B'
+  0.00	0	0	S	1302	                  Streptococcus gordonii
+  0.12	3484	410	G	1350	                Enterococcus
+  0.06	1947	1938	S	1351	                  Enterococcus faecalis
