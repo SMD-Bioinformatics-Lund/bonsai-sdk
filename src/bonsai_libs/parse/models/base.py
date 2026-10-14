@@ -173,10 +173,6 @@ class PhenotypeModelMixin(BaseModel):
     phenotypes: list[PhenotypeInfo] = Field(default_factory=list)
 
 
-class ResfinderGene(GeneBase, PhenotypeModelMixin):
-    """ResFinder gene hit with its antibiotic annotations."""
-
-
 class VariantBase(RWModel):
     """Container for mutation information"""
 

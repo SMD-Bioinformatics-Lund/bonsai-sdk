@@ -13,7 +13,6 @@ from bonsai_libs.parse.core.registry import register_parser
 from bonsai_libs.parse.exceptions import InvalidDataFormat
 from bonsai_libs.parse.models.base import (
     ElementTypeResult,
-    ResfinderGene,
     PhenotypeInfo,
     VariantBase,
 )
@@ -27,6 +26,7 @@ from bonsai_libs.parse.models.enums import (
     VariantSubType,
     VariantType,
 )
+from bonsai_libs.parse.models.phenotype import ResfinderGene
 
 from .utils import get_nt_change
 
