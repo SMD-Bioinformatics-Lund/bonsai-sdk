@@ -6,6 +6,8 @@
 
 ### Fixed
 
+- Preserve ResFinder gene antibiotic annotations in parsed and serialized results; previously the gene model silently discarded them. [#PR](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/PR)
+
 ## [v0.4.0]
 
 ### Changed

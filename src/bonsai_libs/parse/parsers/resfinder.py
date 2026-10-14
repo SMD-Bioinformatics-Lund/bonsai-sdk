@@ -13,7 +13,7 @@ from bonsai_libs.parse.core.registry import register_parser
 from bonsai_libs.parse.exceptions import InvalidDataFormat
 from bonsai_libs.parse.models.base import (
     ElementTypeResult,
-    GeneBase,
+    ResfinderGene,
     PhenotypeInfo,
     VariantBase,
 )
@@ -233,10 +233,10 @@ def get_resfinder_sr_profile(
 
 def parse_resfinder_genes(
     resfinder_result: dict[str, Any], limit_to: list[str] | None = None
-) -> list[GeneBase]:
+) -> list[ResfinderGene]:
     """Parse resfinder gene predictions."""
 
-    results: list[GeneBase] = []
+    results: list[ResfinderGene] = []
     phenotypes = resfinder_result.get("phenotypes") or {}
     for info in (resfinder_result.get("seq_regions") or {}).values():
         ref_db = (info.get("ref_database") or [""])[0]
@@ -273,7 +273,7 @@ def parse_resfinder_genes(
         ]
 
         results.append(
-            GeneBase(
+            ResfinderGene(
                 gene_symbol=info["name"],
                 accession=info.get("ref_acc"),
                 element_type=res_category,
@@ -414,7 +414,7 @@ class ResFinderParser(BaseParser):
 
     software = RESFINDER
     parser_name = "ResFinderParser"
-    parser_version = 1
+    parser_version = 2
     schema_version = 1
     produces = {AnalysisType.AMR, AnalysisType.STRESS}
 
