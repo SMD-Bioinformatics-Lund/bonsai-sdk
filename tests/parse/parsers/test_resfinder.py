@@ -1,6 +1,11 @@
 """Test functions for the resfinder parser."""
 
-from bonsai_libs.parse.models.base import ParserOutput, ResultEnvelope
+import json
+from collections import Counter
+
+import pytest
+
+from bonsai_libs.parse.models.base import ElementTypeResult, ParserOutput, ResultEnvelope
 from bonsai_libs.parse.models.enums import AnalysisType
 from bonsai_libs.parse.parsers.resfinder import ResFinderParser, get_nt_change
 
@@ -35,3 +40,27 @@ def test_resfinder_parser(ecoli_resfinder_path):
 
     assert len(amr_res.value.genes) == 17
     assert len(amr_res.value.variants) == 4
+
+
+@pytest.mark.parametrize("organism", ["ecoli", "saureus"])
+def test_gene_antibiotics_survive_serialization(data_path, organism):
+    """Keep every hit's antibiotic associations through storage serialization."""
+    path = data_path / organism / "resfinder.json"
+    source = json.loads(path.read_text())
+    output = ResFinderParser().parse(path, strict=True)
+    result = output.results[AnalysisType.AMR].value
+    stored = ElementTypeResult.model_validate_json(result.model_dump_json())
+
+    expected = Counter(
+        (hit["name"], hit["ref_acc"], tuple(sorted(hit["phenotypes"])))
+        for hit in source["seq_regions"].values()
+        if hit["ref_database"][0].startswith("Res") and hit.get("phenotypes")
+    )
+    actual = Counter(
+        (gene["gene_symbol"], gene["accession"],
+         tuple(sorted(phe["name"] for phe in gene["phenotypes"])))
+        for gene in stored.genes
+    )
+    assert actual == expected
+    assert stored.phenotypes == result.phenotypes
+    assert len(stored.variants) == len(result.variants)
