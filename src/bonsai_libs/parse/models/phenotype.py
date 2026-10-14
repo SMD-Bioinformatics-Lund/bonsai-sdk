@@ -20,6 +20,10 @@ class AmrFinderGene(GeneBase):
     close_seq_name: str | None = Field(None, description="Name of the closest reference sequence")
 
 
+class ResfinderGene(GeneBase, PhenotypeModelMixin):
+    """ResFinder gene hit with its antibiotic annotations."""
+
+
 class AmrFinderResistanceGene(AmrFinderGene, PhenotypeModelMixin):
     """For resistance predictions."""
 
