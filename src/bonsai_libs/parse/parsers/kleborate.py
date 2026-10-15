@@ -43,7 +43,7 @@ from bonsai_libs.parse.models.kleborate import (
 from bonsai_libs.parse.models.phenotype import AmrFinderResistanceGene, AmrFinderVariant
 from bonsai_libs.parse.parsers.hamronization import HAmrOnizationParser
 
-from .utils import safe_int, safe_strand
+from .utils import is_prediction_result_empty, safe_int, safe_percent, safe_strand
 
 WarnFn = Callable[[str], None]
 
@@ -204,27 +204,29 @@ def _parse_virulence(result: Mapping[str, Any]) -> KleborateEtScore | None:
 
 def _parse_kaptive(
     result: Mapping[str, Any],
-) -> dict[AnalysisType.K_TYPE, KleborateKaptiveLocus]:
-    """Parse kaptive results in Kleborate and return K/O typing results."""
+    method: Literal["K", "O"],
+) -> KleborateKaptiveLocus:
+    """Parse one Kaptive locus, converting percentage identity to a fraction."""
 
     # Only available for KPSC
     if (data := result.get(PresetName.KPSC)) is None:
         raise AbsentResultError("'klebsiella_pneumo_complex' specific analysis not in result.")
 
-    def _fmt_res(d: dict[str, Any], method: Literal["K", "O"]) -> KleborateKaptiveLocus:
-        return KleborateKaptiveLocus(
-            locus=d[f"{method}_locus"],
-            type=d[f"{method}_type"],
-            identity=float(d[f"{method}_locus_identity"]),
-            confidence=d[f"{method}_locus_confidence"].lower(),
-            problems=d[f"{method}_locus_problems"],
-            missing_genes=d[f"{method}_Missing_expected_genes"],
-        )
+    kaptive = data.get("kaptive")
+    if not isinstance(kaptive, Mapping):
+        raise AbsentResultError("Kaptive not present in result.")
 
-    return {
-        AnalysisType.K_TYPE: _fmt_res(data, "K"),
-        AnalysisType.O_TYPE: _fmt_res(data, "O"),
-    }
+    identity = safe_percent(kaptive[f"{method}_locus_identity"])
+    if identity is None:
+        raise ValueError(f"Missing {method} locus identity")
+    return KleborateKaptiveLocus(
+        locus=kaptive[f"{method}_locus"],
+        type=kaptive[f"{method}_type"],
+        identity=identity / 100,
+        confidence=kaptive[f"{method}_locus_confidence"].lower(),
+        problems=kaptive[f"{method}_locus_problems"],
+        missing_genes=kaptive[f"{method}_Missing_expected_genes"],
+    )
 
 
 def _parse_mlst_like(
@@ -580,42 +582,15 @@ class KleborateParser(BaseParser):
                 )
 
             # K/O types (Kaptive)
-            if AnalysisType.K_TYPE in want or AnalysisType.O_TYPE in want:
-                kaptive_env = run_as_envelope(
-                    analysis_name="Kaptive",
-                    fn=lambda: _parse_kaptive(nested),
-                    reason_if_absent="Kaptive not present",
-                    reason_if_empty="Kaptive result",
-                    meta=base_meta,
-                    logger=self.logger,
-                )
-                if kaptive_env.status == ResultStatus.PARSED:
-                    kaptive_value: dict[AnalysisType, Any] = kaptive_env.value or {}
-                    if AnalysisType.K_TYPE in want:
-                        payload = kaptive_value.get(AnalysisType.K_TYPE)
-                        out[AnalysisType.K_TYPE] = envelope_from_value(
-                            payload, meta={**base_meta, "step": "kaptive.k_type"}
-                        )
-                    if AnalysisType.O_TYPE in want:
-                        payload = kaptive_value.get(AnalysisType.O_TYPE)
-                        out[AnalysisType.O_TYPE] = envelope_from_value(
-                            payload, meta={**base_meta, "step": "kaptive.o_type"}
-                        )
-                else:
-                    # Propagate non-PARSED status
-                    # (ABSENT/EMPTY/ERROR) to requested sub-types
-                    if AnalysisType.K_TYPE in want:
-                        out[AnalysisType.K_TYPE] = ResultEnvelope(
-                            status=kaptive_env.status,
-                            reason=kaptive_env.reason,
-                            meta={**kaptive_env.meta, "step": "kaptive.k_type"},
-                        )
-                    if AnalysisType.O_TYPE in want:
-                        out[AnalysisType.O_TYPE] = ResultEnvelope(
-                            status=kaptive_env.status,
-                            reason=kaptive_env.reason,
-                            meta={**kaptive_env.meta, "step": "kaptive.o_type"},
-                        )
+            for atype, method in ((AnalysisType.K_TYPE, "K"), (AnalysisType.O_TYPE, "O")):
+                if atype in want:
+                    out[atype] = run_as_envelope(
+                        analysis_name=f"kaptive.{atype.value}",
+                        fn=lambda method=method: _parse_kaptive(nested, method),
+                        reason_if_absent="Kaptive not present",
+                        meta=base_meta,
+                        logger=self.logger,
+                    )
 
             # MLST-like typing (ABST/CBST/RMST/SMST/YBST)
             if self.mlst_family & want:
@@ -653,17 +628,18 @@ class KleborateParser(BaseParser):
                     hparser = HAmrOnizationParser()
                     hres = hparser.parse(hamronization_source)
 
-                    res = hres.results.get(AnalysisType.AMR)
-                    if res.status != "parsed":
-                        # Should not happen if prepopulated by that parser
-                        out[AnalysisType.AMR] = envelope_absent(
-                            "hAMRonization AMR not present",
-                            meta={**base_meta, "step": "amr"},
+                    res = hres.results[AnalysisType.AMR]
+                    if res.status not in {ResultStatus.PARSED, ResultStatus.EMPTY}:
+                        out[AnalysisType.AMR] = ResultEnvelope(
+                            status=res.status,
+                            reason=res.reason,
+                            meta={**res.meta, **base_meta, "step": "amr"},
                         )
                     else:
                         out[AnalysisType.AMR] = run_as_envelope(
                             analysis_name="amr_from_hamronization",
-                            fn=lambda: _parse_amr(res.value, warn=self.log_warning),
+                            fn=lambda: _parse_amr(res.value or [], warn=self.log_warning),
+                            empty_predicate=is_prediction_result_empty,
                             reason_if_absent="AMR not present",
                             reason_if_empty="No AMR findings",
                             meta=base_meta,

@@ -1,6 +1,7 @@
 """Test parsing of Kleborate results."""
 
 import logging
+from io import StringIO
 from pathlib import Path
 
 import pytest
@@ -126,7 +127,10 @@ TEST_ASSAYS_WO_HAMRONIZATION = [
             "ybst": "absent",
         },
     ),
-    ("kp_kleborate_path", {}),
+    (
+        "kp_kleborate_path",
+        {"k_type": "parsed", "o_type": "parsed", "amr": "error"},
+    ),
 ]
 
 
@@ -172,3 +176,73 @@ def test_kleborate_parser_results_w_hamronization(
     assert isinstance(res, ResultEnvelope)
     assert res.status == "parsed"
     assert isinstance(res.value, ElementTypeResult)
+    assert len(res.value.genes) == 14
+    assert len(res.value.variants) == 7
+    assert res.value.genes[0].identity == 100.0
+    assert all(gene.identity is not None for gene in res.value.genes)
+    assert all(env.status == "parsed" for env in result.results.values())
+
+
+def test_kaptive_loci_and_percentage_identity(kp_kleborate_path):
+    """Read both loci from the nested Kaptive block and store fractional identity."""
+    result = KleborateParser().parse(kp_kleborate_path)
+    k_type = result.results[AnalysisType.K_TYPE]
+    o_type = result.results[AnalysisType.O_TYPE]
+
+    assert k_type.status == o_type.status == "parsed"
+    assert k_type.value.locus == "KL107"
+    assert k_type.value.type == "unknown (KL107)"
+    assert k_type.value.identity == pytest.approx(0.9997)
+    assert o_type.value.locus == "OL2α.2"
+    assert o_type.value.type == "O2β"
+    assert o_type.value.identity == pytest.approx(0.9917)
+
+
+@pytest.mark.parametrize("identity,expected", [("100%", 1.0), ("0%", 0.0), ("99.97", 0.9997)])
+def test_kaptive_identity_formats(kp_kleborate_path, identity, expected):
+    source = StringIO(kp_kleborate_path.read_text().replace("99.97%", identity))
+    result = KleborateParser().parse(source, want=AnalysisType.K_TYPE)
+
+    assert result.results[AnalysisType.K_TYPE].status == "parsed"
+    assert result.results[AnalysisType.K_TYPE].value.identity == pytest.approx(expected)
+
+
+@pytest.mark.parametrize("identity", ["101%", "-1%", "invalid", "-"])
+def test_bad_k_identity_preserves_o_typing(kp_kleborate_path, identity):
+    source = StringIO(kp_kleborate_path.read_text().replace("99.97%", identity))
+    result = KleborateParser().parse(source)
+
+    assert result.results[AnalysisType.K_TYPE].status == "error"
+    assert result.results[AnalysisType.O_TYPE].status == "parsed"
+    assert result.results[AnalysisType.O_TYPE].value.type == "O2β"
+
+
+def test_missing_kaptive_block_is_absent():
+    source = StringIO(
+        "strain\tklebsiella_pneumo_complex__virulence_score__virulence_score\nsample\t3\n"
+    )
+    result = KleborateParser().parse(source, want={AnalysisType.K_TYPE, AnalysisType.O_TYPE})
+
+    assert all(env.status == "absent" for env in result.results.values() if env.status != "skipped")
+
+
+def test_empty_amr_companion_has_no_findings(kp_kleborate_path, kp_kleborate_hamronization_path):
+    header = kp_kleborate_hamronization_path.read_text().splitlines()[0]
+    result = KleborateParser().parse(
+        kp_kleborate_path, want=AnalysisType.AMR, hamronization_source=StringIO(header + "\n")
+    )
+
+    amr = result.results[AnalysisType.AMR]
+    assert amr.status == "empty"
+    assert amr.value.genes == []
+    assert amr.value.variants == []
+
+
+def test_invalid_amr_companion_preserves_error(kp_kleborate_path):
+    result = KleborateParser().parse(
+        kp_kleborate_path,
+        want=AnalysisType.AMR,
+        hamronization_source=StringIO("wrong\tcolumns\nbad\tdata\n"),
+    )
+
+    assert result.results[AnalysisType.AMR].status == "error"

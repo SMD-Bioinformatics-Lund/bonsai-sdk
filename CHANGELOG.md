@@ -6,6 +6,8 @@
 
 ### Fixed
 
+- Read Kleborate K/O typing from the Kaptive block and convert percentage identities to fractions; preserve a valid locus when the other fails. [#PR](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/PR)
+- Preserve AMR identity percentages in hAMRonization reports and distinguish empty Kleborate AMR reports from parsing errors. [#PR](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/PR)
 - Preserve ResFinder gene antibiotic annotations in parsed and serialized results; previously the gene model silently discarded them. [#18](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/18)
 
 ## [v0.4.0]

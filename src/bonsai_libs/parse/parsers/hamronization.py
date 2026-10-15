@@ -116,7 +116,7 @@ def _to_qc_row(row: dict[str, Any]) -> HamronizationEntry:
         coverage_percentage=safe_percent(row.get("coverage")),
         coverage_depth=safe_int(row.get("coverage_depth")),
         coverage_ratio=safe_float(row.get("coverage_ratio")),
-        sequence_identity=safe_float(row.get("sequence_identity")),
+        sequence_identity=safe_percent(row.get("sequence_identity")),
         drug_class=row.get("drug_class"),
         genetic_variation_type=row.get("genetic_variation_type"),
         **variant_info,
