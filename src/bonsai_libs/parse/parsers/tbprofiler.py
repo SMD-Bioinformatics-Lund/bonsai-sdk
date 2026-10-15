@@ -28,7 +28,7 @@ TBPROFILER = AnalysisSoftware.TBPROFILER
 
 
 def _get_sr_profie(pred: dict[str, Any]) -> dict[str, list[str]]:
-    """Get tbprofiler susceptibility/resistance profile."""
+    """Get the profile from drug-specific annotations on resistance variants."""
     drugs = [
         "ofloxacin",
         "moxifloxacin",
@@ -49,8 +49,9 @@ def _get_sr_profie(pred: dict[str, Any]) -> dict[str, list[str]]:
 
     resistant: set[str] = set()
     for hit in pred.get("dr_variants", []) or []:
-        for drug in hit.get("gene_associated_drugs", []) or []:
-            resistant.add(drug)
+        # Gene associations describe the locus, not resistance from this variant.
+        for annotation in hit.get("annotation", []) or []:
+            resistant.add(annotation["drug"])
 
     susceptible = [drug for drug in drugs if drug not in resistant]
     return {"susceptible": sorted(susceptible), "resistant": sorted(resistant)}
