@@ -6,7 +6,7 @@
 
 ### Fixed
 
-- Preserve Kleborate variant positions from mutation descriptions, keeping protein/gene coordinates separate from assembly hit boundaries. Classify substitutions correctly and retain variant drug-class annotations. [#PR](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/PR)
+- Preserve Kleborate variant positions from mutation descriptions, keeping protein/gene coordinates separate from assembly hit boundaries. Classify substitutions correctly and retain variant drug-class annotations. [#22](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/22)
 - Report an AMR parsing error for missing or unsupported Kleborate mutation descriptions instead of attempting to construct a variant with fallback values. [#PR](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/PR)
 - Preserve ResFinder gene antibiotic annotations in parsed and serialized results; previously the gene model silently discarded them. [#18](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/18)
 
