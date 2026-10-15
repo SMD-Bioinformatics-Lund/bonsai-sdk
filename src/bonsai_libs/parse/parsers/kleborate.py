@@ -102,7 +102,7 @@ _VARIANT_PATTERNS: dict[tuple[str, Any], re.Pattern[str]] = {
         r"\w\.(?P<start>\d+)_(?P<end>\d+)ins(?P<alt>[A-Z]+)"
     ),
     ("protein", VariantSubType.FRAME_SHIFT): _compile(r"\w\.(?P<ref>[A-Z]+)(?P<start>\d+)fs"),
-    ("protein", VariantSubType.DELETION): _compile(r"\w\.(?P<ref>[A-Z]+)(?P<pos>\d+)del"),
+    ("protein", VariantSubType.DELETION): _compile(r"\w\.(?P<ref>[A-Z]+)(?P<start>\d+)del"),
     ("nucleotide", VariantSubType.SUBSTITUTION): _compile(
         r"\w\.(?P<ref>[ACGTURYSWKMBDHVN]+)(?P<start>\d+)(?P<alt>[ACGTURYSWKMBDHVN]+)"
     ),
@@ -417,35 +417,50 @@ def _parse_amr(entries: HamronizationEntries, *, warn: WarnFn) -> ElementTypeRes
             continue
 
         if _is_variant_entry(entry):
-            # Determine subtype/type from the HGVS-like string, if present
+            # Mutation positions are relative to the reference protein/gene.
+            # Assembly hit boundaries remain in query_start_pos/query_end_pos.
             pv = _parse_variant_str(
                 entry.protein_mutation or entry.nucleotide_mutation,
                 warn=warn,
-                strict=False,  # don’t hard fail just due to variant string formatting
+                strict=False,
             )
+            if pv is None:
+                raise ValueError(
+                    f"Cannot construct Kleborate variant for {entry.gene_symbol}: "
+                    f"unsupported or missing mutation "
+                    f"{entry.protein_mutation or entry.nucleotide_mutation!r}"
+                )
 
             extra_fields: dict[str, Any] = {}
-            variant_subtype = pv.type if pv else VariantType.SNV
+            if pv.residue == "nucleotide":
+                extra_fields["ref_nt"] = pv.ref
+                extra_fields["alt_nt"] = pv.alt
+                ref_length = max(len(pv.ref), 1)
+            else:
+                extra_fields["ref_aa"] = pv.ref
+                extra_fields["alt_aa"] = pv.alt
+                # A three-letter amino-acid name still represents one residue.
+                ref_length = 1
 
-            if pv:
-                if pv.residue == "nucleotide":
-                    extra_fields["ref_nt"] = getattr(pv, "ref", None)
-                    extra_fields["alt_nt"] = getattr(pv, "alt", None)
-                else:
-                    extra_fields["ref_aa"] = getattr(pv, "ref", None)
-                    extra_fields["alt_aa"] = getattr(pv, "alt", None)
+            if pv.type == VariantSubType.SUBSTITUTION:
+                variant_type = VariantType.SNV if ref_length == 1 else VariantType.MNV
+            elif pv.type == VariantSubType.INVERSION:
+                variant_type = VariantType.SV
+            else:
+                variant_type = VariantType.INDEL
+            pheno = _hamr_phenotype(entry)
 
             variants.append(
                 AmrFinderVariant(
                     id=row_no,
                     gene_symbol=entry.gene_symbol,
-                    variant_type=VariantType.INDEL,
-                    variant_subtype=variant_subtype,
+                    variant_type=variant_type,
+                    variant_subtype=pv.type,
                     contig_id=contig,
                     query_start_pos=q_start,
                     query_end_pos=q_end,
-                    start=entry.reference.gene_start or 0,
-                    end=entry.reference.gene_stop or 0,
+                    start=pv.start,
+                    end=pv.end if pv.end is not None else pv.start + ref_length - 1,
                     identity=(
                         entry.sequence_identity if entry.sequence_identity is not None else -1
                     ),
@@ -458,6 +473,7 @@ def _parse_amr(entries: HamronizationEntries, *, warn: WarnFn) -> ElementTypeRes
                     confidence=None,
                     method=entry.analysis_software_name or None,
                     strand=strand,
+                    phenotypes=[pheno] if pheno else [],
                     **extra_fields,
                 )
             )
@@ -472,7 +488,7 @@ class KleborateParser(BaseParser):
 
     software = KLEBORATE
     parser_name = "KleborateParser"
-    parser_version = 1
+    parser_version = 2
     schema_version = 1
 
     produces = {
