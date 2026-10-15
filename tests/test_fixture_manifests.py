@@ -16,6 +16,7 @@ def _referenced_paths(manifest: dict) -> list[str]:
     for track in manifest.get("igv_annotations") or []:
         paths += [track.get("uri"), track.get("index_uri")]
     paths += [result["uri"] for result in manifest.get("analysis_result") or []]
+    paths += [result.get("hamronization_uri") for result in manifest.get("analysis_result") or []]
     paths += list((manifest.get("index_artifacts") or {}).values())
     paths += [entry["value"] for entry in manifest.get("metadata") or [] if entry.get("type") == "table"]
     return [path for path in paths if path]

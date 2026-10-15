@@ -2,6 +2,7 @@
 
 ### Added
 
+- Accept `hamronization_file` on analysis uploads and send it as a multipart companion to Kleborate's main report. [#PR](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/PR)
 ### Changed
 
 ### Fixed

@@ -18,9 +18,7 @@ analysis_result:
 - software: kleborate
   software_version: 3.2.4
   uri: ./kleborate_v3_kpsc_output.txt
-- software: hAMRonization
-  software_version: 3.2.4
-  uri: ./kleborate_v3_kpsc_hamronization_output.txt
+  hamronization_uri: ./kleborate_v3_kpsc_hamronization_output.txt
 - software: quast
   software_version: 5.2.0
   uri: ./quast.tsv
