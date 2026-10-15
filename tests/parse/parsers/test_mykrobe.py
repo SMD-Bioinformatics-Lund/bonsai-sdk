@@ -36,3 +36,7 @@ def test_mykrobe_parser_results(mtuberculosis_mykrobe_path):
     assert isinstance(pred, ResultEnvelope)
     assert isinstance(pred.value, ElementTypeResult)
     assert len(pred.value.variants) == 6
+
+    # ID-based lookups must retain every finding across all drug rows.
+    variants_by_id = {variant.id: variant for variant in pred.value.variants}
+    assert len(variants_by_id) == len(pred.value.variants)

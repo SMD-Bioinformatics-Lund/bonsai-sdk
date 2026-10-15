@@ -6,6 +6,7 @@
 
 ### Fixed
 
+- Assign unique Mykrobe variant IDs across all drug rows in each parsed AMR result so ID-based curation, position lookup, and exports can distinguish findings. Existing stored results and curations are not migrated. [#PR](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/PR)
 - Preserve ResFinder gene antibiotic annotations in parsed and serialized results; previously the gene model silently discarded them. [#18](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/18)
 
 ## [v0.4.0]
