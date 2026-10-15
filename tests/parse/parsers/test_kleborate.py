@@ -11,7 +11,7 @@ from bonsai_libs.parse.models.base import (
     PhenotypeInfo,
     ResultEnvelope,
 )
-from bonsai_libs.parse.models.enums import AnalysisType, ElementType, VariantSubType
+from bonsai_libs.parse.models.enums import AnalysisType, ElementType, VariantSubType, VariantType
 from bonsai_libs.parse.models.hamronization import HamronizationEntry
 from bonsai_libs.parse.models.kleborate import ParsedVariant
 from bonsai_libs.parse.parsers.kleborate import (
@@ -172,3 +172,78 @@ def test_kleborate_parser_results_w_hamronization(
     assert isinstance(res, ResultEnvelope)
     assert res.status == "parsed"
     assert isinstance(res.value, ElementTypeResult)
+
+    variants = res.value.variants
+    assert [(v.reference_sequence, v.start, v.end) for v in variants] == [
+        ("SHV", 35, 35),
+        ("SHV", 238, 238),
+        ("SHV", 240, 240),
+        ("SHV", 35, 35),
+        ("OmpK35", 42, 42),
+        ("GyrA", 83, 83),
+        ("ParC", 80, 80),
+    ]
+    gyra = next(v for v in variants if v.reference_sequence == "GyrA")
+    assert gyra.variant_type == VariantType.SNV
+    assert gyra.variant_subtype == VariantSubType.SUBSTITUTION
+    assert (gyra.ref_aa, gyra.alt_aa) == ("Ser", "Ile")
+    assert (gyra.contig_id, gyra.query_start_pos, gyra.query_end_pos) == (
+        "JAHBNP010000001.1",
+        4018376,
+        4018736,
+    )
+    assert [p.name for p in gyra.phenotypes] == ["fluoroquinolone antibiotic"]
+    omp = next(v for v in variants if v.reference_sequence == "OmpK35")
+    assert omp.variant_type == VariantType.INDEL
+    assert omp.variant_subtype == VariantSubType.FRAME_SHIFT
+    assert omp.phenotypes == []  # This row has no drug class in the source.
+
+
+@pytest.mark.parametrize(
+    "mutation,expected_type,expected_subtype,start,end,ref,alt",
+    [
+        ("c.A83G", VariantType.SNV, VariantSubType.SUBSTITUTION, 83, 83, "A", "G"),
+        ("c.AC83GT", VariantType.MNV, VariantSubType.SUBSTITUTION, 83, 84, "AC", "GT"),
+        ("c.T68del", VariantType.INDEL, VariantSubType.DELETION, 68, 68, "T", ""),
+        ("c.AG83inv", VariantType.SV, VariantSubType.INVERSION, 83, 84, "AG", ""),
+        ("p.134_135insGlyAsp", VariantType.INDEL, VariantSubType.INSERTION, 134, 135, "", "GlyAsp"),
+        ("p.Ser83del", VariantType.INDEL, VariantSubType.DELETION, 83, 83, "Ser", ""),
+    ],
+)
+def test_variant_coordinates_follow_mutation(
+    hamronization_entry, mutation, expected_type, expected_subtype, start, end, ref, alt
+):
+    """Mutation coordinates must remain separate from assembly and reference gene spans."""
+    protein = mutation.startswith("p.")
+    entry = hamronization_entry.model_copy(
+        update={
+            "genetic_variation_type": (
+                "Protein variant detected" if protein else "Nucleotide variant detected"
+            ),
+            "protein_mutation": mutation if protein else None,
+            "nucleotide_mutation": None if protein else mutation,
+        }
+    )
+    variant = _parse_amr([entry], warn=lambda _: None).variants[0]
+    assert (variant.variant_type, variant.variant_subtype) == (expected_type, expected_subtype)
+    assert (variant.start, variant.end) == (start, end)
+    assert (variant.query_start_pos, variant.query_end_pos) == (
+        entry.input.gene_start,
+        entry.input.gene_stop,
+    )
+    assert (variant.ref_aa, variant.alt_aa) == ((ref, alt) if protein else (None, None))
+    assert (variant.ref_nt, variant.alt_nt) == ((None, None) if protein else (ref, alt))
+    assert [p.name for p in variant.phenotypes] == [entry.drug_class]
+
+
+@pytest.mark.parametrize("mutation", [None, "p.unrecognised"])
+def test_variant_without_parseable_mutation_fails(hamronization_entry, mutation):
+    """A gene interval cannot stand in for an unknown mutation position."""
+    entry = hamronization_entry.model_copy(
+        update={
+            "genetic_variation_type": "Protein variant detected",
+            "protein_mutation": mutation,
+        }
+    )
+    with pytest.raises(ValueError, match="Cannot construct Kleborate variant"):
+        _parse_amr([entry], warn=lambda _: None)
