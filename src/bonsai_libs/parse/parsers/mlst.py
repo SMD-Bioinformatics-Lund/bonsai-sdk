@@ -6,7 +6,7 @@ from bonsai_libs.parse.io.delimited import is_nullish
 from bonsai_libs.parse.io.json import read_json
 from bonsai_libs.parse.core.base import SingleAnalysisParser
 from bonsai_libs.parse.core.registry import register_parser
-from bonsai_libs.parse.exceptions import AbsentResultError
+from bonsai_libs.parse.exceptions import AbsentResultError, InvalidDataFormat
 from bonsai_libs.parse.models.enums import AnalysisSoftware, AnalysisType
 from bonsai_libs.parse.models.typing import TypingResultMlst
 
@@ -62,7 +62,7 @@ class MlstParser(SingleAnalysisParser):
 
     software = MLST
     parser_name = "MlstParser"
-    parser_version = 1
+    parser_version = 2
     schema_version = 1
     produces = {AnalysisType.MLST}
 
@@ -73,13 +73,14 @@ class MlstParser(SingleAnalysisParser):
         try:
             pred_obj = read_json(source)
         except Exception as exc:
-            self.log_error("Failed to read SerotypeFinder JSON", error=str(exc))
+            self.log_error("Failed to read MLST JSON", error=str(exc))
             if strict:
                 raise
-            return {}
+            raise InvalidDataFormat(f"Failed to read MLST JSON: {exc}") from exc
 
         # verify data
-        _validate_result(pred_obj)
+        if not _validate_result(pred_obj):
+            raise InvalidDataFormat("MLST JSON must contain exactly one result in a list")
         first_entry = pred_obj[0]
         self.validate_columns(first_entry, required=REQUIRED_FIELDS)
 
