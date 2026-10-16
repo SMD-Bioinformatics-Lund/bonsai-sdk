@@ -8,6 +8,7 @@
 
 ### Fixed
 
+- Return every VirulenceFinder v2/v3 STX match in a `hits` collection instead of a single best-hit result. Load stored multi-hit results into the STX result model. Existing results must be reparsed into the new format. [#20](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/20)
 - Rewind multipart file streams to the beginning before retrying uploads after timeouts or connection failures, preserving analysis, coverage, and signature content. Fail explicitly if a stream cannot be rewound instead of retrying with empty files. Retries resend whole files, including caller-provided streams. [#24](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/24)
 - Preserve ResFinder gene antibiotic annotations in parsed and serialized results; previously the gene model silently discarded them. [#18](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/18)
 

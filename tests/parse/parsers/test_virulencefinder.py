@@ -5,11 +5,11 @@ import pytest
 from bonsai_libs.parse.core.registry import get_parser
 from bonsai_libs.parse.models.base import (
     ElementTypeResult,
-    GeneWithReference,
     ParserOutput,
     ResultEnvelope,
 )
 from bonsai_libs.parse.models.enums import AnalysisType, ElementVirulenceSubtype
+from bonsai_libs.parse.models.virulencefinder import TypingResultStx
 from bonsai_libs.parse.parsers.virulencefinder import (
     VirulenceFinderParser,
     VirulenceFinderV2Parser,
@@ -41,8 +41,8 @@ def test_virulencefinder_parser(ecoli_virulencefinder_stx_pred_stx_path):
     assert isinstance(stx_res, ResultEnvelope)
     assert stx_res.status == "parsed"
 
-    assert isinstance(stx_res.value, GeneWithReference)
-    assert stx_res.value.gene_symbol == "stx2"
+    assert isinstance(stx_res.value, TypingResultStx)
+    assert [hit.gene_symbol for hit in stx_res.value.hits] == ["stx2", "stx2c-O157-FLY16"]
 
 
 def test_virulencefinder_v2_parser(ecoli_virulencefinder_v2_stx_path):
@@ -71,9 +71,10 @@ def test_virulencefinder_v2_parser(ecoli_virulencefinder_v2_stx_path):
     assert isinstance(stx_res, ResultEnvelope)
     assert stx_res.status == "parsed"
 
-    assert isinstance(stx_res.value, GeneWithReference)
-    assert stx_res.value.gene_symbol == "stx2"
-    assert stx_res.value.accession == "AB015057"
+    assert isinstance(stx_res.value, TypingResultStx)
+    assert len(stx_res.value.hits) == 1
+    assert stx_res.value.hits[0].gene_symbol == "stx2"
+    assert stx_res.value.hits[0].accession == "AB015057"
 
 
 def test_virulencefinder_v2_parser_no_stx(ecoli_virulencefinder_v2_no_stx_path):
