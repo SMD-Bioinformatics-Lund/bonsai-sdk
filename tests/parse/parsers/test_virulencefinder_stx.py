@@ -18,7 +18,7 @@ from bonsai_libs.parse.parsers.virulencefinder import (
 
 @pytest.fixture(params=[2, 3], ids=["v2", "v3"])
 def stx_case(request, data_path):
-    """Keep ordinary virulence findings and replace the dedicated typing assay."""
+    """Replace STX candidates to isolate multi-hit retention and ranking."""
     version = request.param
     filename = "virulencefinder.v2.stx.json" if version == 2 else "virulencefinder.stx_pred.stx.json"
     pred = json.loads((data_path / "ecoli" / filename).read_text())
@@ -30,6 +30,7 @@ def stx_case(request, data_path):
     else:
         phenotype = deepcopy(pred["phenotypes"].pop("stx2"))
         template = pred["seq_regions"].pop(phenotype["seq_regions"][0])
+        pred["phenotypes"].pop("stx2c-O157-FLY16")
         parser = VirulenceFinderParser()
 
     def add(symbol, accession, coverage=100.0, identity=100.0):
@@ -66,7 +67,8 @@ def test_distinct_stx_types_survive_parsing_and_json(stx_case, identity):
     assert {hit.gene_symbol for hit in stx.value.hits} == {"stx1", "stx2"}
     assert len(stx.value.hits) == 2
     virulence = result.results[AnalysisType.VIRULENCE].value.genes
-    assert "stx2c-O157-FLY16" in [gene.gene_symbol for gene in virulence]
+    if stx_case.version == 2:
+        assert "stx2c-O157-FLY16" in [gene.gene_symbol for gene in virulence]
     assert not {"stx1", "stx2"} & {gene.gene_symbol for gene in virulence}
 
     wire = json.loads(result.model_dump_json())["results"]["stx"]["value"]
@@ -110,7 +112,7 @@ def test_zero_score_hit_is_not_silently_discarded(stx_case):
     assert result.value.hits[0].accession == "zero-score-reference"
 
 
-def test_no_dedicated_stx_hits_is_empty(stx_case):
+def test_no_stx_candidates_is_empty(stx_case):
     result = stx_case.parse().results[AnalysisType.STX]
 
     assert result.status == "empty"
@@ -132,7 +134,8 @@ def test_shared_v3_region_is_reported_once(ecoli_virulencefinder_stx_pred_stx_pa
     pred["phenotypes"]["stx2-alias"] = deepcopy(pred["phenotypes"]["stx2"])
     result = VirulenceFinderParser().parse(StringIO(json.dumps(pred)))
 
-    assert len(result.results[AnalysisType.STX].value.hits) == 1
+    hits = result.results[AnalysisType.STX].value.hits
+    assert [hit.gene_symbol for hit in hits] == ["stx2", "stx2c-O157-FLY16"]
 
 
 def test_missing_v3_region_does_not_discard_available_hits(ecoli_virulencefinder_stx_pred_stx_path):
@@ -144,4 +147,18 @@ def test_missing_v3_region_does_not_discard_available_hits(ecoli_virulencefinder
     stx = result.results[AnalysisType.STX]
 
     assert stx.status == "parsed"
-    assert [hit.gene_symbol for hit in stx.value.hits] == ["stx2"]
+    assert [hit.gene_symbol for hit in stx.value.hits] == ["stx2", "stx2c-O157-FLY16"]
+
+
+def test_v3_keeps_name_based_stx_selection(ecoli_virulencefinder_stx_pred_stx_path):
+    """General-database STX findings remain eligible without dedicated hits."""
+    pred = json.loads(ecoli_virulencefinder_stx_pred_stx_path.read_text())
+    pred["phenotypes"].pop("stx2")
+    result = VirulenceFinderParser().parse(StringIO(json.dumps(pred)), strict=True)
+    stx = result.results[AnalysisType.STX]
+
+    assert stx.status == "parsed"
+    assert stx.value.gene_symbol == "stx2c-O157-FLY16"
+    assert [hit.gene_symbol for hit in stx.value.hits] == ["stx2c-O157-FLY16"]
+    virulence = result.results[AnalysisType.VIRULENCE].value.genes
+    assert "stx2c-O157-FLY16" in [gene.gene_symbol for gene in virulence]

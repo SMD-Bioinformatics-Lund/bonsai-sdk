@@ -20,9 +20,10 @@ class TypingResultStx(GeneWithReference):
     """
 
     hits: list[GeneWithReference] = Field(
-        min_length=1, description="All matches reported by the dedicated STX typing assay."
+        min_length=1, description="All matches selected for the STX result by the parser."
     )
 
+    # FIXME: Cleanup after reimport prior to release of v3
     @model_validator(mode="before")
     @classmethod
     def include_legacy_hit(cls, value: Any) -> Any:

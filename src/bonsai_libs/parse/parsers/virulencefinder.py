@@ -92,16 +92,8 @@ def pick_best_region(regions: list[dict[str, Any]]) -> dict[str, Any] | None:
     return max(regions, key=lambda region: (float(region["coverage"]), float(region["identity"])))
 
 
-def _is_stx_typing(phenotype: dict[str, Any]) -> bool:
-    """Identify the dedicated STX database, including software-prefixed names."""
-    return any(
-        str(database).rsplit(":", 1)[-1].lower() == STX_ASSAY
-        for database in phenotype.get("ref_database") or []
-    )
-
-
 def parse_stx_typing(pred: dict[str, Any]) -> TypingResultStx | None:
-    """Preserve all dedicated typing matches alongside the best-hit summary."""
+    """Preserve all matches selected by STX phenotype name alongside the summary."""
 
     phenotypes = pred.get("phenotypes", {}) or {}
     seq_regions = pred.get("seq_regions", {}) or {}
@@ -111,8 +103,8 @@ def parse_stx_typing(pred: dict[str, Any]) -> TypingResultStx | None:
     hits: list[GeneWithReference] = []
     seen_regions: set[str] = set()
 
-    for pheno in phenotypes.values():
-        if not _is_stx_typing(pheno):
+    for key, pheno in phenotypes.items():
+        if not str(key).lower().startswith("stx"):
             continue
         function = pheno.get("function") or ""
         region_keys = pheno.get("seq_regions") or []
@@ -149,7 +141,7 @@ def parse_virulence_block(pred: dict[str, Any]) -> ElementTypeResult:
         ref_dbs = pheno.get("ref_database") or []
 
         # skip stx typing results
-        if _is_stx_typing(pheno):
+        if any("stx" in str(db).lower() for db in ref_dbs):
             continue
 
         subtype = ElementVirulenceSubtype.VIR
