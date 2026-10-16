@@ -8,6 +8,8 @@
 
 ### Fixed
 
+- Report unreadable or invalid ResFinder and MLST JSON as parser errors instead of absent results or "No findings"; validate MLST result counts. [#25](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/25)
+- Preserve parser exceptions as error envelopes in the shared wrapper instead of falling through with an uninitialized result. [#25](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/25)
 - Rewind multipart file streams to the beginning before retrying uploads after timeouts or connection failures, preserving analysis, coverage, and signature content. Fail explicitly if a stream cannot be rewound instead of retrying with empty files. Retries resend whole files, including caller-provided streams. [#24](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/24)
 - Preserve ResFinder gene antibiotic annotations in parsed and serialized results; previously the gene model silently discarded them. [#18](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/18)
 
