@@ -84,22 +84,12 @@ def parse_vir_gene_v2(
     )
 
 
-def pick_best_region(regions: list[dict[str, Any]]) -> dict[str, Any] | None:
-    """Pick the region with highest coverage and identity."""
-
-    if not regions:
-        return None
-    return max(regions, key=lambda region: (float(region["coverage"]), float(region["identity"])))
-
-
 def parse_stx_typing(pred: dict[str, Any]) -> TypingResultStx | None:
-    """Preserve all matches selected by STX phenotype name alongside the summary."""
+    """Preserve all matches selected by STX phenotype name."""
 
     phenotypes = pred.get("phenotypes", {}) or {}
     seq_regions = pred.get("seq_regions", {}) or {}
 
-    best_gene: GeneWithReference | None = None
-    best_score: tuple[float, float] = (0.0, 0.0)
     hits: list[GeneWithReference] = []
     seen_regions: set[str] = set()
 
@@ -108,25 +98,14 @@ def parse_stx_typing(pred: dict[str, Any]) -> TypingResultStx | None:
             continue
         function = pheno.get("function") or ""
         region_keys = pheno.get("seq_regions") or []
-        regions = [seq_regions.get(k) for k in region_keys if seq_regions.get(k)]
         for key in region_keys:
             info = seq_regions.get(key)
             if info and key not in seen_regions:
                 hits.append(parse_vir_gene(info, function=function))
                 seen_regions.add(key)
-        best_region = pick_best_region(regions)
-        if not best_region:
-            continue
-
-        gene = parse_vir_gene(best_region, function=function)
-        score = (float(gene.identity or 0.0), float(gene.coverage or 0.0))
-        if best_gene is None or score > best_score:
-            best_score = score
-            best_gene = gene
-
-    if best_gene is None:
+    if not hits:
         return None
-    return TypingResultStx(**best_gene.model_dump(), hits=_sort_genes(hits))
+    return TypingResultStx(hits=_sort_genes(hits))
 
 
 def parse_virulence_block(pred: dict[str, Any]) -> ElementTypeResult:
@@ -208,18 +187,14 @@ def parse_virulence_block_v2(assays: dict[str, Any]) -> ElementTypeResult:
 
 
 def parse_stx_typing_v2(assays: dict[str, Any]) -> TypingResultStx | None:
-    """Preserve every v2 STX assay hit alongside the best-hit summary."""
+    """Preserve every v2 STX assay hit."""
 
     hits = assays.get(STX_ASSAY)
     if not isinstance(hits, dict) or not hits:
         return None
 
-    best_hit = pick_best_region(list(hits.values()))
-    if best_hit is None:
-        return None
-    best_gene = parse_vir_gene_v2(best_hit)
     genes = [parse_vir_gene_v2(hit) for hit in hits.values()]
-    return TypingResultStx(**best_gene.model_dump(), hits=_sort_genes(genes))
+    return TypingResultStx(hits=_sort_genes(genes))
 
 
 class _VirulenceFinderParserBase(BaseParser):
@@ -233,7 +208,7 @@ class _VirulenceFinderParserBase(BaseParser):
 
     software = VIRFINDER
     parser_version = "2"
-    schema_version = "1"
+    schema_version = "2"
     produces = {AnalysisType.VIRULENCE, AnalysisType.STX}
 
     def _read(self, source: StreamOrPath) -> Any:

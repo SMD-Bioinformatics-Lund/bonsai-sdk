@@ -1,4 +1,4 @@
-"""Preserve complete STX typing evidence alongside the legacy summary hit."""
+"""Preserve all STX matches in a shared multi-hit result format."""
 
 import json
 from copy import deepcopy
@@ -10,6 +10,7 @@ import pytest
 from bonsai_libs.parse import hydrate_result
 from bonsai_libs.parse.models.base import GeneWithReference
 from bonsai_libs.parse.models.enums import AnalysisType
+from bonsai_libs.parse.models.virulencefinder import TypingResultStx
 from bonsai_libs.parse.parsers.virulencefinder import (
     VirulenceFinderParser,
     VirulenceFinderV2Parser,
@@ -18,7 +19,7 @@ from bonsai_libs.parse.parsers.virulencefinder import (
 
 @pytest.fixture(params=[2, 3], ids=["v2", "v3"])
 def stx_case(request, data_path):
-    """Replace STX candidates to isolate multi-hit retention and ranking."""
+    """Replace STX candidates to isolate multi-hit retention."""
     version = request.param
     filename = "virulencefinder.v2.stx.json" if version == 2 else "virulencefinder.stx_pred.stx.json"
     pred = json.loads((data_path / "ecoli" / filename).read_text())
@@ -62,8 +63,7 @@ def test_distinct_stx_types_survive_parsing_and_json(stx_case, identity):
     stx = result.results[AnalysisType.STX]
 
     assert stx.status == "parsed"
-    assert isinstance(stx.value, GeneWithReference)
-    assert stx.value.gene_symbol == "stx2"
+    assert isinstance(stx.value, TypingResultStx)
     assert {hit.gene_symbol for hit in stx.value.hits} == {"stx1", "stx2"}
     assert len(stx.value.hits) == 2
     virulence = result.results[AnalysisType.VIRULENCE].value.genes
@@ -72,7 +72,10 @@ def test_distinct_stx_types_survive_parsing_and_json(stx_case, identity):
     assert not {"stx1", "stx2"} & {gene.gene_symbol for gene in virulence}
 
     wire = json.loads(result.model_dump_json())["results"]["stx"]["value"]
+    assert set(wire) == {"hits"}
     hydrated = hydrate_result(software="virulencefinder", analysis_type="stx", result=wire)
+    assert isinstance(hydrated, TypingResultStx)
+    assert hydrated.model_dump() == stx.value.model_dump()
     assert [hit.accession for hit in hydrated.hits] == ["stx1-reference", "stx2-reference"]
     assert all(isinstance(hit, GeneWithReference) for hit in hydrated.hits)
 
@@ -82,26 +85,18 @@ def test_multiple_candidates_for_one_type_are_retained(stx_case):
     stx_case.add("stx2", "second-allele", coverage=100, identity=98)
     result = stx_case.parse().results[AnalysisType.STX]
 
-    assert result.value.accession == "second-allele"
     assert {hit.accession for hit in result.value.hits} == {"first-allele", "second-allele"}
 
 
-def test_primary_summary_keeps_version_specific_ranking(stx_case):
-    stx_case.add("stx1", "stx1-reference", coverage=99, identity=100)
-    stx_case.add("stx2", "stx2-reference", coverage=100, identity=99)
-    result = stx_case.parse().results[AnalysisType.STX]
-
-    assert result.value.gene_symbol == ("stx2" if stx_case.version == 2 else "stx1")
-    assert len(result.value.hits) == 2
-
-
-def test_string_scores_are_ranked_numerically(stx_case):
+def test_string_scores_are_parsed_numerically(stx_case):
     stx_case.add("stx1", "partial-match", coverage="9", identity="100")
     stx_case.add("stx1", "complete-match", coverage="100", identity="99")
     result = stx_case.parse().results[AnalysisType.STX]
 
-    assert result.value.accession == "complete-match"
-    assert len(result.value.hits) == 2
+    assert [(hit.accession, hit.coverage, hit.identity) for hit in result.value.hits] == [
+        ("partial-match", 9.0, 100.0),
+        ("complete-match", 100.0, 99.0),
+    ]
 
 
 def test_zero_score_hit_is_not_silently_discarded(stx_case):
@@ -117,16 +112,6 @@ def test_no_stx_candidates_is_empty(stx_case):
 
     assert result.status == "empty"
     assert result.value is None
-
-
-def test_legacy_single_hit_can_be_hydrated(stx_case):
-    stx_case.add("stx1", "legacy-reference")
-    legacy = stx_case.parse().results[AnalysisType.STX].value.model_dump(exclude={"hits"})
-    result = hydrate_result(software="virulencefinder", analysis_type="stx", result=legacy)
-
-    assert isinstance(result, GeneWithReference)
-    assert result.gene_symbol == "stx1"
-    assert [hit.accession for hit in result.hits] == ["legacy-reference"]
 
 
 def test_shared_v3_region_is_reported_once(ecoli_virulencefinder_stx_pred_stx_path):
@@ -158,7 +143,6 @@ def test_v3_keeps_name_based_stx_selection(ecoli_virulencefinder_stx_pred_stx_pa
     stx = result.results[AnalysisType.STX]
 
     assert stx.status == "parsed"
-    assert stx.value.gene_symbol == "stx2c-O157-FLY16"
     assert [hit.gene_symbol for hit in stx.value.hits] == ["stx2c-O157-FLY16"]
     virulence = result.results[AnalysisType.VIRULENCE].value.genes
     assert "stx2c-O157-FLY16" in [gene.gene_symbol for gene in virulence]
