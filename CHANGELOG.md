@@ -2,12 +2,15 @@
 
 ### Added
 
+- Parse Kraken reports into species predictions in the Bracken format, keeping only species-level rows with reads.
+
 ### Changed
 
 ### Fixed
 
 - Preserve every VirulenceFinder v2/v3 STX typing match in `hits`, retaining the existing best-hit fields for compatibility. Register typed JSON hydration, including legacy single-hit results. [#PR](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/PR)
 - Identify v3 STX typing by its dedicated database so ordinary STX virulence findings are not mistaken for typing results. [#PR](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/PR)
+- Rewind multipart file streams to the beginning before retrying uploads after timeouts or connection failures, preserving analysis, coverage, and signature content. Fail explicitly if a stream cannot be rewound instead of retrying with empty files. Retries resend whole files, including caller-provided streams. [#24](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/24)
 - Preserve ResFinder gene antibiotic annotations in parsed and serialized results; previously the gene model silently discarded them. [#18](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/18)
 
 ## [v0.4.0]

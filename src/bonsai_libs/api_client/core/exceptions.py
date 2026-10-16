@@ -73,7 +73,7 @@ class ConnectionFailedError(NetworkError):
 
 
 class ApiRequestFailed(ApiError):
-    """Request exhausted retries and ultimately failed."""
+    """Request exhausted retries or could not be safely retried."""
 
 
 _STATUS_TO_ERROR: dict[int, type[ApiError]] = {
