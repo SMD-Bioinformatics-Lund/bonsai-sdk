@@ -1,4 +1,13 @@
-"""Functions for parsing virulencefinder result."""
+"""Parse VirulenceFinder v2/v3 JSON results.
+
+V2 groups hits under ``virulencefinder.results.<species>.<database>``.
+V3 links phenotypes to ``seq_regions``; ``ref_database`` identifies hit origins.
+
+Example files, relative to the bonsai-sdk repository root:
+
+- V2: ``tests/fixtures/ecoli/virulencefinder.v2.stx.json``.
+- V3: ``tests/fixtures/ecoli/virulencefinder.stx_pred.stx.json``.
+"""
 
 import logging
 from typing import Any
@@ -11,6 +20,7 @@ from bonsai_libs.parse.core.envelope import run_as_envelope
 from bonsai_libs.parse.core.registry import register_parser
 from bonsai_libs.parse.exceptions import DataFormatError, InvalidDataFormat
 from bonsai_libs.parse.models.base import ElementTypeResult, GeneWithReference
+from bonsai_libs.parse.models.typing import TypingResultStx
 from bonsai_libs.parse.models.enums import (
     AnalysisSoftware,
     AnalysisType,
@@ -26,7 +36,6 @@ REQUIRED_FIELDS = {"databases", "seq_regions", "software_executions"}
 
 STX_ASSAY = "stx"
 
-
 def parse_vir_gene(
     info: dict[str, Any],
     function: str,
@@ -40,6 +49,7 @@ def parse_vir_gene(
         # info
         gene_symbol=info["name"],
         accession=accnr,
+        ref_database=", ".join(info.get("ref_database") or []) or None,
         sequence_name=function,
         # gene classification
         element_type=ElementType.VIR,
@@ -58,6 +68,7 @@ def parse_vir_gene(
 def parse_vir_gene_v2(
     info: dict[str, Any],
     subtype: ElementVirulenceSubtype = ElementVirulenceSubtype.VIR,
+    ref_database: str | None = None,
 ) -> GeneWithReference:
     """Parse a virulence gene hit from v2 output."""
     start_pos, end_pos = map(int, info["position_in_ref"].split(".."))
@@ -68,6 +79,7 @@ def parse_vir_gene_v2(
         # info
         gene_symbol=info["virulence_gene"],
         accession=accnr,
+        ref_database=ref_database,
         sequence_name=(info.get("protein_function") or "").strip(),
         # gene classification
         element_type=ElementType.VIR,
@@ -83,43 +95,34 @@ def parse_vir_gene_v2(
     )
 
 
-def pick_best_region(regions: list[dict[str, Any]]) -> dict[str, Any] | None:
-    """Pick the region with highest coverage and identity."""
-
-    if not regions:
-        return None
-    return max(regions, key=lambda region: (region["coverage"], region["identity"]))
-
-
-def parse_stx_typing(pred: dict[str, Any]) -> GeneWithReference | None:
-    """Parse STX typing from virulencefinder's output."""
+def parse_stx_typing(pred: dict[str, Any]) -> TypingResultStx | None:
+    """Preserve dedicated STX matches and STX genes from virulence databases."""
 
     phenotypes = pred.get("phenotypes", {}) or {}
     seq_regions = pred.get("seq_regions", {}) or {}
 
-    stx_keys = [k for k in phenotypes.keys() if str(k).lower().startswith("stx")]
-    if not stx_keys:
-        return None
+    hits: list[GeneWithReference] = []
+    seen_regions: set[str] = set()
 
-    best_gene: GeneWithReference | None = None
-    best_score: tuple[float, float] = (0.0, 0.0)
-
-    for stx_key in stx_keys:
-        pheno = phenotypes.get(stx_key) or {}
+    for pheno in phenotypes.values():
         function = pheno.get("function") or ""
         region_keys = pheno.get("seq_regions") or []
-        regions = [seq_regions.get(k) for k in region_keys if seq_regions.get(k)]
-        best_region = pick_best_region(regions)
-        if not best_region:
-            continue
-
-        gene = parse_vir_gene(best_region, function=function)
-        score = (float(gene.identity or 0.0), float(gene.coverage or 0.0))
-        if score > best_score:
-            best_score = score
-            best_gene = GeneWithReference(**gene.model_dump())
-
-    return best_gene
+        for region_key in region_keys:
+            info = seq_regions.get(region_key)
+            if info and region_key not in seen_regions:
+                databases = info.get("ref_database") or pheno.get("ref_database") or []
+                is_stx_database = any(
+                    str(db).rsplit(":", 1)[-1] == STX_ASSAY for db in databases
+                )
+                is_stx_gene = str(info.get("name", "")).lower().startswith("stx")
+                if not (is_stx_database or is_stx_gene):
+                    continue
+                info = {**info, "ref_database": databases}
+                hits.append(parse_vir_gene(info, function=function))
+                seen_regions.add(region_key)
+    if not hits:
+        return None
+    return TypingResultStx(hits=_sort_genes(hits))
 
 
 def parse_virulence_block(pred: dict[str, Any]) -> ElementTypeResult:
@@ -195,22 +198,22 @@ def parse_virulence_block_v2(assays: dict[str, Any]) -> ElementTypeResult:
 
         subtype = _assay_subtype(assay)
         for info in hits.values():
-            vir_genes.append(parse_vir_gene_v2(info, subtype))
+            vir_genes.append(parse_vir_gene_v2(info, subtype, ref_database=assay))
 
     return ElementTypeResult(genes=_sort_genes(vir_genes), variants=[], phenotypes={})
 
 
-def parse_stx_typing_v2(assays: dict[str, Any]) -> GeneWithReference | None:
-    """Parse STX typing from v2 output."""
+def parse_stx_typing_v2(assays: dict[str, Any]) -> TypingResultStx | None:
+    """Preserve dedicated STX matches and STX genes from virulence databases."""
 
-    hits = assays.get(STX_ASSAY)
-    if not isinstance(hits, dict) or not hits:
-        return None
-
-    best_hit = pick_best_region(list(hits.values()))
-    if best_hit is None:
-        return None
-    return parse_vir_gene_v2(best_hit)
+    genes = []
+    for assay, hits in assays.items():
+        if not isinstance(hits, dict):
+            continue
+        for hit in hits.values():
+            if assay == STX_ASSAY or hit["virulence_gene"].lower().startswith("stx"):
+                genes.append(parse_vir_gene_v2(hit, ref_database=assay))
+    return TypingResultStx(hits=_sort_genes(genes)) if genes else None
 
 
 class _VirulenceFinderParserBase(BaseParser):
@@ -223,8 +226,8 @@ class _VirulenceFinderParserBase(BaseParser):
     """
 
     software = VIRFINDER
-    parser_version = "1"
-    schema_version = "1"
+    parser_version = "3"
+    schema_version = "2"
     produces = {AnalysisType.VIRULENCE, AnalysisType.STX}
 
     def _read(self, source: StreamOrPath) -> Any:
@@ -235,7 +238,7 @@ class _VirulenceFinderParserBase(BaseParser):
         """Build the virulence gene block."""
         raise NotImplementedError
 
-    def _stx(self, pred: Any) -> GeneWithReference | None:
+    def _stx(self, pred: Any) -> TypingResultStx | None:
         """Build the stx typing result."""
         raise NotImplementedError
 
@@ -300,7 +303,7 @@ class VirulenceFinderV2Parser(_VirulenceFinderParserBase):
     def _virulence(self, pred: dict[str, Any]) -> ElementTypeResult:
         return parse_virulence_block_v2(pred)
 
-    def _stx(self, pred: dict[str, Any]) -> GeneWithReference | None:
+    def _stx(self, pred: dict[str, Any]) -> TypingResultStx | None:
         return parse_stx_typing_v2(pred)
 
 
@@ -319,5 +322,5 @@ class VirulenceFinderParser(_VirulenceFinderParserBase):
     def _virulence(self, pred: dict[str, Any]) -> ElementTypeResult:
         return parse_virulence_block(pred)
 
-    def _stx(self, pred: dict[str, Any]) -> GeneWithReference | None:
+    def _stx(self, pred: dict[str, Any]) -> TypingResultStx | None:
         return parse_stx_typing(pred)
