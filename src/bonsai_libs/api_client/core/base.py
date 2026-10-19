@@ -4,7 +4,7 @@ import logging
 import random
 import time
 from abc import ABC
-from collections.abc import Iterable
+from collections.abc import Iterable, Mapping
 from http import HTTPStatus
 from typing import Any
 
@@ -118,6 +118,22 @@ class BaseClient(ABC):
                     method,
                     url
                 )
+                files = kwargs.get("files")
+                if attempt < attempts and files:
+                    # Requests consumed the file streams; retry from the beginning.
+                    parts = (
+                        files.values() if isinstance(files, Mapping) else (part for _, part in files)
+                    )
+                    for part in parts:
+                        stream = part[1] if isinstance(part, (tuple, list)) else part
+                        if not hasattr(stream, "read"):
+                            continue
+                        try:
+                            stream.seek(0)
+                        except (AttributeError, OSError, ValueError) as rewind_error:
+                            raise ApiRequestFailed(
+                                "Cannot retry upload: unable to rewind a file stream"
+                            ) from rewind_error
                 self._sleep_with_jitter(attempt)
         raise ApiRequestFailed(f"Request {method} {url} failed")
 
@@ -210,7 +226,12 @@ class BaseClient(ABC):
         headers: dict[str, str] | None = None,
         **kwargs: Any,
     ) -> ApiResponse[Any]:
-        """Helper for Multi-part data."""
+        """Upload multipart data, rewinding files to zero before transport retries.
+
+        Retries resend whole files, including caller-provided streams.
+        Streams must support seek to be retried. If a stream cannot be
+        rewound after a transport failure, raise ApiRequestFailed instead.
+        """
         # Dont set Content-Type for multipart.
         final_headers = merge_headers(headers)
         return self._request(
