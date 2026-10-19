@@ -1,9 +1,22 @@
 """Test parsing of MSLT results."""
 
+from io import StringIO
+
+import pytest
+
 from bonsai_libs.parse.models.base import ParserOutput, ResultEnvelope
 from bonsai_libs.parse.models.enums import AnalysisType
 from bonsai_libs.parse.models.typing import TypingResultMlst
 from bonsai_libs.parse.parsers.mlst import MlstParser
+
+
+@pytest.mark.parametrize("source", ['[{"scheme":', "{}", "[]", "[{}, {}]"])
+def test_invalid_mlst_is_error(source):
+    """Corrupt input must never be reported as no findings or absent."""
+    envelope = MlstParser().parse(StringIO(source)).results[AnalysisType.MLST]
+    assert envelope.status == "error"
+    assert envelope.reason
+    assert envelope.value is None
 
 
 def test_parse_mlst_result(ecoli_mlst_path):
