@@ -1,4 +1,62 @@
-"""Functions for parsing virulencefinder result."""
+"""Parse VirulenceFinder v2/v3 JSON results.
+
+Minimal inputs with simplified hit IDs are shown below. Fixture paths are
+relative to the bonsai-sdk repository root.
+
+VirulenceFinder v2 nests hits under species and database keys. The database
+key (``stx`` or ``virulence_ecoli``) identifies each hit's origin. An assay
+without hits contains the string ``"No hit found"`` instead of a hit mapping::
+
+    {
+      "virulencefinder": {
+        "results": {
+          "Escherichia coli": {
+            "virulence_ecoli": "No hit found",
+            "stx": {
+              "hit-1": {
+                "virulence_gene": "stx2", "accession": "AB015057",
+                "position_in_ref": "1..1242",
+                "template_length": 1241, "HSP_length": 1241,
+                "identity": 100, "coverage": 100
+              }
+            }
+          }
+        }
+      }
+    }
+
+Full v2 example with hits in both databases:
+``tests/fixtures/ecoli/virulencefinder.v2.stx.json``.
+
+VirulenceFinder v3 links phenotypes to hits by keys in ``seq_regions``.
+``ref_database`` identifies the source, using ``VirulenceFinder-2.0.1:stx``
+or ``VirulenceFinder-2.0.1:virulence_ecoli`` in the fixture. Here, ``2.0.1``
+is the database version, not the VirulenceFinder software version::
+
+    {
+      "databases": {},
+      "software_executions": {},
+      "phenotypes": {
+        "stx2": {
+          "function": "No function found in database",
+          "seq_regions": ["hit-1"],
+          "ref_database": ["VirulenceFinder-2.0.1:stx"]
+        }
+      },
+      "seq_regions": {
+        "hit-1": {
+          "name": "stx2", "ref_acc": "AB015057_52",
+          "ref_database": ["VirulenceFinder-2.0.1:stx"],
+          "ref_start_pos": 1, "ref_end_pos": 1242,
+          "ref_seq_length": 1241, "alignment_length": 1241,
+          "identity": 100, "coverage": 100
+        }
+      }
+    }
+
+Full v3 example with hits in both databases:
+``tests/fixtures/ecoli/virulencefinder.stx_pred.stx.json``.
+"""
 
 import logging
 from typing import Any
@@ -27,7 +85,6 @@ REQUIRED_FIELDS = {"databases", "seq_regions", "software_executions"}
 
 STX_ASSAY = "stx"
 
-
 def parse_vir_gene(
     info: dict[str, Any],
     function: str,
@@ -41,6 +98,7 @@ def parse_vir_gene(
         # info
         gene_symbol=info["name"],
         accession=accnr,
+        ref_database=", ".join(info.get("ref_database") or []) or None,
         sequence_name=function,
         # gene classification
         element_type=ElementType.VIR,
@@ -59,6 +117,7 @@ def parse_vir_gene(
 def parse_vir_gene_v2(
     info: dict[str, Any],
     subtype: ElementVirulenceSubtype = ElementVirulenceSubtype.VIR,
+    ref_database: str | None = None,
 ) -> GeneWithReference:
     """Parse a virulence gene hit from v2 output."""
     start_pos, end_pos = map(int, info["position_in_ref"].split(".."))
@@ -69,6 +128,7 @@ def parse_vir_gene_v2(
         # info
         gene_symbol=info["virulence_gene"],
         accession=accnr,
+        ref_database=ref_database,
         sequence_name=(info.get("protein_function") or "").strip(),
         # gene classification
         element_type=ElementType.VIR,
@@ -85,7 +145,7 @@ def parse_vir_gene_v2(
 
 
 def parse_stx_typing(pred: dict[str, Any]) -> TypingResultStx | None:
-    """Preserve all matches selected by STX phenotype name."""
+    """Preserve dedicated STX matches and STX genes from virulence databases."""
 
     phenotypes = pred.get("phenotypes", {}) or {}
     seq_regions = pred.get("seq_regions", {}) or {}
@@ -93,16 +153,22 @@ def parse_stx_typing(pred: dict[str, Any]) -> TypingResultStx | None:
     hits: list[GeneWithReference] = []
     seen_regions: set[str] = set()
 
-    for key, pheno in phenotypes.items():
-        if not str(key).lower().startswith("stx"):
-            continue
+    for pheno in phenotypes.values():
         function = pheno.get("function") or ""
         region_keys = pheno.get("seq_regions") or []
-        for key in region_keys:
-            info = seq_regions.get(key)
-            if info and key not in seen_regions:
+        for region_key in region_keys:
+            info = seq_regions.get(region_key)
+            if info and region_key not in seen_regions:
+                databases = info.get("ref_database") or pheno.get("ref_database") or []
+                is_stx_database = any(
+                    str(db).rsplit(":", 1)[-1] == STX_ASSAY for db in databases
+                )
+                is_stx_gene = str(info.get("name", "")).lower().startswith("stx")
+                if not (is_stx_database or is_stx_gene):
+                    continue
+                info = {**info, "ref_database": databases}
                 hits.append(parse_vir_gene(info, function=function))
-                seen_regions.add(key)
+                seen_regions.add(region_key)
     if not hits:
         return None
     return TypingResultStx(hits=_sort_genes(hits))
@@ -181,20 +247,22 @@ def parse_virulence_block_v2(assays: dict[str, Any]) -> ElementTypeResult:
 
         subtype = _assay_subtype(assay)
         for info in hits.values():
-            vir_genes.append(parse_vir_gene_v2(info, subtype))
+            vir_genes.append(parse_vir_gene_v2(info, subtype, ref_database=assay))
 
     return ElementTypeResult(genes=_sort_genes(vir_genes), variants=[], phenotypes={})
 
 
 def parse_stx_typing_v2(assays: dict[str, Any]) -> TypingResultStx | None:
-    """Preserve every v2 STX assay hit."""
+    """Preserve dedicated STX matches and STX genes from virulence databases."""
 
-    hits = assays.get(STX_ASSAY)
-    if not isinstance(hits, dict) or not hits:
-        return None
-
-    genes = [parse_vir_gene_v2(hit) for hit in hits.values()]
-    return TypingResultStx(hits=_sort_genes(genes))
+    genes = []
+    for assay, hits in assays.items():
+        if not isinstance(hits, dict):
+            continue
+        for hit in hits.values():
+            if assay == STX_ASSAY or hit["virulence_gene"].lower().startswith("stx"):
+                genes.append(parse_vir_gene_v2(hit, ref_database=assay))
+    return TypingResultStx(hits=_sort_genes(genes)) if genes else None
 
 
 class _VirulenceFinderParserBase(BaseParser):
@@ -207,7 +275,7 @@ class _VirulenceFinderParserBase(BaseParser):
     """
 
     software = VIRFINDER
-    parser_version = "2"
+    parser_version = "3"
     schema_version = "2"
     produces = {AnalysisType.VIRULENCE, AnalysisType.STX}
 

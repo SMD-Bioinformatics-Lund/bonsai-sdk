@@ -72,7 +72,7 @@ def test_virulencefinder_v2_parser(ecoli_virulencefinder_v2_stx_path):
     assert stx_res.status == "parsed"
 
     assert isinstance(stx_res.value, TypingResultStx)
-    assert len(stx_res.value.hits) == 1
+    assert len(stx_res.value.hits) == 2
     assert stx_res.value.hits[0].gene_symbol == "stx2"
     assert stx_res.value.hits[0].accession == "AB015057"
 

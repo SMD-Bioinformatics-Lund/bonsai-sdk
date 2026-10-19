@@ -24,7 +24,12 @@ def stx_case(request, data_path):
     filename = "virulencefinder.v2.stx.json" if version == 2 else "virulencefinder.stx_pred.stx.json"
     pred = json.loads((data_path / "ecoli" / filename).read_text())
     if version == 2:
-        hits = next(iter(pred["virulencefinder"]["results"].values()))["stx"]
+        assays = next(iter(pred["virulencefinder"]["results"].values()))
+        hits = assays["stx"]
+        assays["virulence_ecoli"] = {
+            key: hit for key, hit in assays["virulence_ecoli"].items()
+            if not hit["virulence_gene"].startswith("stx")
+        }
         template = deepcopy(next(iter(hits.values())))
         hits.clear()
         parser = VirulenceFinderV2Parser()
@@ -67,8 +72,6 @@ def test_distinct_stx_types_survive_parsing_and_json(stx_case, identity):
     assert {hit.gene_symbol for hit in stx.value.hits} == {"stx1", "stx2"}
     assert len(stx.value.hits) == 2
     virulence = result.results[AnalysisType.VIRULENCE].value.genes
-    if stx_case.version == 2:
-        assert "stx2c-O157-FLY16" in [gene.gene_symbol for gene in virulence]
     assert not {"stx1", "stx2"} & {gene.gene_symbol for gene in virulence}
 
     wire = json.loads(result.model_dump_json())["results"]["stx"]["value"]
@@ -146,3 +149,40 @@ def test_v3_keeps_name_based_stx_selection(ecoli_virulencefinder_stx_pred_stx_pa
     assert [hit.gene_symbol for hit in stx.value.hits] == ["stx2c-O157-FLY16"]
     virulence = result.results[AnalysisType.VIRULENCE].value.genes
     assert "stx2c-O157-FLY16" in [gene.gene_symbol for gene in virulence]
+
+
+@pytest.mark.parametrize("version", [2, 3])
+def test_stx_hits_preserve_database_origin(version, data_path):
+    filename = "virulencefinder.v2.stx.json" if version == 2 else "virulencefinder.stx_pred.stx.json"
+    parser = VirulenceFinderV2Parser() if version == 2 else VirulenceFinderParser()
+    result = parser.parse(data_path / "ecoli" / filename, strict=True)
+    hits = result.results[AnalysisType.STX].value.hits
+    assert [(hit.gene_symbol, hit.ref_database) for hit in hits] == [
+        ("stx2", "stx" if version == 2 else "VirulenceFinder-2.0.1:stx"),
+        ("stx2c-O157-FLY16", "virulence_ecoli" if version == 2 else
+         "VirulenceFinder-2.0.1:virulence_ecoli"),
+    ]
+    wire = json.loads(result.model_dump_json())["results"]["stx"]["value"]
+    hydrated = hydrate_result(software="virulencefinder", analysis_type="stx", result=wire)
+    assert hydrated.model_dump() == result.results[AnalysisType.STX].value.model_dump()
+
+
+def test_v3_dedicated_database_selects_hit_without_stx_name(ecoli_virulencefinder_stx_pred_stx_path):
+    pred = json.loads(ecoli_virulencefinder_stx_pred_stx_path.read_text())
+    phenotype = pred["phenotypes"].pop("stx2")
+    pred["phenotypes"]["toxin"] = phenotype
+    pred["seq_regions"][phenotype["seq_regions"][0]]["name"] = "toxin"
+    result = VirulenceFinderParser().parse(StringIO(json.dumps(pred)), strict=True)
+    assert {hit.gene_symbol for hit in result.results[AnalysisType.STX].value.hits} == {
+        "toxin", "stx2c-O157-FLY16",
+    }
+
+
+def test_v2_general_database_stx_survives_empty_dedicated_database(ecoli_virulencefinder_v2_stx_path):
+    pred = json.loads(ecoli_virulencefinder_v2_stx_path.read_text())
+    next(iter(pred["virulencefinder"]["results"].values()))["stx"] = "No hit found"
+    result = VirulenceFinderV2Parser().parse(StringIO(json.dumps(pred)), strict=True)
+    hits = result.results[AnalysisType.STX].value.hits
+    assert [(hit.gene_symbol, hit.ref_database) for hit in hits] == [
+        ("stx2c-O157-FLY16", "virulence_ecoli"),
+    ]

@@ -14,6 +14,7 @@ class TypingResultStx(RWModel):
 
     ``hits`` preserves every typing match, including alternative alleles;
     entries are supporting evidence, not necessarily separate toxin copies.
+    Each hit's ``ref_database`` identifies its source database when available.
     """
 
     hits: list[GeneWithReference] = Field(
