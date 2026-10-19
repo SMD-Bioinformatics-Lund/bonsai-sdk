@@ -160,7 +160,7 @@ def _parse_amr_variants(rows: TableRows, *, log_warning) -> list[VariantBase]:
 
         # expand variant info
         tokens = [t for t in str(variants_field).split(";") if t.strip()]
-        for var_id, token in enumerate(tokens, start=1):
+        for token in tokens:
             match = VARIANT_RE.match(token)
             if not match:
                 log_warning("Bad variant token in Mykrobe result", row=row_no, token=token)
@@ -191,7 +191,8 @@ def _parse_amr_variants(rows: TableRows, *, log_warning) -> list[VariantBase]:
 
             out.append(
                 VariantBase(
-                    id=var_id,
+                    # IDs identify findings across the whole AMR result.
+                    id=len(out) + 1,
                     variant_type=aa["type"],
                     variant_subtype=aa["subtype"],
                     phenotypes=phenotype,
@@ -288,7 +289,7 @@ def _parse_amr_result(
 class MykrobeParser(BaseParser):
     software = MYKROBE
     parser_name = "MykrobeParser"
-    parser_version = 1
+    parser_version = 2
     schema_version = 1
     produces = {AnalysisType.SPECIES, AnalysisType.AMR, AnalysisType.LINEAGE}
 
