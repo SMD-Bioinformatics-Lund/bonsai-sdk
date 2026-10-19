@@ -9,7 +9,7 @@ from bonsai_libs.parse.models.base import (
     ResultEnvelope,
 )
 from bonsai_libs.parse.models.enums import AnalysisType, ElementVirulenceSubtype
-from bonsai_libs.parse.models.virulencefinder import TypingResultStx
+from bonsai_libs.parse.models.typing import TypingResultStx
 from bonsai_libs.parse.parsers.virulencefinder import (
     VirulenceFinderParser,
     VirulenceFinderV2Parser,

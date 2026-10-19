@@ -10,7 +10,7 @@ import pytest
 from bonsai_libs.parse import hydrate_result
 from bonsai_libs.parse.models.base import GeneWithReference
 from bonsai_libs.parse.models.enums import AnalysisType
-from bonsai_libs.parse.models.virulencefinder import TypingResultStx
+from bonsai_libs.parse.models.typing import TypingResultStx
 from bonsai_libs.parse.parsers.virulencefinder import (
     VirulenceFinderParser,
     VirulenceFinderV2Parser,

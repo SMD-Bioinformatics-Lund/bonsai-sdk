@@ -1,61 +1,12 @@
 """Parse VirulenceFinder v2/v3 JSON results.
 
-Minimal inputs with simplified hit IDs are shown below. Fixture paths are
-relative to the bonsai-sdk repository root.
+V2 groups hits under ``virulencefinder.results.<species>.<database>``.
+V3 links phenotypes to ``seq_regions``; ``ref_database`` identifies hit origins.
 
-VirulenceFinder v2 nests hits under species and database keys. The database
-key (``stx`` or ``virulence_ecoli``) identifies each hit's origin. An assay
-without hits contains the string ``"No hit found"`` instead of a hit mapping::
+Example files, relative to the bonsai-sdk repository root:
 
-    {
-      "virulencefinder": {
-        "results": {
-          "Escherichia coli": {
-            "virulence_ecoli": "No hit found",
-            "stx": {
-              "hit-1": {
-                "virulence_gene": "stx2", "accession": "AB015057",
-                "position_in_ref": "1..1242",
-                "template_length": 1241, "HSP_length": 1241,
-                "identity": 100, "coverage": 100
-              }
-            }
-          }
-        }
-      }
-    }
-
-Full v2 example with hits in both databases:
-``tests/fixtures/ecoli/virulencefinder.v2.stx.json``.
-
-VirulenceFinder v3 links phenotypes to hits by keys in ``seq_regions``.
-``ref_database`` identifies the source, using ``VirulenceFinder-2.0.1:stx``
-or ``VirulenceFinder-2.0.1:virulence_ecoli`` in the fixture. Here, ``2.0.1``
-is the database version, not the VirulenceFinder software version::
-
-    {
-      "databases": {},
-      "software_executions": {},
-      "phenotypes": {
-        "stx2": {
-          "function": "No function found in database",
-          "seq_regions": ["hit-1"],
-          "ref_database": ["VirulenceFinder-2.0.1:stx"]
-        }
-      },
-      "seq_regions": {
-        "hit-1": {
-          "name": "stx2", "ref_acc": "AB015057_52",
-          "ref_database": ["VirulenceFinder-2.0.1:stx"],
-          "ref_start_pos": 1, "ref_end_pos": 1242,
-          "ref_seq_length": 1241, "alignment_length": 1241,
-          "identity": 100, "coverage": 100
-        }
-      }
-    }
-
-Full v3 example with hits in both databases:
-``tests/fixtures/ecoli/virulencefinder.stx_pred.stx.json``.
+- V2: ``tests/fixtures/ecoli/virulencefinder.v2.stx.json``.
+- V3: ``tests/fixtures/ecoli/virulencefinder.stx_pred.stx.json``.
 """
 
 import logging
@@ -69,7 +20,7 @@ from bonsai_libs.parse.core.envelope import run_as_envelope
 from bonsai_libs.parse.core.registry import register_parser
 from bonsai_libs.parse.exceptions import DataFormatError, InvalidDataFormat
 from bonsai_libs.parse.models.base import ElementTypeResult, GeneWithReference
-from bonsai_libs.parse.models.virulencefinder import TypingResultStx
+from bonsai_libs.parse.models.typing import TypingResultStx
 from bonsai_libs.parse.models.enums import (
     AnalysisSoftware,
     AnalysisType,

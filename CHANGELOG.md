@@ -9,7 +9,7 @@
 ### Fixed
 
 - Include STX genes from the general virulence database alongside all dedicated `stx` database hits for VirulenceFinder v2/v3. Preserve hit origins in `ref_database`, using v2 database keys and v3 JSON reference attributes. [#20](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/20)
-- Return every VirulenceFinder v2/v3 STX match in a `hits` collection instead of a single best-hit result. Load stored multi-hit results into the STX result model. Existing results must be reparsed into the new format. [#20](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/20)
+- Return every VirulenceFinder v2/v3 STX match in a `hits` collection instead of a single best-hit result. Load stored multi-hit results into the STX result model. [#20](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/20)
 - Assign unique Mykrobe variant IDs across all drug rows in each parsed AMR result so ID-based curation, position lookup, and exports can distinguish findings. [#21](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/21)
 - Assign unique Mykrobe variant IDs across all drug rows in each parsed AMR result so ID-based curation, position lookup, and exports can distinguish findings. Existing stored results and curations are not migrated. [#21](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/21)
 - Report unreadable or invalid ResFinder and MLST JSON as parser errors instead of absent results or "No findings"; validate MLST result counts. [#25](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/25)
@@ -19,6 +19,7 @@
 
 ### Migration
 
+- Reparse and reimport existing VirulenceFinder JSON results to populate each STX hit's `ref_database`, include previously omitted general-database STX hits, and convert older single-gene results to the `hits` format. Upgrading alone does not update stored results. The original JSON files can be reused without rerunning VirulenceFinder. [#20](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/20)
 - To correct IDs in existing Mykrobe AMR results, reparse and reimport the original Mykrobe CSV files with the updated parser. Upgrading alone does not renumber stored results; rerunning Mykrobe or reloading other analyses is unnecessary. Existing curations are not migrated. Where manual annotations exist, reconcile them against the actual variants before replacing results, since old numeric IDs may identify multiple findings. [#21](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/21)
 
 ## [v0.4.0]
