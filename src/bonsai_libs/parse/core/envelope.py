@@ -90,6 +90,10 @@ def run_as_envelope(
                     }
                 },
             )
+        return envelope_error(
+            reason=str(exc),
+            meta={**base_meta, **getattr(exc, "context", {})},
+        )
 
     except Exception as exc:
         if logger:

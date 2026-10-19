@@ -8,7 +8,7 @@ from bonsai_libs.parse.io.json import read_json, require_mapping
 from bonsai_libs.parse.io.types import StreamOrPath
 from bonsai_libs.parse.core.base import BaseParser
 from bonsai_libs.parse.models.base import ParseImplOut
-from bonsai_libs.parse.core.envelope import run_as_envelope
+from bonsai_libs.parse.core.envelope import envelope_error, run_as_envelope
 from bonsai_libs.parse.core.registry import register_parser
 from bonsai_libs.parse.exceptions import InvalidDataFormat
 from bonsai_libs.parse.models.base import (
@@ -414,7 +414,7 @@ class ResFinderParser(BaseParser):
 
     software = RESFINDER
     parser_name = "ResFinderParser"
-    parser_version = 2
+    parser_version = 3
     schema_version = 1
     produces = {AnalysisType.AMR, AnalysisType.STRESS}
 
@@ -436,7 +436,13 @@ class ResFinderParser(BaseParser):
             self.log_error("Failed to read/validate ResFinder JSON", error=str(exc))
             if strict:
                 raise
-            return {}
+            return {
+                atype: envelope_error(
+                    reason=f"Failed to read/validate ResFinder JSON: {exc}",
+                    meta={"parser": self.parser_name, "software": self.software},
+                )
+                for atype in want
+            }
 
         out: dict[AnalysisType, Any] = {}
 

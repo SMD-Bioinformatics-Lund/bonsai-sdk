@@ -2,12 +2,29 @@
 
 import json
 from collections import Counter
+from io import StringIO
 
 import pytest
 
 from bonsai_libs.parse.models.base import ElementTypeResult, ParserOutput, ResultEnvelope
 from bonsai_libs.parse.models.enums import AnalysisType
 from bonsai_libs.parse.parsers.resfinder import ResFinderParser, get_nt_change
+
+
+@pytest.mark.parametrize("source", ['{"phenotypes":', '{}', '[]'])
+def test_invalid_resfinder_is_error(source):
+    """Read and schema failures must mark both outputs as errors."""
+    output = ResFinderParser().parse(StringIO(source))
+    assert set(output.results) == {AnalysisType.AMR, AnalysisType.STRESS}
+    for envelope in output.results.values():
+        assert envelope.status == "error"
+        assert envelope.reason
+        assert envelope.value is None
+
+
+def test_resfinder_without_findings_is_valid():
+    output = ResFinderParser().parse(StringIO('{"phenotypes": {}}'))
+    assert all(envelope.ok for envelope in output.results.values())
 
 
 def test_get_nt_changes_from_condons():
