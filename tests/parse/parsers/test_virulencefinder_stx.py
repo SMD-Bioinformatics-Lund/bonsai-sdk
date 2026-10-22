@@ -75,7 +75,8 @@ def test_distinct_stx_types_survive_parsing_and_json(stx_case, identity):
     assert not {"stx1", "stx2"} & {gene.gene_symbol for gene in virulence}
 
     wire = json.loads(result.model_dump_json())["results"]["stx"]["value"]
-    assert set(wire) == {"hits"}
+    assert set(wire) == {"hits", "gene_symbol"}
+    assert wire["gene_symbol"] == "stx1, stx2"
     hydrated = hydrate_result(software="virulencefinder", analysis_type="stx", result=wire)
     assert isinstance(hydrated, TypingResultStx)
     assert hydrated.model_dump() == stx.value.model_dump()
@@ -89,6 +90,7 @@ def test_multiple_candidates_for_one_type_are_retained(stx_case):
     result = stx_case.parse().results[AnalysisType.STX]
 
     assert {hit.accession for hit in result.value.hits} == {"first-allele", "second-allele"}
+    assert result.value.gene_symbol == "stx2"
 
 
 def test_string_scores_are_parsed_numerically(stx_case):

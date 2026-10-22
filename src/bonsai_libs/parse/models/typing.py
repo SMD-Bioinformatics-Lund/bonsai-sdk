@@ -2,7 +2,7 @@
 
 from typing import Any, TypeAlias
 
-from pydantic import BaseModel, Field, TypeAdapter
+from pydantic import BaseModel, Field, TypeAdapter, computed_field
 
 from bonsai_libs.parse.core.registry import register_result_model
 from .base import GeneWithReference, RWModel
@@ -109,11 +109,21 @@ class TypingResultStx(RWModel):
     ``hits`` preserves every typing match, including alternative alleles;
     entries are supporting evidence, not necessarily separate toxin copies.
     Each hit's ``ref_database`` identifies its source database when available.
+    ``gene_symbol`` is a compact display value; individual symbols and all
+    supporting evidence remain in ``hits``.
     """
 
     hits: list[GeneWithReference] = Field(
         min_length=1, description="All matches selected for the STX result by the parser."
     )
+
+    @computed_field(description="Distinct STX symbols in hit order, joined for display.")
+    @property
+    def gene_symbol(self) -> str:
+        symbols = dict.fromkeys(
+            hit.gene_symbol for hit in self.hits if hit.gene_symbol and hit.gene_symbol != "-"
+        )
+        return ", ".join(symbols) or "-"
 
 
 class ShigatyperHit(BaseModel):
