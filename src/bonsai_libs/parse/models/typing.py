@@ -106,7 +106,7 @@ class ShigatyperHit(BaseModel):
     """A single k-mer/gene hit supporting a ShigaTyper prediction."""
 
     name: str
-    n_reads: int
+    n_reads: int = Field(ge=0)
 
 
 @register_result_model(AnalysisSoftware.SHIGATYPER, AnalysisType.SHIGATYPE)

@@ -8,6 +8,8 @@
 
 ### Fixed
 
+- Preserve explicit negative (`-`) ShigaTyper ipaB results instead of converting them to missing values. [#PR](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/PR)
+- Validate ShigaTyper hits headers, marker names, and nonnegative integer read counts instead of silently discarding malformed evidence. [#PR](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/PR)
 - Assign unique Mykrobe variant IDs across all drug rows in each parsed AMR result so ID-based curation, position lookup, and exports can distinguish findings. [#21](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/21)
 - Assign unique Mykrobe variant IDs across all drug rows in each parsed AMR result so ID-based curation, position lookup, and exports can distinguish findings. Existing stored results and curations are not migrated. [#21](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/21)
 - Report unreadable or invalid ResFinder and MLST JSON as parser errors instead of absent results or "No findings"; validate MLST result counts. [#25](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/25)
@@ -17,6 +19,7 @@
 
 ### Migration
 
+- Reparse original ShigaTyper TSV files to restore explicit negative ipaB results previously stored as null. Include the optional companion hits TSV when reuploading to populate supporting evidence; upgrading alone does not update stored results. [#PR](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/PR)
 - To correct IDs in existing Mykrobe AMR results, reparse and reimport the original Mykrobe CSV files with the updated parser. Upgrading alone does not renumber stored results; rerunning Mykrobe or reloading other analyses is unnecessary. Existing curations are not migrated. Where manual annotations exist, reconcile them against the actual variants before replacing results, since old numeric IDs may identify multiple findings. [#21](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/21)
 
 ## [v0.4.0]
