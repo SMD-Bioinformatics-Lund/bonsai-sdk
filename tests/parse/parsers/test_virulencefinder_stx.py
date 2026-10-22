@@ -165,6 +165,7 @@ def test_stx_hits_preserve_database_origin(version, data_path):
          "VirulenceFinder-2.0.1:virulence_ecoli"),
     ]
     wire = json.loads(result.model_dump_json())["results"]["stx"]["value"]
+    assert wire["gene_symbol"] == "stx2"
     hydrated = hydrate_result(software="virulencefinder", analysis_type="stx", result=wire)
     assert hydrated.model_dump() == result.results[AnalysisType.STX].value.model_dump()
 

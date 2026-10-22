@@ -109,7 +109,7 @@ class TypingResultStx(RWModel):
     ``hits`` preserves every typing match, including alternative alleles;
     entries are supporting evidence, not necessarily separate toxin copies.
     Each hit's ``ref_database`` identifies its source database when available.
-    ``gene_symbol`` is a compact display value; individual symbols and all
+    ``gene_symbol`` displays distinct ``stx1``/``stx2`` types; individual symbols and all
     supporting evidence remain in ``hits``.
     """
 
@@ -117,11 +117,13 @@ class TypingResultStx(RWModel):
         min_length=1, description="All matches selected for the STX result by the parser."
     )
 
-    @computed_field(description="Distinct STX symbols in hit order, joined for display.")
+    @computed_field(description="Distinct stx1/stx2 types in hit order, joined for display.")
     @property
     def gene_symbol(self) -> str:
         symbols = dict.fromkeys(
-            hit.gene_symbol for hit in self.hits if hit.gene_symbol and hit.gene_symbol != "-"
+            hit.gene_symbol[:4].lower()
+            for hit in self.hits
+            if hit.gene_symbol and hit.gene_symbol.lower().startswith(("stx1", "stx2"))
         )
         return ", ".join(symbols) or "-"
 
