@@ -221,7 +221,7 @@ class SamplesMixin(BaseClient):
     ) -> UploadAnalysisResultResponse:
         """Upload a analysis results to a existing sample."""
 
-        data = result.model_dump(exclude={"file", "coverage_file", "bedcov_file"})
+        data = result.model_dump(exclude={"file", "coverage_file", "bedcov_file", "hits_file"})
         data["force"] = force
 
         def _part(path: Path):
@@ -230,7 +230,7 @@ class SamplesMixin(BaseClient):
 
         aux = {
             field: getattr(result, field)
-            for field in ("coverage_file", "bedcov_file")
+            for field in ("coverage_file", "bedcov_file", "hits_file")
             if getattr(result, field) is not None
         }
 

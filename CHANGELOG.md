@@ -2,6 +2,7 @@
 
 ### Added
 
+- Upload optional ShigaTyper companion hits files through the Bonsai API client using `hits_file`. [#PR](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/PR)
 - Parse Kraken reports into species predictions in the Bracken format, keeping only species-level rows with reads.
 
 ### Changed

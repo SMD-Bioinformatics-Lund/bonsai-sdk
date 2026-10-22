@@ -116,6 +116,7 @@ class UploadAnalysisResultInput(BaseModel):
 
     coverage_file: Path | None = None
     bedcov_file: Path | None = None
+    hits_file: Path | None = None
 
 
 class UploadResultMeta(BaseModel):
