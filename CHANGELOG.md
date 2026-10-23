@@ -2,6 +2,7 @@
 
 ### Added
 
+- Serialize a computed STX `gene_symbol` display field containing distinct `stx1` and `stx2` types in hit order, stripping subtype suffixes and deduplicating hits across databases. Regenerate it from `hits` when loading results, retaining every supporting hit and its original details. [#27](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/27)
 - Parse Kraken reports into species predictions in the Bracken format, keeping only species-level rows with reads.
 
 ### Changed
@@ -19,6 +20,7 @@
 
 ### Migration
 
+- Existing multi-hit STX records can be loaded and serialized with the new display field without reparsing their original reports. Re-import existing analyses to persist the field for database summary queries; upgrading alone does not modify stored records. [#27](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/27)
 - Reparse and reimport existing VirulenceFinder JSON results to populate each STX hit's `ref_database`, include previously omitted general-database STX hits, and convert older single-gene results to the `hits` format. Upgrading alone does not update stored results. The original JSON files can be reused without rerunning VirulenceFinder. [#20](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/20)
 - To correct IDs in existing Mykrobe AMR results, reparse and reimport the original Mykrobe CSV files with the updated parser. Upgrading alone does not renumber stored results; rerunning Mykrobe or reloading other analyses is unnecessary. Existing curations are not migrated. Where manual annotations exist, reconcile them against the actual variants before replacing results, since old numeric IDs may identify multiple findings. [#21](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/21)
 
