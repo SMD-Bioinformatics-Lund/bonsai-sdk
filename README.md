@@ -50,7 +50,7 @@ newick = result.to_newick()
 
 ## ShigaTyper results
 
-Parse a prediction TSV and its optional companion hits TSV with:
+Parse a prediction TSV with:
 
 ```python
 from pathlib import Path
@@ -58,15 +58,12 @@ from bonsai_libs.parse import run_parser
 
 output = run_parser(
     "shigatyper", version="2.0.5", data=Path("sample.tsv"),
-    hits_path=Path("sample-hits.tsv"),
 )
 ```
 
 The `shigatype` result preserves the prediction, the `ipaB` call (`+`, `-`, or
-missing), notes, and supporting marker names/read counts. Omit `hits_path` when
-no companion file was produced. For API uploads, pass the main TSV as `file`
-and the optional companion as `hits_file` in `UploadAnalysisResultInput`;
-the server must support the `hits_file` upload field.
+missing), and notes. For API uploads, pass the main TSV as `file` in
+`UploadAnalysisResultInput`.
 
 ## Development
 

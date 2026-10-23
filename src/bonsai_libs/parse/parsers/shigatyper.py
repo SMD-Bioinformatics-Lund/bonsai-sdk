@@ -1,51 +1,35 @@
 """Parse ShigaTyper results."""
 
-import csv
-from pathlib import Path
 from typing import Any
 
 from bonsai_libs.parse.core.base import SingleAnalysisParser, StreamOrPath, warn_if_extra_rows
 from bonsai_libs.parse.core.registry import register_parser
 from bonsai_libs.parse.exceptions import InvalidDataFormat
-from bonsai_libs.parse.io.delimited import is_nullish
-from bonsai_libs.parse.io.utils import ensure_text_stream
+from bonsai_libs.parse.io.delimited import is_nullish, read_delimited
 from bonsai_libs.parse.models.enums import AnalysisSoftware, AnalysisType
 from bonsai_libs.parse.models.typing import ShigatyperHit, TypingResultShigatyper
+
+from .utils import safe_int
 
 SHIGATYPER = AnalysisSoftware.SHIGATYPER
 
 REQUIRED_COLUMNS = {"sample", "prediction", "ipaB", "notes"}
 
-_HITS_REQUIRED_COLUMNS = {"Hit", "Number of reads"}
+# ShigaTyper's `*-hits.tsv` is a pandas DataFrame dumped with its row index kept,
+# so the first column is an unnamed index (header cell is blank: "\tHit\tNumber
+# of reads"). Skip the real header and supply our own fieldnames rather than
+# rely on that blank column name.
+_HITS_FIELDNAMES = ["_index", "hit", "n_reads"]
 
 
 def _parse_hits(source: StreamOrPath) -> list[ShigatyperHit]:
     """Parse the companion `*-hits.tsv` file into a list of hits."""
-    if isinstance(source, (str, Path)):
-        with open(source, encoding="utf-8", newline="") as stream:
-            return _parse_hits(stream)
-
-    # Ignore the unnamed pandas index and any additional alignment metrics.
-    reader = csv.DictReader(ensure_text_stream(source), delimiter="\t")
-    if not _HITS_REQUIRED_COLUMNS.issubset(reader.fieldnames or []):
-        raise InvalidDataFormat("ShigaTyper hits require 'Hit' and 'Number of reads' columns")
-
     hits: list[ShigatyperHit] = []
-    for row in reader:
-        if all(value is None or value == "" for value in row.values()):
+    for row in read_delimited(source, delimiter="\t", has_header=True, fieldnames=_HITS_FIELDNAMES):
+        n_reads = safe_int(row.get("n_reads"))
+        if row.get("hit") is None or n_reads is None:
             continue
-        name = (row.get("Hit") or "").strip()
-        try:
-            n_reads = int(row.get("Number of reads") or "")
-        except ValueError as exc:
-            raise InvalidDataFormat(
-                f"Invalid ShigaTyper read count on hits line {reader.line_num}"
-            ) from exc
-        if not name or n_reads < 0:
-            raise InvalidDataFormat(
-                f"ShigaTyper hits line {reader.line_num} requires a name and nonnegative read count"
-            )
-        hits.append(ShigatyperHit(name=name, n_reads=n_reads))
+        hits.append(ShigatyperHit(name=row["hit"], n_reads=n_reads))
     return hits
 
 

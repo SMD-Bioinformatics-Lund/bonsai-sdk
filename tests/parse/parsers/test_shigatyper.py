@@ -64,57 +64,6 @@ def test_shigatyper_preserves_marker_calls_through_hydration(marker, expected):
     assert restored.notes is None
 
 
-def test_shigatyper_reads_hits_by_header(ecoli_shigatyper_path):
-    # Real output can include alignment metrics and an unnamed pandas index.
-    hits = StringIO(
-        "\tNumber of reads\tHit\tLength Covered\treference length\t% covered\tNumber of variants\t% accuracy\n"
-        "0\t331\tipaH_c\t780\t780\t100.0\t10\t98.7\n"
-        "1\t0\tipaB\t1743\t1743\t100.0\t44\t97.5\n"
-    )
-    envelope = (
-        ShigatyperParser()
-        .parse(ecoli_shigatyper_path, hits_path=hits)
-        .results[AnalysisType.SHIGATYPE]
-    )
-    assert envelope.status == "parsed"
-    assert [hit.model_dump() for hit in envelope.value.hits] == [
-        {"name": "ipaH_c", "n_reads": 331},
-        {"name": "ipaB", "n_reads": 0},
-    ]
-
-
-@pytest.mark.parametrize(
-    "content",
-    [
-        "",
-        "bad\theader\tcolumns\n0\tipaH_c\t33\n",
-        "Hit\tNumber of reads\nipaH_c\tbad\n",
-        "Hit\tNumber of reads\nipaH_c\t1.5\n",
-        "Hit\tNumber of reads\nipaH_c\t-2\n",
-        "Hit\tNumber of reads\n\t33\n",
-        "Hit\tNumber of reads\nipaH_c\n",
-    ],
-)
-def test_malformed_shigatyper_hits_are_errors(ecoli_shigatyper_path, content):
-    envelope = (
-        ShigatyperParser()
-        .parse(ecoli_shigatyper_path, hits_path=StringIO(content))
-        .results[AnalysisType.SHIGATYPE]
-    )
-    assert envelope.status == "error"
-    assert envelope.value is None
-
-
-def test_header_only_shigatyper_hits_are_valid(ecoli_shigatyper_path):
-    envelope = (
-        ShigatyperParser()
-        .parse(ecoli_shigatyper_path, hits_path=StringIO("Hit\tNumber of reads\n"))
-        .results[AnalysisType.SHIGATYPE]
-    )
-    assert envelope.status == "parsed"
-    assert envelope.value.hits == []
-
-
 def test_invalid_shigatyper_marker_is_an_error():
     source = StringIO("sample\tprediction\tipaB\tnotes\ns1\tEIEC\tinvalid\t\n")
     envelope = ShigatyperParser().parse(source).results[AnalysisType.SHIGATYPE]

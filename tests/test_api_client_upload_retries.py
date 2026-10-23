@@ -87,34 +87,6 @@ def test_analysis_upload_retries_preserve_all_files(tmp_path, error, failures):
         assert ("sample_id", None, b"sample-123") in upload
 
 
-@pytest.mark.parametrize("with_hits", [False, True])
-def test_shigatyper_upload_retries_preserve_optional_hits(tmp_path, with_hits):
-    client, adapter = upload_client(BonsaiApiClient)
-    report = tmp_path / "s1.tsv"
-    report.write_bytes(b"sample\tprediction\tipaB\tnotes\ns1\tEIEC\t-\t\n")
-    hits = tmp_path / "s1-hits.tsv"
-    hits.write_bytes(b"\tHit\tNumber of reads\n0\tipaH_c\t331\n")
-    response = client.upload_analysis_result(
-        UploadAnalysisResultInput(
-            sample_id="s1",
-            software="shigatyper",
-            software_version="2.0.5",
-            file=report,
-            hits_file=hits if with_hits else None,
-        )
-    )
-    assert response.analysis_id == "analysis-123"
-    assert len(adapter.uploads) == 2
-    for upload in adapter.uploads:
-        files = {name: data for name, filename, data in upload if filename}
-        assert files == (
-            {"file": report.read_bytes(), "hits_file": hits.read_bytes()}
-            if with_hits
-            else {"file": report.read_bytes()}
-        )
-        assert all(name != "hits_file" or filename for name, filename, _ in upload)
-
-
 @pytest.mark.parametrize("file_format", ["bare", "tuple2", "tuple3", "tuple4", "list"])
 def test_retries_preserve_file_content_for_requests_file_formats(file_format):
     client, adapter = upload_client()
