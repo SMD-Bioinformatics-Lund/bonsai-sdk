@@ -63,20 +63,14 @@ class SamtoolsCovParser(SingleAnalysisParser):
     ) -> SamtoolsCoverageQcResult | None:
         """Parse samtools coverage tsv and return SamtoolsCoverageQcResult."""
 
-        first = self._get_first_normalized_row(
-            source,
-            COLUMN_MAP,
-            required=set(COLUMN_MAP),
-            strict_columns=strict,
-        )
+        # Read once: a supplied stream cannot be reopened after consuming it.
+        rows_iter = read_delimited(source)
+        first = next(rows_iter, None)
         if first is None:
             return None
+        self.validate_columns(first, required=set(COLUMN_MAP), strict=strict)
 
         contigs: list[ContigCoverage] = []
-        # first is already normalized, so iterate remaining rows normally
-        rows_iter = read_delimited(source)
-        # skip the first row we've already consumed
-        next(rows_iter, None)
         for raw_row in chain([first], rows_iter):
             normed = normalize_delimited_row(raw_row, COLUMN_MAP)
             contigs.append(_to_contig_result(normed))
