@@ -33,7 +33,7 @@ def test_samtools_qc_parser(
 
     # read counts
     assert qc.n_reads == 38702
-    assert qc.n_read_pairs == 38702
+    assert qc.n_read_pairs == 19351
     assert qc.n_mapped_reads == 38702
     assert qc.n_dup_reads == 0
     assert qc.dup_pct == pytest.approx(0.0)
@@ -84,7 +84,7 @@ def test_samtools_qc_parser_no_bedcov(saureus_samtools_stats_path: Path):
 
     # read metrics still available
     assert qc.n_reads == 38702
-    assert qc.n_read_pairs == 38702
+    assert qc.n_read_pairs == 19351
     assert qc.ins_size == pytest.approx(498.6, rel=1e-3)
 
     # coverage metrics unavailable without genome length
