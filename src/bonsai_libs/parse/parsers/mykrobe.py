@@ -348,6 +348,7 @@ class MykrobeParser(BaseParser):
             results[at] = env
 
         if AnalysisType.SPECIES in want:
+            at = AnalysisType.SPECIES
             env = run_as_envelope(
                 analysis_name=at,
                 fn=lambda: _parse_species(rows),
@@ -359,6 +360,7 @@ class MykrobeParser(BaseParser):
             results[AnalysisType.SPECIES] = env
 
         if AnalysisType.LINEAGE in want:
+            at = AnalysisType.LINEAGE
             env = run_as_envelope(
                 analysis_name=at,
                 fn=lambda: _parse_lineage(rows),
