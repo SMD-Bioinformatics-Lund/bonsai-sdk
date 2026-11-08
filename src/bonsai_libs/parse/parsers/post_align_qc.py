@@ -312,7 +312,7 @@ class SamtoolsQcParser(SingleAnalysisParser):
             pct_above_x=pct_above_x,
             n_reads=n_reads,
             n_mapped_reads=n_mapped_reads,
-            n_read_pairs=n_read_pairs,
+            n_read_pairs=n_read_pairs // 2,
             n_dup_reads=n_dup_reads,
             dup_pct=dup_pct,
             coverage_uniformity=coverage_uniformity,
