@@ -208,14 +208,16 @@ def _parse_kaptive(
     """Parse kaptive results in Kleborate and return K/O typing results."""
 
     # Only available for KPSC
-    if (data := result.get(PresetName.KPSC)) is None:
-        raise AbsentResultError("'klebsiella_pneumo_complex' specific analysis not in result.")
+    if (data := result.get(PresetName.KPSC, {}).get("kaptive")) is None:
+        raise AbsentResultError("'klebsiella_pneumo_complex.kaptive' analysis not in result.")
 
     def _fmt_res(d: dict[str, Any], method: Literal["K", "O"]) -> KleborateKaptiveLocus:
+        identity = d[f"{method}_locus_identity"]
+        identity = float(identity[:-1]) / 100 if identity.endswith("%") else float(identity)
         return KleborateKaptiveLocus(
             locus=d[f"{method}_locus"],
             type=d[f"{method}_type"],
-            identity=float(d[f"{method}_locus_identity"]),
+            identity=identity,
             confidence=d[f"{method}_locus_confidence"].lower(),
             problems=d[f"{method}_locus_problems"],
             missing_genes=d[f"{method}_Missing_expected_genes"],
