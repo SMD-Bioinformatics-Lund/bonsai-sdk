@@ -1,5 +1,7 @@
 """Test Mykrobe parser."""
 
+import pytest
+
 from bonsai_libs.parse.models.enums import AnalysisType
 from bonsai_libs.parse.models.base import ElementTypeResult, ParserOutput, ResultEnvelope
 from bonsai_libs.parse.models.typing import ResultLineageBase
@@ -40,3 +42,19 @@ def test_mykrobe_parser_results(mtuberculosis_mykrobe_path):
     # ID-based lookups must retain every finding across all drug rows.
     variants_by_id = {variant.id: variant for variant in pred.value.variants}
     assert len(variants_by_id) == len(pred.value.variants)
+
+
+@pytest.mark.parametrize("want", [
+    {AnalysisType.SPECIES},
+    {AnalysisType.LINEAGE},
+    {AnalysisType.SPECIES, AnalysisType.LINEAGE},
+])
+def test_mykrobe_can_select_outputs_without_amr(mtuberculosis_mykrobe_path, want):
+    result = MykrobeParser().parse(mtuberculosis_mykrobe_path, want=want)
+
+    for analysis_type, envelope in result.results.items():
+        assert envelope.status == ("parsed" if analysis_type in want else "skipped")
+    if AnalysisType.SPECIES in want:
+        assert result.results[AnalysisType.SPECIES].value[0].scientific_name == "Mycobacterium tuberculosis"
+    if AnalysisType.LINEAGE in want:
+        assert isinstance(result.results[AnalysisType.LINEAGE].value, ResultLineageBase)
