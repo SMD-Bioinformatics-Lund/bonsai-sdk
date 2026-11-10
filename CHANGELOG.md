@@ -9,9 +9,9 @@
 
 ### Fixed
 
-- Parse Mykrobe species-only and lineage-only selections without relying on the AMR parsing branch to initialize the analysis type. [#PR](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/PR)
-- Return an empty species list for header-only Bracken reports instead of a nested result dictionary. [#PR](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/PR)
-- Report samtools paired reads as read pairs rather than individual reads. [#PR](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/PR)
+- Parse Mykrobe species-only and lineage-only selections without relying on the AMR parsing branch to initialize the analysis type. [#30](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/30)
+- Return an empty species list for header-only Bracken reports instead of a nested result dictionary. [#30](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/30)
+- Report samtools paired reads as read pairs rather than individual reads. [#30](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/30)
 - Include STX genes from the general virulence database alongside all dedicated `stx` database hits for VirulenceFinder v2/v3. Preserve hit origins in `ref_database`, using v2 database keys and v3 JSON reference attributes. [#20](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/20)
 - Return every VirulenceFinder v2/v3 STX match in a `hits` collection instead of a single best-hit result. Load stored multi-hit results into the STX result model. [#20](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/20)
 - Assign unique Mykrobe variant IDs across all drug rows in each parsed AMR result so ID-based curation, position lookup, and exports can distinguish findings. [#21](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/21)

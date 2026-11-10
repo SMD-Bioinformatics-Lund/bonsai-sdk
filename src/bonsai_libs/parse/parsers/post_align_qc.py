@@ -256,8 +256,8 @@ class SamtoolsQcParser(SingleAnalysisParser):
             return None
 
         n_mapped_reads = safe_int(sn.get(_SN_READS_MAPPED))
-        n_read_pairs = safe_int(sn.get(_SN_READS_PAIRED))
-        if n_read_pairs is None:
+        n_paired_reads = safe_int(sn.get(_SN_READS_PAIRED))
+        if n_paired_reads is None:
             self.log_error("samtools stats missing 'reads paired'")
             return None
 
@@ -312,7 +312,7 @@ class SamtoolsQcParser(SingleAnalysisParser):
             pct_above_x=pct_above_x,
             n_reads=n_reads,
             n_mapped_reads=n_mapped_reads,
-            n_read_pairs=n_read_pairs // 2,
+            n_read_pairs=n_paired_reads // 2,
             n_dup_reads=n_dup_reads,
             dup_pct=dup_pct,
             coverage_uniformity=coverage_uniformity,
