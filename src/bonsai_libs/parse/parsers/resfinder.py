@@ -14,7 +14,6 @@ from bonsai_libs.parse.exceptions import InvalidDataFormat
 from bonsai_libs.parse.models.base import (
     ElementTypeResult,
     PhenotypeInfo,
-    VariantBase,
 )
 from bonsai_libs.parse.models.enums import (
     AnalysisSoftware,
@@ -26,7 +25,7 @@ from bonsai_libs.parse.models.enums import (
     VariantSubType,
     VariantType,
 )
-from bonsai_libs.parse.models.phenotype import ResfinderGene
+from bonsai_libs.parse.models.phenotype import ResfinderGene, ResfinderVariant
 
 from .utils import get_nt_change
 
@@ -231,6 +230,14 @@ def get_resfinder_sr_profile(
     }
 
 
+def _get_ref_database(info: dict[str, Any]) -> str | None:
+    """Normalize ResFinder's string or list database reference to one identifier."""
+    reference = info.get("ref_database")
+    if isinstance(reference, list):
+        reference = reference[0] if reference else None
+    return reference or None
+
+
 def parse_resfinder_genes(
     resfinder_result: dict[str, Any], limit_to: list[str] | None = None
 ) -> list[ResfinderGene]:
@@ -239,7 +246,7 @@ def parse_resfinder_genes(
     results: list[ResfinderGene] = []
     phenotypes = resfinder_result.get("phenotypes") or {}
     for info in (resfinder_result.get("seq_regions") or {}).values():
-        ref_db = (info.get("ref_database") or [""])[0]
+        ref_db = _get_ref_database(info)
         if not str(ref_db).startswith("Res"):
             continue
 
@@ -276,6 +283,7 @@ def parse_resfinder_genes(
             ResfinderGene(
                 gene_symbol=info["name"],
                 accession=info.get("ref_acc"),
+                ref_database=ref_db,
                 element_type=res_category,
                 element_subtype=subtype,
                 phenotypes=phenotype_objs,
@@ -300,7 +308,7 @@ def parse_resfinder_genes(
 
 def parse_resfinder_variants(
     resfinder_result: dict[str, Any], limit_to: list[str] | None = None
-) -> list[VariantBase]:
+) -> list[ResfinderVariant]:
     """Parse resfinder variant predictions."""
 
     prediction_method = None
@@ -308,7 +316,7 @@ def parse_resfinder_variants(
         prediction_method = exec_info.get("parameters", {}).get("method")
 
     seq_regions = resfinder_result.get("seq_regions") or {}
-    results: list[VariantBase] = []
+    results: list[ResfinderVariant] = []
 
     for var_id, info in enumerate((resfinder_result.get("seq_variations") or {}).values(), start=1):
         phenos = info.get("phenotypes") or []
@@ -346,8 +354,9 @@ def parse_resfinder_variants(
         ]
 
         results.append(
-            VariantBase(
+            ResfinderVariant(
                 id=var_id,
+                ref_database=_get_ref_database(info),
                 variant_type=VariantType.SNV,
                 variant_subtype=var_sub_type,
                 phenotypes=phenotype_objs,
@@ -414,7 +423,7 @@ class ResFinderParser(BaseParser):
 
     software = RESFINDER
     parser_name = "ResFinderParser"
-    parser_version = 3
+    parser_version = 4
     schema_version = 1
     produces = {AnalysisType.AMR, AnalysisType.STRESS}
 

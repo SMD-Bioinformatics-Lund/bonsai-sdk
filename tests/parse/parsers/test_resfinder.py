@@ -81,3 +81,68 @@ def test_gene_antibiotics_survive_serialization(data_path, organism):
     assert actual == expected
     assert stored.phenotypes == result.phenotypes
     assert len(stored.variants) == len(result.variants)
+
+
+@pytest.mark.parametrize("organism", ["ecoli", "saureus"])
+def test_database_references_survive_serialization(data_path, organism):
+    """Keep each gene and variant's source database through storage serialization."""
+    path = data_path / organism / "resfinder.json"
+    source = json.loads(path.read_text())
+    output = ResFinderParser().parse(path, strict=True)
+    result = output.results[AnalysisType.AMR].value
+    stored = ElementTypeResult.model_validate_json(result.model_dump_json())
+
+    expected_genes = Counter(
+        (hit["name"], hit["ref_acc"], hit["ref_database"][0])
+        for hit in source["seq_regions"].values()
+        if hit["ref_database"][0].startswith("Res") and hit.get("phenotypes")
+    )
+    assert Counter(
+        (gene["gene_symbol"], gene["accession"], gene.get("ref_database"))
+        for gene in stored.genes
+    ) == expected_genes
+
+    expected_variants = Counter(
+        (hit["seq_regions"][0].split(";;")[0], hit["ref_start_pos"], hit["ref_database"])
+        for hit in source["seq_variations"].values()
+    )
+    assert Counter(
+        (variant["reference_sequence"], variant["start"], variant.get("ref_database"))
+        for variant in stored.variants
+    ) == expected_variants
+
+
+@pytest.mark.parametrize("as_list", [False, True])
+def test_database_reference_string_and_list_formats(ecoli_resfinder_path, as_list):
+    """Normalize both reference formats without reducing strings to one character."""
+    source = json.loads(ecoli_resfinder_path.read_text())
+    for hit in source["seq_regions"].values():
+        reference = hit["ref_database"][0]
+        hit["ref_database"] = [reference] if as_list else reference
+    for hit in source["seq_variations"].values():
+        reference = hit["ref_database"]
+        hit["ref_database"] = [reference] if as_list else reference
+
+    output = ResFinderParser().parse(StringIO(json.dumps(source)), strict=True)
+    result = output.results[AnalysisType.AMR].value
+
+    assert len(result.genes) == 17
+    assert len(result.variants) == 4
+    assert {gene.ref_database for gene in result.genes} == {"ResFinder-2.1.1"}
+    assert {variant.ref_database for variant in result.variants} == {"PointFinder-4.0.0"}
+
+
+@pytest.mark.parametrize("reference", [None, "", []])
+def test_missing_variant_database_reference_remains_optional(ecoli_resfinder_path, reference):
+    """Older outputs without database metadata still retain their variant findings."""
+    source = json.loads(ecoli_resfinder_path.read_text())
+    for hit in source["seq_variations"].values():
+        hit.pop("ref_database")
+        if reference is not None:
+            hit["ref_database"] = reference
+
+    output = ResFinderParser().parse(StringIO(json.dumps(source)), strict=True)
+    result = output.results[AnalysisType.AMR].value
+
+    assert len(result.variants) == 4
+    assert all(variant.ref_database is None for variant in result.variants)
