@@ -1,5 +1,7 @@
 """Test bracken parser."""
 
+from io import StringIO
+
 import pytest
 
 from bonsai_libs.parse.models.base import ParserOutput, ResultEnvelope
@@ -42,3 +44,16 @@ def test_to_taxlevel(raw_tax_level, exp_level):
     """Test converting taxonomy level to TaxLevel enum."""
 
     assert to_taxlevel(raw_tax_level) == exp_level
+
+
+def test_header_only_bracken_report_has_empty_species_list():
+    report = StringIO(
+        "name\ttaxonomy_id\ttaxonomy_lvl\tkraken_assigned_reads\tadded_reads\t"
+        "new_est_reads\tfraction_total_reads\n"
+    )
+    result = BrackenParser().parse(report)
+
+    envelope = result.results[AnalysisType.SPECIES]
+    assert envelope.status == "empty"
+    assert envelope.value == []
+    assert result.model_dump(mode="json")["results"][AnalysisType.SPECIES.value]["value"] == []

@@ -69,7 +69,7 @@ class BrackenParser(SingleAnalysisParser):
             first_row = next(rows)
         except StopIteration:
             self.log_info("Bracken input is empty")
-            return {AnalysisType.SPECIES: []}
+            return []
 
         # Validate the columns in the first row
         self.validate_columns(first_row, required=REQUIRED_COLUMNS, strict=strict_columns)
