@@ -9,6 +9,7 @@
 
 ### Fixed
 
+- Preserve blank and `NA` Gambitcore assembly QC flags as missing so valid results can be uploaded. [#PR](https://github.com/SMD-Bioinformatics-Lund/bonsai/pull/PR)
 - Preserve ResFinder gene and variant database identifiers in parsed and serialized results so Bonsai can populate both AMR table database captions. Accept database references stored as strings or lists. [#31](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/31)
 - Parse Mykrobe species-only and lineage-only selections without relying on the AMR parsing branch to initialize the analysis type. [#30](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/30)
 - Return an empty species list for header-only Bracken reports instead of a nested result dictionary. [#30](https://github.com/SMD-Bioinformatics-Lund/bonsai-sdk/pull/30)

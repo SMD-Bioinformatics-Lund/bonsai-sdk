@@ -42,7 +42,8 @@ def _normalize_gambitcore_row(row: DelimiterRow) -> DelimiterRow:
 
 def _to_qc_result(row: dict[str, Any]) -> GambitcoreQcResult:
     """Convert and validate row into Spatyper result object."""
-    qc_flag = GambitcoreQcFlag(row.get("assembly_qc", "red"))
+    assembly_qc = row.get("assembly_qc", "red")
+    qc_flag = GambitcoreQcFlag(assembly_qc) if assembly_qc is not None else None
 
     assembly_core = spp_core = None
     if m := CORE_PATTERN.search(row.get("assembly_core", "") or ""):
