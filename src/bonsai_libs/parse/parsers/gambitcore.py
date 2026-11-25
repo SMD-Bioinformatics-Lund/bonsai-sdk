@@ -9,7 +9,7 @@ from bonsai_libs.parse.core.registry import register_parser
 from bonsai_libs.parse.models.enums import AnalysisSoftware, AnalysisType, GambitcoreQcFlag
 from bonsai_libs.parse.models.qc import GambitcoreQcResult
 
-from .utils import safe_int, safe_percent
+from .utils import safe_percent
 
 GAMBITCORE = AnalysisSoftware.GAMBITCORE
 
@@ -46,9 +46,13 @@ def _to_qc_result(row: dict[str, Any]) -> GambitcoreQcResult:
     qc_flag = GambitcoreQcFlag(assembly_qc) if assembly_qc is not None else None
 
     assembly_core = spp_core = None
-    if m := CORE_PATTERN.search(row.get("assembly_core", "") or ""):
-        assembly_core = safe_int(m.group("assembly"))
-        spp_core = safe_int(m.group("reference"))
+    core_counts = row.get("assembly_core")
+    if core_counts is not None:
+        match = CORE_PATTERN.search(core_counts)
+        if match is None:
+            raise ValueError("Invalid Gambitcore core counts, expected '(assembly/species)'")
+        assembly_core = int(match.group("assembly"))
+        spp_core = int(match.group("reference"))
 
     return GambitcoreQcResult(
         scientific_name=row["scientific_name"],
