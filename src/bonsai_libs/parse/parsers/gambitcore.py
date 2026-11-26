@@ -12,6 +12,10 @@ from bonsai_libs.parse.models.qc import GambitcoreQcResult
 from .utils import safe_percent
 
 GAMBITCORE = AnalysisSoftware.GAMBITCORE
+
+# Gambitcore (v0.0.2) writes this message in the TSV Species column when GAMBIT cannot
+# assign a species or subspecies. Needs to be matched exactly.
+# https://github.com/gambit-suite/gambitcore#output
 NO_SPECIES_MESSAGE = "Species could not be identified, skipping core genome assessment"
 
 COLUMN_MAP = {
