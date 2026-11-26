@@ -47,9 +47,7 @@ def _to_qc_result(row: dict[str, Any]) -> GambitcoreQcResult:
     qc_flag = GambitcoreQcFlag(assembly_qc) if assembly_qc is not None else None
 
     scientific_name = row["scientific_name"]
-    skip_reason = None
     if scientific_name == NO_SPECIES_MESSAGE:
-        skip_reason = scientific_name
         scientific_name = None
 
     assembly_core = spp_core = None
@@ -65,7 +63,6 @@ def _to_qc_result(row: dict[str, Any]) -> GambitcoreQcResult:
 
     return GambitcoreQcResult(
         scientific_name=scientific_name,
-        skip_reason=skip_reason,
         completeness=safe_percent(row.get("completeness")),
         assembly_core=assembly_core,
         species_core=spp_core,

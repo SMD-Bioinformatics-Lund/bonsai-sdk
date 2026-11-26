@@ -60,7 +60,6 @@ class GambitcoreQcResult(BaseModel):
     """Gambitcore genome completeness QC metrics."""
 
     scientific_name: str | None = None
-    skip_reason: str | None = None
     completeness: float | None = None
     assembly_core: int | None = None
     species_core: int | None = None

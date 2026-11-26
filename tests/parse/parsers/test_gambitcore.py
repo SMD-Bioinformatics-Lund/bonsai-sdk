@@ -33,7 +33,6 @@ def test_gambitcore_parser(tmp_path):
     assert isinstance(qc.value, GambitcoreQcResult)
 
     assert qc.value.scientific_name == "Escherichia coli"
-    assert qc.value.skip_reason is None
     assert qc.value.assembly_core == 2852
     assert qc.value.species_core == 2864
 
@@ -79,7 +78,7 @@ def test_gambitcore_parser_preserves_skipped_assessment():
     assert isinstance(qc.value, GambitcoreQcResult)
     assert qc.value.scientific_name is None
     stored = qc.value.model_dump(mode="json", exclude_none=True)
-    assert stored == {"skip_reason": reason}
+    assert stored == {}
     hydrated = hydrate_result(software="gambitcore", analysis_type=AnalysisType.QC, result=stored)
     assert hydrated == qc.value
 
@@ -90,7 +89,6 @@ def test_gambitcore_parser_accepts_missing_scientific_name(species):
 
     assert qc.status == "parsed"
     assert qc.value.scientific_name is None
-    assert qc.value.skip_reason is None
 
 
 @pytest.mark.parametrize("column", ["Completeness (%)", "Assembly Core/species Core"])
