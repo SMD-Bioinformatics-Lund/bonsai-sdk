@@ -9,9 +9,14 @@ from bonsai_libs.parse.core.registry import register_parser
 from bonsai_libs.parse.models.enums import AnalysisSoftware, AnalysisType, GambitcoreQcFlag
 from bonsai_libs.parse.models.qc import GambitcoreQcResult
 
-from .utils import safe_int, safe_percent
+from .utils import safe_percent
 
 GAMBITCORE = AnalysisSoftware.GAMBITCORE
+
+# Gambitcore (v0.0.2) writes this message in the TSV Species column when GAMBIT cannot
+# assign a species or subspecies. Needs to be matched exactly.
+# https://github.com/gambit-suite/gambitcore#output
+NO_SPECIES_MESSAGE = "Species could not be identified, skipping core genome assessment"
 
 COLUMN_MAP = {
     "Species": "scientific_name",
@@ -41,16 +46,27 @@ def _normalize_gambitcore_row(row: DelimiterRow) -> DelimiterRow:
 
 
 def _to_qc_result(row: dict[str, Any]) -> GambitcoreQcResult:
-    """Convert and validate row into Spatyper result object."""
-    qc_flag = GambitcoreQcFlag(row.get("assembly_qc", "red"))
+    """Convert and validate a Gambitcore QC row."""
+    assembly_qc = row["assembly_qc"]
+    qc_flag = GambitcoreQcFlag(assembly_qc) if assembly_qc is not None else None
+
+    scientific_name = row["scientific_name"]
+    if scientific_name == NO_SPECIES_MESSAGE:
+        scientific_name = None
 
     assembly_core = spp_core = None
-    if m := CORE_PATTERN.search(row.get("assembly_core", "") or ""):
-        assembly_core = safe_int(m.group("assembly"))
-        spp_core = safe_int(m.group("reference"))
+    core_counts = row.get("assembly_core")
+    if core_counts is not None:
+        match = CORE_PATTERN.search(core_counts)
+        if match is None:
+            raise ValueError(
+                f"Invalid Gambitcore core counts {core_counts!r}. Expected '(assembly/species)'."
+            )
+        assembly_core = int(match.group("assembly"))
+        spp_core = int(match.group("reference"))
 
     return GambitcoreQcResult(
-        scientific_name=row["scientific_name"],
+        scientific_name=scientific_name,
         completeness=safe_percent(row.get("completeness")),
         assembly_core=assembly_core,
         species_core=spp_core,
@@ -69,7 +85,7 @@ class GambitcoreParser(SingleAnalysisParser):
 
     software = GAMBITCORE
     parser_name = "GambitcoreParser"
-    parser_version = 1
+    parser_version = 2
     schema_version = 1
 
     analysis_type = AnalysisType.QC

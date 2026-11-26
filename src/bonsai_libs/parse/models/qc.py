@@ -59,10 +59,10 @@ class GenomeCompleteness(BaseModel):
 class GambitcoreQcResult(BaseModel):
     """Gambitcore genome completeness QC metrics."""
 
-    scientific_name: str
-    completeness: float
-    assembly_core: int
-    species_core: int
+    scientific_name: str | None = None
+    completeness: float | None = None
+    assembly_core: int | None = None
+    species_core: int | None = None
     closest_accession: str | None = None
     closest_distance: float | None = None
     assembly_kmers: int | None = None
